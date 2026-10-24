@@ -64,3 +64,18 @@ export const shortText = (d: Doc) => d.summary ?? factText(d.country) ?? ''
 
 /** "World Tennis (formerly the International Tennis Federation)" — cross-refers renamed bodies. */
 export const bodyLabel = (d?: Doc) => (d ? (d.formerNames?.length ? `${d.name} (formerly the ${d.formerNames[0]})` : d.name) : '')
+
+/** Governing-body levels in display order, used to group long lists of bodies. */
+export const BODY_SCOPES = [
+  {key: 'international', label: 'World governing body'},
+  {key: 'tour', label: 'Professional tours'},
+  {key: 'continental', label: 'Continental associations'},
+  {key: 'national', label: 'National federations'},
+  {key: 'association', label: 'Other associations'},
+] as const
+
+/** Splits bodies into BODY_SCOPES groups (empty groups dropped); unknown scopes fall into "Other associations". */
+export function groupByScope<T extends {scope?: string}>(docs: T[]) {
+  const known = new Set(BODY_SCOPES.map((x) => x.key as string))
+  return BODY_SCOPES.map((sc) => ({...sc, items: docs.filter((d) => (known.has(d.scope ?? '') ? d.scope : 'association') === sc.key)})).filter((g) => g.items.length > 0)
+}

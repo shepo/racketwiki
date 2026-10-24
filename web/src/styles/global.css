@@ -78,6 +78,7 @@ img, svg { max-width: 100%; }
 .h-display { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-display); line-height: 1.04; letter-spacing: -0.025em; }
 .h-lead { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-display); line-height: 1.05; letter-spacing: -0.02em; }
 .h-section { margin: 0; padding-top: 12px; border-top: 3px solid var(--sec, var(--ink)); font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); line-height: 1.15; }
+.h-sub { margin: 8px 0 0; font-family: var(--font-ui); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .h-story { margin: 6px 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); line-height: 1.15; letter-spacing: -0.01em; }
 .dek { margin: 0; font-family: var(--font-head); font-size: var(--fs-lg); line-height: 1.45; color: var(--ink-2); max-width: 720px; }
 .serif { font-family: var(--font-head); }

@@ -9,12 +9,12 @@ import SourceList from '../../../components/SourceList.astro'
 import SourceCell from '../../../components/SourceCell.astro'
 import JumpLinks from '../../../components/JumpLinks.astro'
 import PortableText from '../../../components/PortableText.astro'
-import {getStore, slugOf, type Doc} from '../../../lib/content'
+import {getStore, slugOf, byImportance, type Doc} from '../../../lib/content'
 import {sportView, jumpsFor, type SportView} from '../../../lib/sport'
 import {SPORT_TABS, urlFor, type SportTabKey} from '../../../lib/routes'
 import {collectSources, latestVerified, factText, isShown} from '../../../lib/facts'
 import {formatDimensions} from '../../../lib/units.mjs'
-import {bodyLabel} from '../../../lib/entities'
+import {bodyLabel, groupByScope, shortText} from '../../../lib/entities'
 
 export async function getStaticPaths() {
   const store = await getStore()
@@ -262,11 +262,16 @@ const lengthIn = (f: any) => factText(f)
       <section class="stack sec-governing-bodies">
         <h2 class="h-section">Organisations</h2>
         {v.governingBodies.length === 0 && sport.governingBodyFact && <p class="dek"><Fact fact={sport.governingBodyFact} showSource /></p>}
-        <div class="grid-cards">
-          {v.governingBodies.map((g) => (
-            <a class="card-link" href={href(g)}><div class="t">{bodyLabel(g)}{g.acronym && !g.formerNames?.length && ` (${g.acronym})`}</div><div class="d">{g.scope ? `${g.scope[0].toUpperCase()}${g.scope.slice(1)} body` : ''}</div></a>
-          ))}
-        </div>
+        {groupByScope([...v.governingBodies].sort(byImportance)).map((grp) => (
+          <div class="stack">
+            <h3 class="h-sub">{grp.label}</h3>
+            <div class="grid-cards">
+              {grp.items.map((g) => (
+                <a class="card-link" href={href(g)}><div class="t">{bodyLabel(g)}{g.acronym && !g.formerNames?.length && ` (${g.acronym})`}</div>{g.summary && <div class="d">{shortText(g)}</div>}</a>
+              ))}
+            </div>
+          </div>
+        ))}
         <JumpLinks links={[{label: 'All governing bodies', href: '/governing-bodies/', section: 'governing-bodies'}, {label: 'Why we trust them as sources', href: '/sources/', section: 'sources'}, ...jumps]} />
       </section>
     )}

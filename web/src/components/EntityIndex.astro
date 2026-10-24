@@ -5,7 +5,7 @@ import Breadcrumbs from './Breadcrumbs.astro'
 import JumpLinks from './JumpLinks.astro'
 import {getStore, byImportance} from '../lib/content'
 import Rackets from './Rackets.astro'
-import {ENTITIES, shortText, bodyLabel} from '../lib/entities'
+import {ENTITIES, shortText, bodyLabel, groupByScope} from '../lib/entities'
 import {urlFor} from '../lib/routes'
 const {kind} = Astro.props as {kind: string}
 const def = ENTITIES[kind]
@@ -29,9 +29,15 @@ const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0])).m
     {groups.map(([sport, items]) => (
       <section class={`stack sec-${def.section}`}>
         <h2 class="h-section">{sport}</h2>
-        <div class="grid-cards">
-          {items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{bodyLabel(d)}</div><Rackets value={d.importance} size={16} /><div class="d">{shortText(d)}</div></a>)}
-        </div>
+        {/* Governing bodies with several levels (world, tours, continental, national) get a sub-heading per level. */}
+        {(def.type === 'governingBody' && groupByScope(items).length > 1 ? groupByScope(items) : [{key: 'all', label: '', items}]).map((grp) => (
+          <div class="stack">
+            {grp.label && <h3 class="h-sub">{grp.label}</h3>}
+            <div class="grid-cards">
+              {grp.items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{bodyLabel(d)}</div><Rackets value={d.importance} size={16} /><div class="d">{shortText(d)}</div></a>)}
+            </div>
+          </div>
+        ))}
       </section>
     ))}
     {docs.length === 0 && <p class="note">Being researched.</p>}
