@@ -37,12 +37,18 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
             <div class="row head"><span class="n">Sport</span><span class="viz">Court, drawn to scale</span><span class="sz">Size</span></div>
             {drawn.map(({c, g, sport}) => {
               const d = formatDimensions(c.length.measurement, c.width.measurement)!
+              // Width is a share of the longest court; the viewBox is in metres, so the height keeps the true proportions.
               const w = (g!.length / maxL) * 100
-              const h = (g!.width / g!.length) * w
+              const L = g!.length, W = g!.width
               return (
                 <div class="row">
                   <div class="n"><a class="hl t" href={urlFor(store, c)}>{sport?.name ?? c.name}</a><div class="small muted">{c.name}</div></div>
-                  <div class="viz"><svg viewBox={`0 0 100 ${Math.max(h, 1)}`} style={`width:${w}%`} role="img" aria-label={`${sport?.name} court, ${d.metric}`}><rect x="0.5" y="0.5" width="99" height={Math.max(h - 1, 0.5)} class="bar" />{g!.hasNet && <line x1="50" y1="0" x2="50" y2={h} class="netl" />}</svg></div>
+                  <div class="viz"><svg viewBox={`0 0 ${L} ${W}`} style={`width:${w}%`} role="img" aria-label={`${sport?.name} court, ${d.metric}`}>
+                    <rect x="0" y="0" width={L} height={W} class="bar" />
+                    {g!.lines.map((l) => <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} class="mk" />)}
+                    {g!.hasNet && <line x1={L / 2} y1="0" x2={L / 2} y2={W} class="netl" />}
+                    <rect x="0" y="0" width={L} height={W} class="edge" />
+                  </svg></div>
                   <div class="sz"><strong>{d.metric}</strong><div class="imperial">{d.imperial}</div></div>
                 </div>
               )
@@ -98,7 +104,9 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
   .n .t { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); }
   .viz { flex: 1; min-width: 0; }
   .viz svg { display: block; height: auto; overflow: visible; }
-  .bar { fill: var(--court-fill); stroke: var(--sec-courts); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .bar { fill: var(--court-fill); }
+  .edge { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .mk { stroke: var(--sec-courts); stroke-width: 1; vector-effect: non-scaling-stroke; }
   .netl { stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
   .sz { width: 200px; flex-shrink: 0; font-size: var(--fs-sm); }
 </style>
