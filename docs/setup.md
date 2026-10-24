@@ -36,3 +36,7 @@ npx wrangler deploy
 - Recommended before launch: put `/admin` behind Cloudflare Access as well as the password.
 
 Local test: `npx wrangler d1 migrations apply racketwiki-submissions --local && npx wrangler dev`.
+
+## Importing the seed as drafts (no API token needed)
+
+`node scripts/build-drafts.mjs` validates the seed and writes `seed/dist/drafts-*.json` batches. References are written as weak with `_strengthenOnPublish`, as the Studio does for links to unpublished documents, so drafts can point at each other. Each batch is passed to the Sanity MCP `create_documents` tool. Nothing is published; publishing happens in the Studio.

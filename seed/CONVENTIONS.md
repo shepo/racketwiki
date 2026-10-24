@@ -25,9 +25,9 @@ Each research agent owns specific files (see below) and must not edit anyone els
 | story / page | `story-<slug>` / `page-<slug>` | |
 
 `slug` is always `{"_type":"slug","current":"<slug>"}`. Sport slugs are lower-case, hyphenated:
-`tennis, padel, pickleball, squash, badminton, table-tennis, racketball, racquetball, platform-tennis,
+`tennis, padel, pickleball, squash, badminton, table-tennis, racquetball, platform-tennis,
 real-tennis, rackets, soft-tennis, crossminton, beach-tennis, paddle-tennis, paddleball, frescobol,
-matkot, ball-badminton, jokari, frontenis, pelota-paleta, xare, squash57` (agents may add more; report additions).
+matkot, ball-badminton, jokari, frontenis, pelota-paleta, xare, squash57 (also known as racketball)` (agents may add more; report additions).
 
 ## References
 
