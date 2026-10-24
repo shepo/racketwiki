@@ -46,29 +46,58 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
   </section>
 
   <div class="wrap front">
-    {lead && (
-      <article class="lead">
-        <div class="kicker sec-courts c-sec">{lead.kicker}</div>
-        <h1 class="h-lead"><a class="hl" href={urlFor(store, lead)}>{lead.title}</a></h1>
-        {lead.dek && <p class="dek">{lead.dek}</p>}
-        {overlay && (
-          <figure>
-            <Fragment set:html={overlay} />
-            <figcaption>
-              <ul class="legend">
-                {overlayItems.map((it, i) => {
-                  const d = formatDimensions(overlayCourts[i].c.length.measurement, overlayCourts[i].c.width.measurement)
-                  return <li><svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" style={`stroke:${it.color};stroke-width:3${it.dash ? `;stroke-dasharray:${it.dash}` : ''}`} /></svg><span class="lg-name">{it.name}</span> <span class="muted">{d?.text}</span></li>
-                })}
-              </ul>
-              Outlines centred and drawn to one scale. Sources: {overlaySources.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a></>)}.
-            </figcaption>
-          </figure>
-        )}
-        <div class="byline"><strong>RacketWiki Editors</strong>{overlayVerified && <span>Verified {formatDate(overlayVerified)}</span>}{overlaySources.length > 0 && <span>{overlaySources.length} sources</span>}</div>
-      </article>
-    )}
+    <div class="main">
+      {lead && (
+        <article class="lead">
+          <div class="kicker sec-courts c-sec">{lead.kicker}</div>
+          <h1 class="h-lead"><a class="hl" href={urlFor(store, lead)}>{lead.title}</a></h1>
+          {lead.dek && <p class="dek">{lead.dek}</p>}
+          {overlay && (
+            <figure>
+              <Fragment set:html={overlay} />
+              <figcaption>
+                <ul class="legend">
+                  {overlayItems.map((it, i) => {
+                    const d = formatDimensions(overlayCourts[i].c.length.measurement, overlayCourts[i].c.width.measurement)
+                    return <li><svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" style={`stroke:${it.color};stroke-width:3${it.dash ? `;stroke-dasharray:${it.dash}` : ''}`} /></svg><span class="lg-name">{it.name}</span> <span class="muted">{d?.text}</span></li>
+                  })}
+                </ul>
+                Outlines centred and drawn to one scale. Sources: {overlaySources.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a></>)}.
+              </figcaption>
+            </figure>
+          )}
+          <div class="byline"><strong>RacketWiki Editors</strong>{overlayVerified && <span>Verified {formatDate(overlayVerified)}</span>}{overlaySources.length > 0 && <span>{overlaySources.length} sources</span>}</div>
+        </article>
+      )}
+      {tail.length > 0 && (
+        <section class="band sec-sports">
+          <div class="band-head"><h2 class="h-band">Beyond the big six</h2><a class="hl c-sec" href="/sports/">Explore the long tail</a></div>
+          <div class="grid-cards">
+            {tail.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="kicker c-sec">{(s.family ?? 'sport').replace(/-/g, ' ')}</div><div class="t">{s.name}</div><div class="d">{firstSentence(s.summary)}</div></a>)}
+          </div>
+        </section>
+      )}
 
+      {bodies.length > 0 && (
+        <section class="band sec-governing-bodies">
+          <div class="band-head"><h2 class="h-band">Who governs what</h2><a class="hl" href="/sources/" style="color: var(--sec-sources)">See all sources</a></div>
+          <p class="dek">Every rule, court size and equipment limit on RacketWiki traces back to the body that sets it.</p>
+          <div class="table-scroll"><table class="spec">
+            <thead><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
+            <tbody>
+              {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{bodyLabel(g)}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
+            </tbody>
+          </table></div>
+        </section>
+      )}
+
+      <section class="band sec-directory">
+        <div class="band-head"><h2 class="h-band">The directory</h2><a class="hl c-sec" href="/directory/submit/">List your business</a></div>
+        <div class="grid-cards">
+          {DIRECTORY_TYPES.map((t) => <a class="card-link" href={`/directory/${t.value}/`}><div class="t">{t.label}</div><div class="d">{t.blurb}</div></a>)}
+        </div>
+      </section>
+    </div>
     <aside class="side">
       <section class="stories" aria-label="More stories">
         {others.map((s) => (
@@ -90,44 +119,19 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
     </aside>
   </div>
 
-  {tail.length > 0 && (
-    <section class="wrap band sec-sports">
-      <div class="band-head"><h2 class="h-band">Beyond the big six</h2><a class="hl c-sec" href="/sports/">Explore the long tail</a></div>
-      <div class="grid-cards">
-        {tail.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="kicker c-sec">{(s.family ?? 'sport').replace(/-/g, ' ')}</div><div class="t">{s.name}</div><div class="d">{firstSentence(s.summary)}</div></a>)}
-      </div>
-    </section>
-  )}
-
-  {bodies.length > 0 && (
-    <section class="wrap band sec-governing-bodies">
-      <div class="band-head"><h2 class="h-band">Who governs what</h2><a class="hl" href="/sources/" style="color: var(--sec-sources)">See all sources</a></div>
-      <p class="dek">Every rule, court size and equipment limit on RacketWiki traces back to the body that sets it.</p>
-      <div class="table-scroll"><table class="spec">
-        <thead><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
-        <tbody>
-          {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{bodyLabel(g)}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
-        </tbody>
-      </table></div>
-    </section>
-  )}
-
-  <section class="wrap band sec-directory">
-    <div class="band-head"><h2 class="h-band">The directory</h2><a class="hl c-sec" href="/directory/submit/">List your business</a></div>
-    <div class="grid-cards">
-      {DIRECTORY_TYPES.map((t) => <a class="card-link" href={`/directory/${t.value}/`}><div class="t">{t.label}</div><div class="d">{t.blurb}</div></a>)}
-    </div>
-  </section>
 </Base>
 <style>
   .hero { padding-top: 32px; }
   /* Lead takes three of four columns; stories, sponsor and the sports index share the fourth. */
   .front { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; padding-top: 32px; }
+  /* The main column holds the lead and every band below it, so nothing leaves a gap beside a long rail.
+     The rail (stories, sponsor/ad slots, sports index) runs the full height of the page. */
+  .main { min-width: 0; display: flex; flex-direction: column; }
   .lead { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
   .side { min-width: 0; display: flex; flex-direction: column; gap: 32px; }
   @media (min-width: 960px) {
-    .front { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .lead { grid-column: span 3; padding-right: 40px; border-right: 1px solid var(--rule); }
+    .front { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+    .main { grid-column: span 3; padding-right: 40px; border-right: 1px solid var(--rule); }
   }
   .story { padding: 20px 0; border-top: 1px solid var(--rule); }
   .story:first-child { border-top: 0; padding-top: 0; }
@@ -140,6 +144,7 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
   .idx a { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; font-size: var(--fs-sm); }
   .more { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); }
   .band { margin-top: 56px; }
+  .front { padding-bottom: 16px; }
   .band-head { border-top: 3px solid var(--sec); padding-top: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 16px; }
   .band-head a { font-size: var(--fs-sm); }
   .h-band { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); letter-spacing: -0.01em; }
