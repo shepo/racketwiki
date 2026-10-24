@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from '../components/Page.astro'
+import Breadcrumbs from '../components/Breadcrumbs.astro'
+import {getStore} from '../lib/content'
+import {pageGroups} from '../lib/pagelist'
+
+const store = await getStore()
+const groups = pageGroups(store)
+const total = groups.reduce((n, g) => n + g.links.reduce((m, l) => m + 1 + (l.children?.length ?? 0), 0), 0)
+const crumbs = [{name: 'Home', path: '/'}, {name: 'All pages', path: '/site-map/'}]
+---
+<Base title="All pages on RacketWiki" description="Every page on RacketWiki in one list: all sports with their rules, courts and equipment, governing bodies, brands, players, competitions and the directory." crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1 class="h-display">All pages</h1>
+      <p class="dek">Every page on RacketWiki, {total} in all. Search engines can use the <a class="hl" href="/sitemap-index.xml">XML sitemap</a>.</p>
+    </header>
+    {groups.map((g) => (
+      <section class={`stack${g.section ? ` sec-${g.section}` : ''}`}>
+        <h2 class="h-section">{g.title}</h2>
+        <ul class="sm">
+          {g.links.map((l) => (
+            <li>
+              <a class="hl" href={l.url}>{l.title}</a>
+              {l.children?.length ? <span class="kids">{l.children.map((c) => <a class="hl" href={c.url}>{c.title}</a>)}</span> : null}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </Page>
+</Base>
+<style>
+  .sm { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 32px; font-size: var(--fs-sm); }
+  .sm li { padding: 6px 0; border-top: 1px solid var(--rule-soft); display: flex; flex-direction: column; gap: 2px; }
+  .kids { display: flex; flex-wrap: wrap; gap: 0 12px; font-size: var(--fs-xs); color: var(--muted); }
+</style>
