@@ -138,6 +138,7 @@ Report back concisely: what was built, what is unverified, what needs Jake's dec
 - Governing-body domains to confirm (Tier 1 register).
 - racketwiki.org registration, and trademark overlap check (Rallio, Rally, Racketpedia) before launch. (racketwiki.org is registered, on Cloudflare: 2026-10-24.)
 - Where "Sponsor this page" leads (an advertising page with rates, or a contact form).
+- Product and venue reviews (raised 2026-10-24): editorial, user-submitted, or both? Needs review rules separate from fact sourcing, a sponsor conflict-of-interest policy, and Google's review rich-result rules. Not in the first milestone; the schema can add a `review` type (subject ref → brand / product / directory listing) later.
 - Whether to restore and rename the Supabase projects (unrelated to this build; do not touch them).
 
 ## 12. Guardrails

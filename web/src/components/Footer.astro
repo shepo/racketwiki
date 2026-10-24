@@ -1,4 +1,5 @@
 ---
+import {SECTIONS} from '../lib/sections'
 ---
 <footer class="ftr">
   <div class="wrap in">
@@ -15,6 +16,11 @@
       <a href="/directory/submit/">List your business</a>
     </nav>
   </div>
+  <div class="wrap secs">
+    <nav aria-label="All sections">
+      {Object.entries(SECTIONS).map(([k, v]) => <a href={v.path}>{v.label}</a>)}
+    </nav>
+  </div>
 </footer>
 <style>
   .ftr { margin-top: 64px; background: #141414; color: #fff; }
@@ -24,4 +30,7 @@
   .note-s { font-size: 13px; color: #cfcfc8; }
   .links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; font-weight: 500; }
   .links a:hover { text-decoration: underline; }
+  .secs { padding-bottom: 28px; }
+  .secs nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 13px; color: #cfcfc8; border-top: 1px solid #333; padding-top: 16px; }
+  .secs a:hover { color: #fff; text-decoration: underline; }
 </style>
