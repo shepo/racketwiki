@@ -36,7 +36,7 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
     <header class="stack">
       <Breadcrumbs crumbs={crumbs} />
       <div class={`kicker sec-${def.section} c-sec`}>{def.label}</div>
-      <h1 class="h-display">{d.name}{d.acronym && <span class="acr"> ({d.acronym})</span>}</h1>
+      <h1 class="h-display">{d.name}{d.acronym && d.acronym !== d.name && <span class="acr"> ({d.acronym})</span>}</h1>
       {(d.formerNames?.length || d.alsoKnownAs?.length) && (
         <p class="aka">{d.formerNames?.length ? <>Formerly <strong>{d.formerNames.join(', ')}</strong></> : null}{d.formerNames?.length && d.alsoKnownAs?.length ? ' · ' : ''}{d.alsoKnownAs?.length ? <>Also known as <strong>{d.alsoKnownAs.join(', ')}</strong></> : null}</p>
       )}

@@ -267,7 +267,7 @@ const lengthIn = (f: any) => factText(f)
             <h3 class="h-sub">{grp.label}</h3>
             <div class="grid-cards">
               {grp.items.map((g) => (
-                <a class="card-link" href={href(g)}><div class="t">{bodyLabel(g)}{g.acronym && !g.formerNames?.length && ` (${g.acronym})`}</div>{g.summary && <div class="d">{shortText(g)}</div>}</a>
+                <a class="card-link" href={href(g)}><div class="t">{bodyLabel(g)}{g.acronym && g.acronym !== g.name && !g.formerNames?.length && ` (${g.acronym})`}</div>{g.summary && <div class="d">{shortText(g)}</div>}</a>
               ))}
             </div>
           </div>

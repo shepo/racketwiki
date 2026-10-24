@@ -52,7 +52,7 @@ export const ENTITIES: Record<string, EntityDef> = {
     facts: (d) => [row('Name', d.nameChange), row('Founded', d.founded), row('Headquarters', d.headquarters), row('Members', d.members)],
     sportsOf: (d, s) => s.derefAll(d.sports),
     jsonLd: (d, s) => ({
-      '@context': 'https://schema.org', '@type': 'SportsOrganization', name: d.name, ...(d.acronym || d.formerNames?.length ? {alternateName: [d.acronym, ...(d.formerNames ?? [])].filter(Boolean)} : {}),
+      '@context': 'https://schema.org', '@type': 'SportsOrganization', name: d.name, ...(d.acronym || d.formerNames?.length ? {alternateName: [d.acronym !== d.name ? d.acronym : null, ...(d.formerNames ?? [])].filter(Boolean)} : {}),
       url: abs(urlFor(s, d)!), ...(publicDomain(d.website) ? {sameAs: [d.website.url]} : {}),
       ...(s.derefAll(d.sports).length ? {sport: s.derefAll(d.sports).map((x) => x.name)} : {}),
       ...(isShown(d.founded) && d.founded.text ? {foundingDate: d.founded.text} : {}),
