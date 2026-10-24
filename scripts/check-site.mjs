@@ -52,7 +52,12 @@ for (const [url, src] of html) {
 for (const [url, n] of inbound) if (n === 0 && !['/', '/404/', '/search/'].includes(url)) problems.push(`${url} is an orphan (no internal links point to it)`)
 
 // Unverified values must not appear in rendered fact cells.
-const {docs} = loadSeed(join(process.cwd(), 'seed'))
+// Read the same source the site was built from: Sanity (published) unless SANITY_PROJECT_ID is set to empty.
+const project = (process.env.SANITY_PROJECT_ID ?? 'gojst4dq').trim()
+const docs = project
+  ? await (await import('@sanity/client')).createClient({projectId: project, dataset: process.env.SANITY_DATASET || 'production', apiVersion: '2025-10-01', useCdn: false, perspective: 'published'}).fetch('*[!(_id in path("drafts.**"))]').then((ds) => ds.map((doc) => ({doc})))
+  : loadSeed(join(process.cwd(), 'seed')).docs
+console.log(`Checking unverified facts from ${project ? `Sanity (${docs.length} documents)` : 'seed'}`)
 const unverified = []
 const verifiedTexts = new Set()
 const textOf = (n) => (n.measurement ? formatMeasurement(n.measurement, n.qualifier)?.text : n.text)

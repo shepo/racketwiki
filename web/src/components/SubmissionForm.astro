@@ -1,12 +1,13 @@
 ---
 import {DIRECTORY_TYPES} from '../lib/sections'
+import {SITE} from '../site.config'
 /**
  * Posts to the submissions Worker (Cloudflare Worker + D1). Nothing is written to
  * Sanity until an editor approves it. Works without JS (the Worker redirects back).
  */
 type Kind = 'correction' | 'listing' | 'sponsor'
 const {kind} = Astro.props as {kind: Kind}
-const endpoint = import.meta.env.PUBLIC_SUBMISSIONS_URL as string | undefined
+const endpoint = SITE.submissionsUrl || undefined
 ---
 <form class="sub stack" method="post" action={endpoint ? `${endpoint.replace(/\/$/, '')}/api/submit` : undefined} data-endpoint={endpoint ?? ''}>
   <input type="hidden" name="kind" value={kind} />

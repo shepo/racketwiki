@@ -3,6 +3,7 @@
  * is set, otherwise from the repo's seed/*.ndjson files, so the site always builds.
  * Everything is loaded once per build and resolved in memory.
  */
+import {SITE} from '../site.config'
 import {readdirSync, readFileSync, existsSync} from 'node:fs'
 import {join, resolve} from 'node:path'
 
@@ -76,8 +77,8 @@ function readSeed(): Doc[] {
 async function readSanity(): Promise<Doc[]> {
   const {createClient} = await import('@sanity/client')
   const client = createClient({
-    projectId: process.env.SANITY_PROJECT_ID!,
-    dataset: process.env.SANITY_DATASET ?? 'production',
+    projectId: SITE.sanityProjectId,
+    dataset: SITE.sanityDataset,
     apiVersion: '2025-10-01',
     useCdn: false,
     perspective: 'published',
@@ -86,7 +87,7 @@ async function readSanity(): Promise<Doc[]> {
 }
 
 export function getStore(): Promise<Store> {
-  store ??= (process.env.SANITY_PROJECT_ID ? readSanity() : Promise.resolve(readSeed())).then((docs) => new Store(docs))
+  store ??= (SITE.sanityProjectId ? readSanity() : Promise.resolve(readSeed())).then((docs) => new Store(docs))
   return store
 }
 

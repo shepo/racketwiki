@@ -151,7 +151,7 @@ Report back concisely: what was built, what is unverified, what needs Jake's dec
 
 ## Repo map
 
-- `web/` Astro site (static). Content loader `web/src/lib/content.ts` reads Sanity when `SANITY_PROJECT_ID` is set, else `seed/*.ndjson`. Units: `web/src/lib/units.mjs` (tested, `npm test`). Facts are shown only via `isShown()` in `web/src/lib/facts.ts` — never render a `sourcedFact` any other way. Court drawing: `web/src/lib/court.ts`.
+- `web/` Astro site (static). Content loader `web/src/lib/content.ts` reads published Sanity content (settings in `web/src/site.config.ts`; `SANITY_PROJECT_ID=` empty builds from `seed/*.ndjson`). Sanity is the source of content since 2026-10-24; `seed/` feeds it through the Sync seed to Sanity workflow. Units: `web/src/lib/units.mjs` (tested, `npm test`). Facts are shown only via `isShown()` in `web/src/lib/facts.ts` — never render a `sourcedFact` any other way. Court drawing: `web/src/lib/court.ts`.
 - `studio/` Sanity Studio (TypeScript) and schema in `studio/schemaTypes/`. The "Needs verification" filter in `studio/structure.ts` lists every sourcedFact path: add new ones there.
 - `worker/` submissions Worker + D1 (`/api/submit`, `/admin`).
 - `seed/` NDJSON seed content: read `seed/CONVENTIONS.md`; `npm run validate:seed` checks it.
