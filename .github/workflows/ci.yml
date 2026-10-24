@@ -17,4 +17,6 @@ jobs:
       - run: npm run validate:seed
       - run: npm run build
       - run: npx tsc -p studio/tsconfig.json
+      - run: npx sanity schema validate
+        working-directory: studio
       - run: npx tsc -p worker/tsconfig.json

@@ -11,7 +11,6 @@ export const governingBody = defineType({
     defineField({name: 'acronym', type: 'string', group: 'content'}),
     ...nameFields(),
     importanceField(),
-    defineField({name: 'nameChange', title: 'Name change (sourced)', type: 'sourcedFact', description: 'e.g. "Rebranded as World Tennis".', group: 'content'}),
     defineField({name: 'scope', type: 'string', options: {list: ['international', 'continental', 'national', 'tour', 'association']}, group: 'content'}),
     defineField({name: 'summary', type: 'text', rows: 3, group: 'content'}),
     defineField({name: 'sports', type: 'array', of: [ref('sport')], group: 'links'}),

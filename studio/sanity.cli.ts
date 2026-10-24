@@ -7,4 +7,5 @@ export default defineCliConfig({
   },
   // Hosted at https://racketwiki.sanity.studio (deployed by .github/workflows/studio.yml).
   studioHost: 'racketwiki',
+  deployment: {appId: 'hizua30s7j18vj7a3f6tlgst'},
 })
