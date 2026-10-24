@@ -6,7 +6,7 @@
  *   node scripts/sync-sanity.mjs --mode=replace  # overwrite every seed doc and discard its draft (first switch-over only)
  *   node scripts/sync-sanity.mjs --dry-run       # print what would change, write nothing
  *
- * Needs SANITY_AUTH_TOKEN (a token with write access). Runs from .github/workflows/sanity-sync.yml.
+ * Needs SANITY_WRITE_TOKEN (a Sanity token with Editor access). Runs from .github/workflows/sanity-sync.yml.
  * Once editors work in the Studio, Sanity is the source of truth: only use --mode=replace with care,
  * because it overwrites edits made in the Studio to any document that is also in the seed.
  */
@@ -15,7 +15,7 @@ import path from 'node:path'
 
 const PROJECT = process.env.SANITY_PROJECT_ID || 'gojst4dq'
 const DATASET = process.env.SANITY_DATASET || 'production'
-const TOKEN = process.env.SANITY_AUTH_TOKEN || process.env.SANITY_WRITE_TOKEN
+const TOKEN = process.env.SANITY_WRITE_TOKEN || process.env.SANITY_AUTH_TOKEN
 const args = process.argv.slice(2)
 const mode = (args.find((a) => a.startsWith('--mode=')) ?? '--mode=create-missing').split('=')[1]
 const dryRun = args.includes('--dry-run')
@@ -38,7 +38,7 @@ const mutations = mode === 'replace'
 
 console.log(`${docs.length} seed documents, mode ${mode}${dryRun ? ' (dry run)' : ''}`)
 if (dryRun) process.exit(0)
-if (!TOKEN) throw new Error('SANITY_AUTH_TOKEN is not set')
+if (!TOKEN) throw new Error('SANITY_WRITE_TOKEN is not set (a Sanity token with Editor access)')
 
 const res = await fetch(`https://${PROJECT}.api.sanity.io/v2025-10-01/data/mutate/${DATASET}?returnIds=true&visibility=sync`, {
   method: 'POST',
