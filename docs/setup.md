@@ -5,19 +5,28 @@ Nothing here has been deployed yet. Each step needs Jake's go-ahead where it pub
 ## 1. Sanity
 
 1. Create the project at sanity.io/manage (name `racketwiki`, dataset `production`, public). The Studio and schema are already in `studio/`, so skip the template.
-2. Put the project ID (not a secret) in `studio/.env` as `SANITY_STUDIO_PROJECT_ID` and in Cloudflare Pages as `SANITY_PROJECT_ID`.
+2. Put the project ID (not a secret) in `studio/.env` as `SANITY_STUDIO_PROJECT_ID` and in the Cloudflare build settings as `SANITY_PROJECT_ID`.
 3. Create an **Editor** API token. Keep it in environment variables only (`SANITY_WRITE_TOKEN`), never in the repo.
-4. CORS origins: `http://localhost:3333` now; the Pages preview URL and `https://racketwiki.org` later.
+4. CORS origins: `http://localhost:3333` now; the workers.dev preview address and `https://racketwiki.org` later.
 5. Import the seed: `cd studio && SANITY_AUTH_TOKEN=… npm run import:seed` (validates first; refuses on errors).
 6. Run the Studio: `npm run studio`. The "Needs verification" list is the editor's to-do list.
 
-## 2. Website on Cloudflare Pages
+## 2. Website on Cloudflare (Workers static assets)
 
-- Connect the GitHub repo `shepo/racketwiki` in Cloudflare Pages.
-- Build command `npm run build`, output directory `web/dist`, Node 22.
-- Environment variables: `SANITY_PROJECT_ID`, `SANITY_DATASET=production`, `PUBLIC_SUBMISSIONS_URL` (the Worker URL).
+The site is a Worker named `racketwiki` that serves `web/dist` as static assets (`wrangler.jsonc` at the repo root). It is connected to the GitHub repo through Workers Builds.
+
+- Settings → Build. Production and non-production branches each have their **own** commands, and both need the build step:
+
+  | | Build command | Deploy command |
+  |---|---|---|
+  | Production branch | `npm run build` | `npx wrangler deploy` |
+  | Non-production branches | `npm run build` | `npx wrangler versions upload` |
+
+  Root directory `/`. Node comes from `.node-version` (22).
+- Each branch gets a stable preview address, e.g. `https://claude-charming-keller-vb31t5-racketwiki.jake-02f.workers.dev`. All `*.workers.dev` addresses send `X-Robots-Tag: noindex` (`web/public/_headers`).
+- Environment variables (once content comes from Sanity): `SANITY_PROJECT_ID`, `SANITY_DATASET=production`, `PUBLIC_SUBMISSIONS_URL` (the submissions Worker URL). Without `SANITY_PROJECT_ID` the site builds from `seed/`.
 - Custom domain: `racketwiki.org` (already on Cloudflare) once Jake approves going live.
-- **Rebuild on publish:** in Pages → Settings → Builds, create a deploy hook. In Sanity → API → Webhooks, add it as a webhook on create/update/delete of published documents (filter `!(_id in path("drafts.**"))`). Every publish then rebuilds the site.
+- **Rebuild on publish:** in the Worker's Settings → Build, create a deploy hook. In Sanity → API → Webhooks, add it as a webhook on create/update/delete of published documents (filter `!(_id in path("drafts.**"))`). Every publish then rebuilds the site.
 
 ## 3. Submissions Worker
 
