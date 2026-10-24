@@ -1,0 +1,30 @@
+name: Sync seed to Sanity
+
+# Writes seed/*.ndjson to the Sanity dataset as published documents (scripts/sync-sanity.mjs).
+# Manual only. Needs the SANITY_AUTH_TOKEN repository secret with write (Editor) access.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'create-missing (safe) or replace (overwrites Studio edits to seed documents)'
+        default: create-missing
+        type: choice
+        options: [create-missing, replace]
+      dry_run:
+        description: 'Only print what would change'
+        default: true
+        type: boolean
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: node scripts/validate-seed.mjs
+      - name: Sync
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: node scripts/sync-sanity.mjs --mode=${{ inputs.mode }} ${{ inputs.dry_run && '--dry-run' || '' }}
