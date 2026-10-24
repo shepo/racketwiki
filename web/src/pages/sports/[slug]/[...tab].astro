@@ -104,7 +104,7 @@ const lengthIn = (f: any) => factText(f)
             <dt>Governing body</dt><dd>{v.governingBodies.length ? v.governingBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{bodyLabel(g)}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
             <dt>Origin</dt><dd><Fact fact={sport.origin} /></dd>
           </dl>
-          <JumpLinks links={jumps} />
+          <JumpLinks links={[{label: 'Every court, to scale', href: '/courts/', section: 'courts'}, {label: 'Rules of every sport', href: '/rules/', section: 'rules'}, {label: 'All sports', href: '/sports/', section: 'sports'}]} />
         </section>
 
         {v.mainCourt && (
@@ -274,11 +274,11 @@ const lengthIn = (f: any) => factText(f)
     {v.related.length > 0 && (
       <section class="stack sec-sports" aria-labelledby="related">
         <h2 id="related" class="h-section">Related sports</h2>
-        <div class="grid-cards">
+        <ul class="related">
           {v.related.map((r: any) => (
-            <a class="card-link" href={href(r.doc)}>{r.relation && <div class="kicker c-sec">{r.relation}</div>}<div class="t">{r.doc.name}</div>{r.note && <div class="d">{r.note}</div>}</a>
+            <li><a class="hl" href={href(r.doc)}>{r.doc.name}</a>{(r.relation || r.note) && <span class="muted">{[r.relation, r.note].filter(Boolean).join('. ')}</span>}</li>
           ))}
-        </div>
+        </ul>
       </section>
     )}
 
@@ -286,6 +286,11 @@ const lengthIn = (f: any) => factText(f)
   </Page>
 </Base>
 <style>
+  /* Related sports: a plain list (name + why), so it reads differently from the coloured jump links. */
+  .related { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: 32px; }
+  .related li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0; border-top: 1px solid var(--rule-soft); font-size: var(--fs-sm); }
+  .related a { font-size: var(--fs-md); }
+  .related .muted::first-letter { text-transform: uppercase; }
   .glance { display: grid; grid-template-columns: max-content 1fr; gap: 12px 24px; align-items: baseline; margin: 0; font-size: var(--fs-sm); }
   .glance dt { font-size: var(--fs-sm); color: var(--muted); }
   .glance dd { margin: 0; font-size: var(--fs-md); }

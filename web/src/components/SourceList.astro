@@ -1,6 +1,7 @@
 ---
 import type {Doc} from '../lib/content'
 import {publicDomain} from '../lib/facts'
+import Tier from './Tier.astro'
 const {sources, heading = 'Sources'} = Astro.props as {sources: Doc[]; heading?: string}
 ---
 {sources.length > 0 && (
@@ -11,9 +12,9 @@ const {sources, heading = 'Sources'} = Astro.props as {sources: Doc[]; heading?:
         const d = publicDomain(s)
         return (
           <li>
-            <a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a>{s.publisher && <span class="muted">, {s.publisher}</span>}{s.edition && <span class="muted">, {s.edition}</span>}{' '}
-            <span class="tier"><b>Tier {s.tier}</b></span>
-            {d && <> <a class="dom" href={s.url} rel="noopener">{d}</a></>}
+            <span><a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a>{s.publisher && <span class="muted">, {s.publisher}</span>}{s.edition && <span class="muted">, {s.edition}</span>}</span>
+            {d && <a class="dom hl" href={s.url} rel="noopener">{d}</a>}
+            <Tier tier={s.tier} />
           </li>
         )
       })}
@@ -24,5 +25,6 @@ const {sources, heading = 'Sources'} = Astro.props as {sources: Doc[]; heading?:
   .sl { border-top: 1px solid var(--rule); padding-top: 12px; }
   .sl h2 { margin: 0 0 8px; color: var(--sec); }
   .sl ol { margin: 0; padding-left: 20px; font-size: var(--fs-sm); display: flex; flex-direction: column; gap: 4px; }
-  .dom { font-size: var(--fs-xs); color: var(--sec); }
+  .sl li > * { margin-right: 10px; }
+  .dom { font-size: var(--fs-xs); color: var(--muted); }
 </style>

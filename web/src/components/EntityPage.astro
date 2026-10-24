@@ -1,4 +1,5 @@
 ---
+import Tier from './Tier.astro'
 import Base from '../layouts/Base.astro'
 import Page from './Page.astro'
 import Breadcrumbs from './Breadcrumbs.astro'
@@ -53,7 +54,7 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
           {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td><td></td></tr>}
           {organiser && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td><td></td></tr>}
           {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td><td><SourceCell fact={r.fact} /></td></tr>)}
-          {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td><td><span class="tier"><b>Tier {rulebook.tier}</b></span></td></tr>}
+          {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td><td><Tier tier={rulebook.tier} /></td></tr>}
           {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td><td></td></tr>}
         </tbody>
       </table></div>

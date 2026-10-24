@@ -122,8 +122,7 @@ table.spec td:first-child { color: var(--ink-2); }
 .imperial { color: var(--muted); }
 
 /* Badges */
-.tier { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-xs); color: var(--muted); }
-.tier b { display: inline-block; padding: 1px 6px; border: 1px solid var(--sec-sources); color: var(--sec-sources); border-radius: 4px; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+.tier { font-size: var(--fs-xs); color: var(--muted); }
 .pending { display: inline-block; padding: 1px 8px; border: 1px dashed var(--muted); border-radius: 4px; font-size: var(--fs-xs); color: var(--muted); font-style: italic; }
 .badge-sponsored { display: inline-block; padding: 2px 8px; background: #fafaf7; border: 1px solid #ddddce; border-radius: 4px; font-size: var(--fs-xs); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: #64645a; }
 

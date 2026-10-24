@@ -36,6 +36,10 @@ export function sportView(store: Store, sport: Doc) {
 export type SportView = ReturnType<typeof sportView>
 
 /** Colour-coded jump links to the other sections of this sport. */
-export function jumpsFor(view: SportView, current: SportTabKey) {
-  return view.tabs.filter((t) => t.key !== current).map((t) => ({label: `${view.sport.name}: ${t.label.toLowerCase()}`, href: t.href, section: t.section}))
+/**
+ * Links to the sport's own other tabs were dropped: the tab bar already offers them, and showing
+ * them twice read as duplicate links. Jump links now only point somewhere the tabs don't.
+ */
+export function jumpsFor(_view: SportView, _current: SportTabKey): {label: string; href: string; section: string}[] {
+  return []
 }

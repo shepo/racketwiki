@@ -1,4 +1,5 @@
 ---
+import Tier from './Tier.astro'
 /**
  * Renders a sourcedFact. Unverified or unsourced facts are never shown as fact:
  * they render a "Being verified" placeholder instead.
@@ -13,7 +14,7 @@ const text = factText(fact)
 const src = factSource(store, fact)
 ---
 {isShown(fact) && text ? (
-  <span class="fact">{text}{showSource && src && <span class="src"> <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation ? `, ${fact!.citation}` : ''} <span class="tier"><b>Tier {fact!.tier}</b></span></span>}</span>
+  <span class="fact">{text}{showSource && src && <span class="src"> <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation ? `, ${fact!.citation}` : ''} <Tier tier={fact!.tier} prefix="· " /></span>}</span>
 ) : (
   <span class="pending" title="We have not verified this yet">{placeholder}</span>
 )}

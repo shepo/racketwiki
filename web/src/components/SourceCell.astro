@@ -7,7 +7,7 @@ const store = await getStore()
 const src = factSource(store, fact)
 ---
 {isShown(fact) && src ? (
-  <span class="sc"><a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation && <span class="muted">, {fact!.citation}</span>}<br /><span class="tier"><b>Tier {fact!.tier}</b> checked {formatDate(fact!.verifiedOn)}</span></span>
+  <span class="sc"><a class="hl" href={`/sources/#${src.slug?.current}`} title={`Checked ${formatDate(fact!.verifiedOn)}`}>{src.name}</a>{fact!.citation && <span class="muted">, {fact!.citation}</span>}</span>
 ) : (
   <span class="muted small">Not yet sourced</span>
 )}

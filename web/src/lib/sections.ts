@@ -29,9 +29,9 @@ export const DIRECTORY_TYPES = [
 ] as const
 
 export const TIERS = [
-  {tier: 1, name: 'Tier 1', label: 'Governing bodies and official rulebooks', use: 'Rules, court dimensions and equipment limits.'},
-  {tier: 2, name: 'Tier 2', label: 'National bodies, tours and tournament organisers', use: 'Rankings, results and competition formats.'},
-  {tier: 3, name: 'Tier 3', label: 'Manufacturers and recognised test labs', use: 'Product specifications and measured equipment data.'},
-  {tier: 4, name: 'Tier 4', label: 'Stats and records bodies', use: 'Historical records and statistics.'},
-  {tier: 5, name: 'Tier 5', label: 'Reputable press and community', use: 'Context and history, never the only citation for a rule or measurement.'},
+  {tier: 1, name: 'Tier 1', short: 'Official rulebook or governing body', label: 'Governing bodies and official rulebooks', use: 'Rules, court dimensions and equipment limits.'},
+  {tier: 2, name: 'Tier 2', short: 'National body or tour', label: 'National bodies, tours and tournament organisers', use: 'Rankings, results and competition formats.'},
+  {tier: 3, name: 'Tier 3', short: 'Manufacturer or test lab', label: 'Manufacturers and recognised test labs', use: 'Product specifications and measured equipment data.'},
+  {tier: 4, name: 'Tier 4', short: 'Stats and records body', label: 'Stats and records bodies', use: 'Historical records and statistics.'},
+  {tier: 5, name: 'Tier 5', short: 'Press or community', label: 'Reputable press and community', use: 'Context and history, never the only citation for a rule or measurement.'},
 ] as const
