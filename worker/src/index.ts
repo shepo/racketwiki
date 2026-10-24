@@ -135,7 +135,9 @@ function checkAdmin(req: Request, env: Env): Response | null {
   const auth = req.headers.get('authorization') ?? ''
   const [scheme, encoded] = auth.split(' ')
   if (scheme === 'Basic' && encoded) {
-    const [, pass] = atob(encoded).split(':')
+    // Username is ignored; only the password is checked. Everything after the first colon is the password.
+    const decoded = atob(encoded)
+    const pass = decoded.slice(decoded.indexOf(':') + 1)
     if (pass && timingSafeEqual(pass, env.ADMIN_PASSWORD)) return null
   }
   return new Response('Authentication required', {status: 401, headers: {'www-authenticate': 'Basic realm="RacketWiki submissions"'}})
