@@ -40,3 +40,9 @@ test('approx and min', () => {
   assert.equal(formatMeasurement({value: 3, unit: 'm'}, 'approx').text, 'about 3 m (9 ft 10 in)')
   assert.equal(formatMeasurement({value: 1, unit: 'kg'}, 'min').text, '1 kg (2 lb 3.3 oz) minimum')
 })
+
+test('long metre conversions round to 2 dp; stated precision is kept', () => {
+  assert.equal(formatMeasurement({value: 13.4112, unit: 'm'}).text, '13.41 m (44 ft)')
+  assert.equal(formatMeasurement({value: 1.525, unit: 'm'}).metric, '1.525 m')
+  assert.equal(formatMeasurement({value: 23.77, unit: 'm'}).metric, '23.77 m')
+})

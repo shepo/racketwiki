@@ -202,7 +202,10 @@ const lengthIn = (f: any) => factText(f)
           const rows = [
             {label: 'Length', fact: c.length},
             {label: 'Width', fact: c.width},
-            ...(c.markings ?? []).filter((m: any) => m.offset).map((m: any) => ({label: m.label ?? 'Line', fact: m.offset})),
+            // A line's position: skip zero offsets (a line on the centre is not a measurement).
+            ...(c.markings ?? [])
+              .filter((m: any) => m.offset && m.offset.measurement?.value !== 0)
+              .map((m: any) => ({label: `${m.label ?? 'Line'} (${m.kind === 'along' ? 'from the centre line' : m.from === 'end' ? 'from the end' : 'from the net'})`, fact: m.offset})),
             ...(c.specs ?? []),
           ]
           return (

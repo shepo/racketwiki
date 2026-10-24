@@ -71,20 +71,28 @@ function stripUnit(s) {
  * { value: 20, unit: 'm' } -> { metric: '20 m', imperial: '65 ft 7 in', text: '20 m (65 ft 7 in)' }
  * qualifier: exact | max | min | range | approx
  */
+/**
+ * Decimal places for the metric figure. 10 m and over: 2 (13.4112 m converted from 44 ft reads
+ * 13.41 m). Everything else keeps up to 3, so stated precision such as 1.525 m is never rounded.
+ */
+function dpFor(value, unit) {
+  return unit === 'm' && Math.abs(value) >= 10 ? 2 : 3
+}
+
 export function formatMeasurement(m, qualifier = 'exact') {
   if (!m || typeof m.value !== 'number') return null
   const {value, valueTo, unit} = m
   let metric
   let imperial
   if (qualifier === 'range' && typeof valueTo === 'number') {
-    metric = `${num(value, 3)}–${num(valueTo, 3)} ${unit}`
+    metric = `${num(value, dpFor(value, unit))}–${num(valueTo, dpFor(valueTo, unit))} ${unit}`
     const a = imperialOf(value, unit)
     const b = imperialOf(valueTo, unit)
     // "2.5–2.63 in" when both share a simple unit; otherwise spell both out.
     const sameSimple = /^[\d.,]+ (in|oz)$/.test(a) && a.split(' ')[1] === b.split(' ')[1]
     imperial = sameSimple ? `${stripUnit(a)}–${b}` : `${a} to ${b}`
   } else {
-    metric = `${num(value, 3)} ${unit}`
+    metric = `${num(value, dpFor(value, unit))} ${unit}`
     imperial = imperialOf(value, unit)
   }
   const prefix = qualifier === 'approx' ? 'about ' : ''
