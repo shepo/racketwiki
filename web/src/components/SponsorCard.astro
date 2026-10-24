@@ -10,7 +10,7 @@ const rallio = c.theme === 'rallio'
     <strong class="who">{placement.sponsor}</strong>
     {c.headline && <p class="head">{c.headline}</p>}
     {c.body && <p class="body">{c.body}</p>}
-    {c.ctaUrl && <a class="cta" href={c.ctaUrl} rel="sponsored noopener">{c.ctaLabel ?? 'Learn more'}</a>}
+    {c.ctaUrl && <a class="cta" href={c.ctaUrl} rel="sponsored noopener">{c.ctaLabel ?? `Learn about ${placement.sponsor}`}</a>}
     <a class="hl own" href={`/sponsor/?page=${encodeURIComponent(pagePath)}`}>Sponsor this page</a>
   </section>
 )}

@@ -9,7 +9,7 @@ const c = placement?.creative ?? {}
       <span class="lbl">Sponsored by</span>
       <strong class="who">{placement.sponsor}</strong>
       {c.body && <span>{c.body}</span>}
-      {c.ctaUrl && <a href={c.ctaUrl} rel="sponsored noopener" class="hl cta">{c.ctaLabel ?? 'Learn more'}</a>}
+      {c.ctaUrl && <a href={c.ctaUrl} rel="sponsored noopener" class="hl cta">{c.ctaLabel ?? `Learn about ${placement.sponsor}`}</a>}
     </div>
   </div>
 )}

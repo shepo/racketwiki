@@ -16,7 +16,7 @@ const search = [d.name, t?.label, d.region, d.description, ...sports.map((s) => 
 <article class="li" id={d.slug?.current} data-type={d.listingType} data-search={search}>
   <div class="main">
     <div class="meta"><span class="kicker" style={`color:${t?.color}`}>{t?.label}</span>{d.sponsored && <span class="badge-sponsored">Sponsored</span>}</div>
-    <h3>{linked ? <a class="hl" href={urlFor(store, linked)}>{d.name}</a> : d.name}</h3>
+    <h2>{linked ? <a class="hl" href={urlFor(store, linked)}>{d.name}</a> : d.name}</h2>
     {d.description && <p>{d.description}</p>}
   </div>
   <div class="side">
@@ -29,7 +29,7 @@ const search = [d.name, t?.label, d.region, d.description, ...sports.map((s) => 
   .li { padding: 20px 0; border-bottom: 1px solid var(--rule-soft); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
   .main { flex: 1 1 340px; min-width: 0; }
   .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
-  h3 { margin: 4px 0; font-family: var(--font-head); font-weight: 800; font-size: 25px; line-height: 1.15; }
+  h2 { margin: 4px 0; font-family: var(--font-head); font-weight: 800; font-size: 25px; line-height: 1.15; }
   p { margin: 0; font-size: 15px; color: var(--ink-2); }
   .side { flex: 0 1 240px; font-size: 14px; color: var(--ink-2); }
   .dom { margin-top: 4px; font-weight: 600; }

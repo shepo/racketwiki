@@ -1,5 +1,10 @@
 ---
+import '@fontsource-variable/newsreader'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/radio-canada-big'
 import '../styles/global.css'
+import newsreaderLatin from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url'
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import SponsorStrip from '../components/SponsorStrip.astro'
@@ -53,9 +58,8 @@ const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,800;1,6..72,400&family=Inter:wght@400;500;600;700&family=Radio+Canada+Big:wght@500;700&display=swap" />
+    <link rel="preload" href={newsreaderLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     {ld.map((d) => <JsonLd data={d} />)}
   </head>
   <body>
