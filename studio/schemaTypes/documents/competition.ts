@@ -1,5 +1,5 @@
 import {defineField, defineType} from 'sanity'
-import {commonFields, groups, ref} from '../common'
+import {commonFields, groups, nameFields, ref} from '../common'
 
 export const competition = defineType({
   name: 'competition',
@@ -8,6 +8,7 @@ export const competition = defineType({
   fields: [
     defineField({name: 'name', type: 'string', validation: (r) => r.required(), group: 'content'}),
     defineField({name: 'summary', type: 'text', rows: 3, group: 'content'}),
+    ...nameFields(),
     defineField({name: 'sports', type: 'array', of: [ref('sport')], validation: (r) => r.min(1), group: 'links'}),
     defineField({name: 'level', type: 'string', options: {list: ['professional-tour', 'major', 'international-team', 'national', 'amateur', 'junior', 'masters']}, group: 'content'}),
     defineField({name: 'isTour', type: 'boolean', group: 'content'}),

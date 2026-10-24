@@ -54,11 +54,14 @@ for (const [url, n] of inbound) if (n === 0 && !['/', '/404/', '/search/'].inclu
 // Unverified values must not appear in rendered fact cells.
 const {docs} = loadSeed(join(process.cwd(), 'seed'))
 const unverified = []
+const verifiedTexts = new Set()
+const textOf = (n) => (n.measurement ? formatMeasurement(n.measurement, n.qualifier)?.text : n.text)
 const visit = (n, id) => {
   if (Array.isArray(n)) return n.forEach((x) => visit(x, id))
   if (n && typeof n === 'object') {
+    if (n._type === 'sourcedFact' && !n.unverified && textOf(n)) verifiedTexts.add(textOf(n))
     if (n._type === 'sourcedFact' && n.unverified) {
-      if (n.measurement) unverified.push({id, text: formatMeasurement(n.measurement, n.qualifier)?.text})
+      if (n.measurement) unverified.push({id, text: textOf(n)})
       else if (n.text && n.text.length > 12) unverified.push({id, text: n.text})
     }
     for (const v of Object.values(n)) if (v && typeof v === 'object') visit(v, id)
@@ -68,9 +71,11 @@ for (const {doc} of docs) visit(doc, doc._id)
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 let leaks = 0
 for (const u of unverified) {
-  if (!u.text) continue
+  // The same value verified elsewhere (e.g. two courts both 20 ft wide) is not a leak.
+  if (!u.text || verifiedTexts.has(u.text)) continue
   for (const [url, src] of html) {
-    if (src.includes(`<span class="fact">${esc(u.text)}`) || src.includes(`<span class="fact" data-astro-cid`) && src.includes(esc(u.text) + '</span>')) {
+    const re = new RegExp(`<span class="fact"[^>]*>${esc(u.text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`)
+    if (re.test(src)) {
       problems.push(`${url} renders unverified value "${u.text}" (${u.id})`)
       leaks++
     }

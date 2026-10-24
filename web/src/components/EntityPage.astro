@@ -35,6 +35,9 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
       <Breadcrumbs crumbs={crumbs} />
       <div class={`kicker sec-${def.section} c-sec`}>{def.label}</div>
       <h1 class="h-display">{d.name}{d.acronym && <span class="acr"> ({d.acronym})</span>}</h1>
+      {(d.formerNames?.length || d.alsoKnownAs?.length) && (
+        <p class="aka">{d.formerNames?.length ? <>Formerly <strong>{d.formerNames.join(', ')}</strong></> : null}{d.formerNames?.length && d.alsoKnownAs?.length ? ' · ' : ''}{d.alsoKnownAs?.length ? <>Also known as <strong>{d.alsoKnownAs.join(', ')}</strong></> : null}</p>
+      )}
       <p class="dek">{lead}</p>
       <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sources.length} {sources.length === 1 ? 'source' : 'sources'}</span></div>
     </header>
@@ -76,4 +79,4 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
     <SourceList sources={sources} />
   </Page>
 </Base>
-<style>.acr { font-weight: 400; color: var(--muted); }</style>
+<style>.acr { font-weight: 400; color: var(--muted); } .aka { margin: 0; font-size: 15px; color: var(--ink-2); }</style>

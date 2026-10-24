@@ -71,12 +71,24 @@ const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
       {p.searchTitle && <span data-pagefind-meta="title" hidden>{p.searchTitle}</span>}
       <slot />
     </div>
-    <div class="wrap mistake" data-pagefind-ignore>
-      <a class="hl" href={`/corrections/?page=${encodeURIComponent(path)}`}>Spotted a mistake? Tell us</a>
-    </div>
+    {!p.noindex && (
+      <aside class="wrap" aria-label="Report a correction" data-pagefind-ignore>
+        <div class="mistake">
+          <div>
+            <strong>Spotted a mistake, or is there a newer rulebook?</strong>
+            <p>Every fact on this page links to its source. If a figure is wrong, out of date or missing, tell us and an editor will check it against the source.</p>
+          </div>
+          <a class="btn-out" href={`/corrections/?page=${encodeURIComponent(path)}`}>Report a correction</a>
+        </div>
+      </aside>
+    )}
     <Footer />
   </body>
 </html>
 <style>
-  .mistake { margin-top: 24px; font-size: 14px; font-weight: 600; color: var(--sec-sources); }
+  .mistake { margin-top: 32px; padding: 18px 20px; border: 1.5px solid var(--sec-sources); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+  .mistake strong { font-size: 16px; }
+  .mistake p { margin: 4px 0 0; font-size: 14px; color: var(--ink-2); max-width: 640px; }
+  .btn-out { padding: 9px 16px; border: 1.5px solid var(--sec-sources); color: var(--sec-sources); font-weight: 600; font-size: 14px; white-space: nowrap; }
+  .btn-out:hover { background: var(--sec-sources); color: var(--bg); }
 </style>

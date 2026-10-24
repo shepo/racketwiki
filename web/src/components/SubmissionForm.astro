@@ -14,8 +14,15 @@ const endpoint = import.meta.env.PUBLIC_SUBMISSIONS_URL as string | undefined
   <div class="hp" aria-hidden="true"><label>Leave this empty <input name="website_url" tabindex="-1" autocomplete="off" /></label></div>
   {kind === 'correction' && (
     <>
+      <div class="field"><label for="f-type">What kind of correction?</label><select id="f-type" name="issueType" required>
+        <option value="wrong">A fact is wrong</option>
+        <option value="newer-edition">There is a newer rulebook or edition</option>
+        <option value="missing">Something is missing</option>
+        <option value="renamed">An organisation, sport or competition has been renamed</option>
+        <option value="other">Something else</option>
+      </select></div>
       <div class="field"><label for="f-page">Page</label><input id="f-page" name="pageUrl" required placeholder="/sports/padel/courts/" /></div>
-      <div class="field"><label for="f-msg">What is wrong?</label><textarea id="f-msg" name="message" rows="5" required maxlength="4000"></textarea></div>
+      <div class="field"><label for="f-msg">What should it say?</label><textarea id="f-msg" name="message" rows="5" required maxlength="4000"></textarea></div>
       <div class="field"><label for="f-src">Source that shows the correct fact (optional)</label><input id="f-src" name="suggestedSource" placeholder="Link to the rulebook or official page" maxlength="500" /></div>
     </>
   )}
@@ -46,6 +53,10 @@ const endpoint = import.meta.env.PUBLIC_SUBMISSIONS_URL as string | undefined
     const params = new URLSearchParams(location.search)
     const page = form.querySelector<HTMLInputElement>('[name=pageUrl]')
     if (page && params.get('page')) page.value = params.get('page')!
+    const issue = form.querySelector<HTMLSelectElement>('[name=issueType]')
+    if (issue && params.get('issue')) issue.value = params.get('issue')!
+    const msg = form.querySelector<HTMLTextAreaElement>('[name=message]')
+    if (msg && params.get('source') && !msg.value) msg.value = `About the source "${params.get('source')}": `
     const type = form.querySelector<HTMLSelectElement>('[name=listingType]')
     if (type && params.get('type')) type.value = params.get('type')!
     const ret = form.querySelector<HTMLInputElement>('[name=return]')

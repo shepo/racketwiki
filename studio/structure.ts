@@ -23,6 +23,7 @@ export const UNVERIFIED_FILTER = [
   'venue.unverified',
   'headquarters.unverified',
   'members.unverified',
+  'nameChange.unverified',
 ]
   .map((p) => `${p} == true`)
   .concat([

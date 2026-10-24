@@ -49,10 +49,10 @@ export const ENTITIES: Record<string, EntityDef> = {
   'governing-bodies': {
     type: 'governingBody', section: 'governing-bodies', route: 'governing-bodies', label: 'Governing body', plural: 'Governing bodies',
     title: 'Racket sport governing bodies', lead: 'The international federations and national associations that write the rules of each racket sport.',
-    facts: (d) => [row('Founded', d.founded), row('Headquarters', d.headquarters), row('Members', d.members)],
+    facts: (d) => [row('Name', d.nameChange), row('Founded', d.founded), row('Headquarters', d.headquarters), row('Members', d.members)],
     sportsOf: (d, s) => s.derefAll(d.sports),
     jsonLd: (d, s) => ({
-      '@context': 'https://schema.org', '@type': 'SportsOrganization', name: d.name, ...(d.acronym ? {alternateName: d.acronym} : {}),
+      '@context': 'https://schema.org', '@type': 'SportsOrganization', name: d.name, ...(d.acronym || d.formerNames?.length ? {alternateName: [d.acronym, ...(d.formerNames ?? [])].filter(Boolean)} : {}),
       url: abs(urlFor(s, d)!), ...(publicDomain(d.website) ? {sameAs: [d.website.url]} : {}),
       ...(s.derefAll(d.sports).length ? {sport: s.derefAll(d.sports).map((x) => x.name)} : {}),
       ...(isShown(d.founded) && d.founded.text ? {foundingDate: d.founded.text} : {}),
@@ -61,3 +61,6 @@ export const ENTITIES: Record<string, EntityDef> = {
 }
 
 export const shortText = (d: Doc) => d.summary ?? factText(d.country) ?? ''
+
+/** "World Tennis (formerly the International Tennis Federation)" — cross-refers renamed bodies. */
+export const bodyLabel = (d?: Doc) => (d ? (d.formerNames?.length ? `${d.name} (formerly the ${d.formerNames[0]})` : d.name) : '')

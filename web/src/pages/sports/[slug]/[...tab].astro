@@ -14,7 +14,7 @@ import {sportView, jumpsFor, type SportView} from '../../../lib/sport'
 import {SPORT_TABS, urlFor, type SportTabKey} from '../../../lib/routes'
 import {collectSources, latestVerified, factText, isShown} from '../../../lib/facts'
 import {formatDimensions} from '../../../lib/units.mjs'
-import {abs} from '../../../lib/seo'
+import {bodyLabel} from '../../../lib/entities'
 
 export async function getStaticPaths() {
   const store = await getStore()
@@ -97,10 +97,11 @@ const lengthIn = (f: any) => factText(f)
           <h2 id="facts" class="h-section">At a glance</h2>
           <dl class="glance">
             {sport.alsoKnownAs?.length > 0 && (<><dt>Also known as</dt><dd>{sport.alsoKnownAs.join(', ')}</dd></>)}
+            {sport.formerNames?.length > 0 && (<><dt>Formerly</dt><dd>{sport.formerNames.join(', ')}</dd></>)}
             <dt>Court</dt><dd>{dims ? dims.text : v.mainCourt?.standard === false ? 'Not standard: every venue differs' : <span class="pending">Being verified</span>}</dd>
             {sport.implement && (<><dt>Played with</dt><dd>{sport.implement === 'mixed' ? 'Rackets or paddles' : `A ${sport.implement}`} and a {sport.projectile ?? 'ball'}</dd></>)}
             <dt>Formats</dt><dd>{formats.length ? formats.map((f: any) => f.name).join(', ') : <span class="pending">Being verified</span>}</dd>
-            <dt>Governing body</dt><dd>{v.governingBodies.length ? v.governingBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{g.name}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
+            <dt>Governing body</dt><dd>{v.governingBodies.length ? v.governingBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{bodyLabel(g)}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
             <dt>Origin</dt><dd><Fact fact={sport.origin} /></dd>
           </dl>
           <JumpLinks links={jumps} />
@@ -260,7 +261,7 @@ const lengthIn = (f: any) => factText(f)
         {v.governingBodies.length === 0 && sport.governingBodyFact && <p class="dek"><Fact fact={sport.governingBodyFact} showSource /></p>}
         <div class="grid-cards">
           {v.governingBodies.map((g) => (
-            <a class="card-link" href={href(g)}><div class="t">{g.name}{g.acronym && ` (${g.acronym})`}</div><div class="d">{g.scope ? `${g.scope[0].toUpperCase()}${g.scope.slice(1)} body` : ''}</div></a>
+            <a class="card-link" href={href(g)}><div class="t">{bodyLabel(g)}{g.acronym && !g.formerNames?.length && ` (${g.acronym})`}</div><div class="d">{g.scope ? `${g.scope[0].toUpperCase()}${g.scope.slice(1)} body` : ''}</div></a>
           ))}
         </div>
         <JumpLinks links={[{label: 'All governing bodies', href: '/governing-bodies/', section: 'governing-bodies'}, {label: 'Why we trust them as sources', href: '/sources/', section: 'sources'}, ...jumps]} />

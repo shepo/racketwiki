@@ -15,8 +15,9 @@ export interface Env {
 type Kind = 'correction' | 'listing' | 'sponsor'
 const KINDS: Kind[] = ['correction', 'listing', 'sponsor']
 const LISTING_TYPES = ['governing-bodies', 'brands', 'equipment-labs', 'stats-and-records', 'software-and-apps', 'clubs-and-venues', 'coaches', 'retailers']
+const ISSUE_TYPES = ['wrong', 'newer-edition', 'missing', 'renamed', 'other']
 const FIELDS: Record<Kind, Record<string, number>> = {
-  correction: {pageUrl: 300, message: 4000, suggestedSource: 500, email: 200},
+  correction: {issueType: 30, pageUrl: 300, message: 4000, suggestedSource: 500, email: 200},
   listing: {name: 200, listingType: 40, sports: 300, region: 200, websiteUrl: 500, message: 1000, email: 200},
   sponsor: {name: 200, pageUrl: 300, message: 2000, email: 200},
 }
@@ -93,6 +94,7 @@ async function submit(req: Request, env: Env) {
   }
   for (const f of REQUIRED[kind]) if (!payload[f]) return json({error: `Please fill in ${f}`}, 400, headers)
   if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) return json({error: 'Please check your email address'}, 400, headers)
+  if (kind === 'correction' && payload.issueType && !ISSUE_TYPES.includes(payload.issueType)) return json({error: 'Unknown correction type'}, 400, headers)
   if (kind === 'listing' && !LISTING_TYPES.includes(payload.listingType)) return json({error: 'Unknown listing type'}, 400, headers)
   if (payload.websiteUrl && !/^https?:\/\//i.test(payload.websiteUrl)) return json({error: 'Website must start with http:// or https://'}, 400, headers)
 
@@ -214,6 +216,7 @@ async function promoteToSanity(env: Env, row: Row): Promise<string> {
       : {
           _id: `drafts.correction-${short}`,
           _type: 'correction',
+          issueType: p.issueType,
           pageUrl: p.pageUrl,
           message: p.message,
           suggestedSource: p.suggestedSource,

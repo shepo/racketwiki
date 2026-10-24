@@ -51,3 +51,23 @@ export const groups = [
 ]
 
 export const ref = (...types: string[]) => ({type: 'reference' as const, to: types.map((type) => ({type}))})
+
+/**
+ * Names that point at the same thing: renames (World Tennis, formerly the ITF), local names
+ * (Racketball for Squash 57) and abbreviations. All are shown on the page and searchable.
+ * `previousSlugs` makes old URLs redirect to this page after a rename.
+ */
+export function nameFields() {
+  return [
+    defineField({name: 'alsoKnownAs', title: 'Also known as', type: 'array', of: [{type: 'string'}], group: 'content'}),
+    defineField({name: 'formerNames', title: 'Former names', type: 'array', of: [{type: 'string'}], group: 'content'}),
+    defineField({name: 'nameChange', title: 'Name change (sourced)', type: 'sourcedFact', description: 'Source for a rename, e.g. "Rebranded as World Tennis".', group: 'content'}),
+    defineField({
+      name: 'previousSlugs',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'Old URL slugs. The site redirects them here, so links keep working after a rename.',
+      group: 'meta',
+    }),
+  ]
+}

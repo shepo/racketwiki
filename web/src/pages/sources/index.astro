@@ -32,7 +32,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Sources', path: '/sources/'}]
         <p class="muted">{t.use}</p>
         {t.rows.length ? (
           <div class="table-scroll"><table class="spec">
-            <thead><tr><th>Source</th><th>Domain</th><th>What we use it for</th><th>Status</th></tr></thead>
+            <thead><tr><th>Source</th><th>Domain</th><th>What we use it for</th><th>Status</th><th><span class="sr-only">Report</span></th></tr></thead>
             <tbody>
               {t.rows.map((s) => {
                 const d = publicDomain(s)
@@ -43,6 +43,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Sources', path: '/sources/'}]
                     <td>{d ? <a class="hl c-sec" href={s.url} rel="noopener">{d}</a> : <span class="muted small">Not shown until verified</span>}</td>
                     <td>{s.usedFor ?? ''}</td>
                     <td>{s.status === 'researched' ? <span>Researched{s.accessedOn && <div class="small muted">{formatDate(s.accessedOn)}</div>}</span> : <span class="pending">Verify domain</span>}</td>
+                    <td><a class="hl small" href={`/corrections/?page=${encodeURIComponent(`/sources/#${s.slug?.current}`)}&issue=newer-edition&source=${encodeURIComponent(s.name)}`}>Newer edition?</a></td>
                   </tr>
                 )
               })}

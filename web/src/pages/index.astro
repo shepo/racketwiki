@@ -9,6 +9,7 @@ import {factText, publicDomain, formatDate, latestVerified, collectSources} from
 import {formatDimensions} from '../lib/units.mjs'
 import {SECTIONS, DIRECTORY_TYPES} from '../lib/sections'
 import {pickPlacement} from '../lib/sponsors'
+import {bodyLabel} from '../lib/entities'
 
 const store = await getStore()
 const stories = store.ofType('story').sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
@@ -107,7 +108,7 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
       <div class="table-scroll"><table class="spec">
         <thead><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
         <tbody>
-          {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{g.name}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
+          {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{bodyLabel(g)}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
         </tbody>
       </table></div>
     </section>

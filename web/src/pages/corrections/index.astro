@@ -9,8 +9,15 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Corrections', path: '/correct
     <header class="stack">
       <div class="kicker sec-sources c-sec">Corrections</div>
       <h1 class="h-display">Spotted a mistake?</h1>
-      <p class="dek">Tell us what is wrong, and if you can, point us to the rulebook or official page that shows the right answer. An editor checks every report against the source before anything changes.</p>
+      <p class="dek">Tell us what is wrong, out of date or missing, and if you can, point us to the rulebook or official page that shows the right answer. An editor checks every report against the source before anything changes.</p>
+      <ul class="kinds">
+        <li><strong>A fact is wrong:</strong> a size, date, ranking or rule that does not match its source.</li>
+        <li><strong>A newer rulebook or edition:</strong> governing bodies update their rules; tell us when a new edition is out.</li>
+        <li><strong>Something is missing:</strong> a sport, body, competition or fact we should add.</li>
+        <li><strong>A rename:</strong> organisations and sports change names; we keep both and cross-refer them.</li>
+      </ul>
     </header>
     <SubmissionForm kind="correction" />
   </Page>
 </Base>
+<style>.kinds { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: var(--ink-2); max-width: 720px; }</style>

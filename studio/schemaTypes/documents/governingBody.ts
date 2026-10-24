@@ -1,5 +1,5 @@
 import {defineField, defineType} from 'sanity'
-import {commonFields, groups, ref} from '../common'
+import {commonFields, groups, nameFields, ref} from '../common'
 
 export const governingBody = defineType({
   name: 'governingBody',
@@ -9,6 +9,8 @@ export const governingBody = defineType({
   fields: [
     defineField({name: 'name', type: 'string', validation: (r) => r.required(), group: 'content'}),
     defineField({name: 'acronym', type: 'string', group: 'content'}),
+    ...nameFields(),
+    defineField({name: 'nameChange', title: 'Name change (sourced)', type: 'sourcedFact', description: 'e.g. "Rebranded as World Tennis".', group: 'content'}),
     defineField({name: 'scope', type: 'string', options: {list: ['international', 'continental', 'national', 'tour', 'association']}, group: 'content'}),
     defineField({name: 'summary', type: 'text', rows: 3, group: 'content'}),
     defineField({name: 'sports', type: 'array', of: [ref('sport')], group: 'links'}),
