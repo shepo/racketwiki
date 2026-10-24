@@ -1,4 +1,5 @@
-# Keep Cloudflare's workers.dev addresses (staging) out of search engines.
-# racketwiki.org itself is unaffected.
-https://:name.:account.workers.dev/*
-  X-Robots-Tag: noindex
+# PRE-LAUNCH: keep every address (racketwiki.org and the workers.dev staging
+# addresses) out of search engines. At launch, replace "/*" below with
+# "https://:name.:account.workers.dev/*" so only staging stays hidden.
+/*
+  X-Robots-Tag: noindex, nofollow
