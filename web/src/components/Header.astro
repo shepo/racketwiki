@@ -18,12 +18,12 @@ const {active, showSearch = true} = Astro.props as {active?: string; showSearch?
 <style>
   .hdr { padding-top: 16px; }
   .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-bottom: 12px; }
-  .logo { font-family: var(--font-head); font-weight: 800; font-size: 36px; line-height: 1; letter-spacing: -0.03em; }
+  .logo { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); line-height: 1; letter-spacing: -0.03em; }
   .hs { flex: 1 1 260px; max-width: 440px; }
-  .nav { display: flex; flex-wrap: wrap; gap: 4px 6px; font-weight: 600; font-size: 14px; }
+  .nav { display: flex; flex-wrap: wrap; gap: 4px 6px; font-size: var(--fs-sm); }
   .nav a { padding: 8px 10px; border-bottom: 3px solid var(--sec); }
-  .nav a[aria-current='page'] { background: color-mix(in srgb, var(--sec) 12%, transparent); }
+  .nav a[aria-current='page'] { background: color-mix(in srgb, var(--sec) 12%, transparent); font-weight: 600; }
   .nav a:hover { color: var(--sec); }
   .rule { border-top: 3px solid var(--ink); }
-  @media (max-width: 640px) { .logo { font-size: 30px; } .nav a { padding: 8px 8px; } }
+  @media (max-width: 640px) { .logo { font-size: var(--fs-xl); } .nav a { padding: 8px 8px; } }
 </style>

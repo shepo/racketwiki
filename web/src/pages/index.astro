@@ -58,7 +58,7 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
               <ul class="legend">
                 {overlayItems.map((it, i) => {
                   const d = formatDimensions(overlayCourts[i].c.length.measurement, overlayCourts[i].c.width.measurement)
-                  return <li><svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" style={`stroke:${it.color};stroke-width:3${it.dash ? `;stroke-dasharray:${it.dash}` : ''}`} /></svg><strong>{it.name}</strong> {d?.text}</li>
+                  return <li><svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" style={`stroke:${it.color};stroke-width:3${it.dash ? `;stroke-dasharray:${it.dash}` : ''}`} /></svg><span class="lg-name">{it.name}</span> <span class="muted">{d?.text}</span></li>
                 })}
               </ul>
               Outlines centred and drawn to one scale. Sources: {overlaySources.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a></>)}.
@@ -69,17 +69,17 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
       </article>
     )}
 
-    <div class="col2">
-      {others.map((s) => (
-        <article class={`story sec-${s.section}`}>
-          <div class="kicker c-sec">{s.kicker}</div>
-          <h2 class="h-story"><a class="hl" href={urlFor(store, s)}>{s.title}</a></h2>
-          {s.dek && <p class="sdek">{s.dek}</p>}
-        </article>
-      ))}
-    </div>
-
-    <aside class="rail">
+    <aside class="side">
+      <section class="stories" aria-label="More stories">
+        {others.map((s) => (
+          <article class={`story sec-${s.section}`}>
+            <div class="kicker c-sec">{s.kicker}</div>
+            <h2 class="h-story"><a class="hl" href={urlFor(store, s)}>{s.title}</a></h2>
+            {s.dek && <p class="sdek">{s.dek}</p>}
+          </article>
+        ))}
+      </section>
+      <SponsorCard placement={card} pagePath="/" />
       <section class="rail-box sec-sports" aria-label="Sports index">
         <h2>By sport</h2>
         <ul class="idx">
@@ -87,7 +87,6 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
         </ul>
         <a class="hl c-sec more" href="/sports/">All {sports.length} sports</a>
       </section>
-      <SponsorCard placement={card} pagePath="/" />
     </aside>
   </div>
 
@@ -122,26 +121,27 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
 </Base>
 <style>
   .hero { padding-top: 32px; }
-  .front { display: flex; flex-wrap: wrap; gap: 32px 40px; align-items: flex-start; padding-top: 32px; }
-  .lead { flex: 2.2 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
-  .col2 { flex: 1.2 1 280px; min-width: 0; display: flex; flex-direction: column; }
-  .rail { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
-  @media (min-width: 1100px) {
-    .lead { padding-right: 40px; border-right: 1px solid var(--rule); }
-    .col2 { padding-right: 40px; border-right: 1px solid var(--rule); }
+  /* Lead takes three of four columns; stories, sponsor and the sports index share the fourth. */
+  .front { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; padding-top: 32px; }
+  .lead { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .side { min-width: 0; display: flex; flex-direction: column; gap: 32px; }
+  @media (min-width: 960px) {
+    .front { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .lead { grid-column: span 3; padding-right: 40px; border-right: 1px solid var(--rule); }
   }
   .story { padding: 20px 0; border-top: 1px solid var(--rule); }
   .story:first-child { border-top: 0; padding-top: 0; }
-  .sdek { margin: 0; font-family: var(--font-head); font-size: 17px; line-height: 1.45; color: var(--ink-2); }
-  .legend { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: var(--ink); }
+  .story .h-story { font-size: var(--fs-lg); }
+  .sdek { margin: 0; font-family: var(--font-head); font-size: var(--fs-sm); line-height: 1.45; color: var(--ink-2); }
+  .legend { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--fs-xs); color: var(--ink); }
   .legend li { display: flex; align-items: center; gap: 6px; }
   .idx { list-style: none; margin: 0; padding: 0; }
   .idx li { border-bottom: 1px solid var(--rule-soft); }
-  .idx a { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; font-weight: 600; font-size: 15px; }
-  .more { display: inline-block; margin-top: 10px; font-size: 14px; font-weight: 600; }
+  .idx a { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; font-size: var(--fs-sm); }
+  .more { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); }
   .band { margin-top: 56px; }
   .band-head { border-top: 3px solid var(--sec); padding-top: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 16px; }
-  .band-head a { font-size: 14px; font-weight: 600; }
-  .h-band { margin: 0; font-family: var(--font-head); font-weight: 800; font-size: clamp(28px, 3.6vw, 34px); letter-spacing: -0.01em; }
+  .band-head a { font-size: var(--fs-sm); }
+  .h-band { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); letter-spacing: -0.01em; }
   .band .dek { margin-bottom: 16px; }
 </style>

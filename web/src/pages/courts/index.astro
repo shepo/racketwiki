@@ -93,12 +93,12 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
 <style>
   .rows { min-width: 600px; display: flex; flex-direction: column; }
   .row { display: flex; align-items: center; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); }
-  .row.head { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding: 10px 0; }
+  .row.head { font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding: 10px 0; }
   .n { width: 180px; flex-shrink: 0; }
-  .n .t { font-family: var(--font-head); font-weight: 800; font-size: 21px; }
+  .n .t { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); }
   .viz { flex: 1; min-width: 0; }
   .viz svg { display: block; height: auto; overflow: visible; }
   .bar { fill: var(--court-fill); stroke: var(--sec-courts); stroke-width: 1; vector-effect: non-scaling-stroke; }
   .netl { stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
-  .sz { width: 200px; flex-shrink: 0; font-size: 15px; }
+  .sz { width: 200px; flex-shrink: 0; font-size: var(--fs-sm); }
 </style>
