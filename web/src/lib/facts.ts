@@ -33,7 +33,7 @@ export function collectSources(store: Store, ...nodes: unknown[]): Doc[] {
     }
   }
   nodes.forEach(visit)
-  return [...ids].map((id) => store.get(id)).filter(Boolean).sort((a, b) => (a!.tier ?? 9) - (b!.tier ?? 9)) as Doc[]
+  return [...ids].map((id) => store.get(id)).filter(Boolean).sort((a, b) => (a!.tier ?? 9) - (b!.tier ?? 9) || String(a!.name).localeCompare(String(b!.name))) as Doc[]
 }
 
 export function latestVerified(...nodes: unknown[]): string | undefined {
