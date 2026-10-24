@@ -30,21 +30,22 @@ The site is a Worker named `racketwiki` that serves `web/dist` as static assets 
 
 ## 3. Submissions Worker
 
-```bash
-cd worker
-npx wrangler d1 create racketwiki-submissions      # paste the id into wrangler.toml
-npx wrangler d1 migrations apply racketwiki-submissions --remote
-npx wrangler secret put ADMIN_PASSWORD
-npx wrangler secret put SANITY_WRITE_TOKEN
-# set SANITY_PROJECT_ID in wrangler.toml [vars]
-npx wrangler deploy
-```
+Live as the Worker **`racketwiki-submission`** at `https://racketwiki-submission.jake-02f.workers.dev`, connected to the repo through Workers Builds:
+
+- Build command: empty. Deploy command: `npx wrangler deploy -c worker/wrangler.toml`. Root directory `/`.
+- D1 database `racketwiki-submissions` (id in `worker/wrangler.toml`), migration 0001 applied.
+- Secrets (Worker → Settings → Variables and Secrets): `ADMIN_PASSWORD`, `SANITY_WRITE_TOKEN` (Sanity Editor token).
+- The site needs `PUBLIC_SUBMISSIONS_URL` set to the Worker address in its build variables, or the forms show "opening soon".
 
 - Forms on the site post to `/api/submit` (corrections, directory listings, sponsor enquiries). Only origins in `ALLOWED_ORIGINS` are accepted; there is a honeypot and a 10-per-hour limit per visitor.
 - Editors review at `https://<worker>/admin` (basic auth). Approving a listing creates a **draft** `directoryListing` in Sanity; approving a correction creates a draft `correction` report. Nothing reaches the public dataset until an editor publishes it in the Studio.
 - Recommended before launch: put `/admin` behind Cloudflare Access as well as the password.
 
 Local test: `npx wrangler d1 migrations apply racketwiki-submissions --local && npx wrangler dev`.
+
+## Syncing the seed to Sanity
+
+Run the **Sync seed to Sanity** workflow (GitHub → Actions) to write `seed/*.ndjson` to Sanity as published documents (`scripts/sync-sanity.mjs`, needs the `SANITY_WRITE_TOKEN` repository secret). `create-missing` (default) only adds new documents; `replace` overwrites seed documents and discards their drafts, so it would undo Studio edits. Sanity became the source of content on 2026-10-24.
 
 ## Importing the seed as drafts (no API token needed)
 
