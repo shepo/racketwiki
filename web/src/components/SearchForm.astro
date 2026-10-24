@@ -35,6 +35,18 @@ const id = `s-${size}`
   .row { display: flex; }
   input[type='search'] { flex: 1 1 auto; min-width: 0; padding: 11px 14px; font: inherit; font-size: var(--fs-sm); border: 1.5px solid var(--ink); border-right: 0; border-radius: 0; background: var(--bg); color: var(--ink); }
   button { padding: 11px 20px; font: inherit; font-weight: 600; font-size: var(--fs-sm); background: var(--ink); color: var(--bg); border: 1.5px solid var(--ink); border-radius: 0; cursor: pointer; }
+  /* Large (home page): box and chips share one line; chips drop underneath only on narrow screens. */
+  .large { max-width: none; display: flex; flex-wrap: nowrap; align-items: center; gap: 24px; }
+  .large .row { flex: 1 1 280px; max-width: 520px; min-width: 0; }
+  .large .chips { flex-shrink: 0; }
+  /* Mid widths: drop the visible "Search in" label so every chip, including More, fits on the line. */
+  @media (min-width: 900px) and (max-width: 1199px) { .large .chips legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+  .large .chips { margin: 0; flex: 0 1 auto; }
+  @media (min-width: 900px) { .large .menu { right: 0; } }
+  @media (max-width: 899px) {
+    .large { flex-direction: column; align-items: stretch; gap: 14px; }
+    .large .row { max-width: none; flex: none; }
+  }
   .compact { max-width: 440px; }
   .compact input[type='search'] { padding: 8px 12px; font-size: var(--fs-sm); }
   .compact button { padding: 8px 14px; font-size: var(--fs-sm); }
