@@ -7,7 +7,7 @@ const id = `s-${size}`
 <form role="search" action="/search/" method="get" class:list={['sf', size]}>
   <div class="row">
     <label for={id} class="sr-only">Search RacketWiki</label>
-    <input id={id} type="search" name="q" value={q} placeholder={size === 'large' ? 'Search a sport, rule, player, brand or competition' : 'Search RacketWiki'} autocomplete="off" />
+    <input id={id} type="search" name="q" value={q} placeholder={size === 'large' ? 'Search sports, rules, players and more' : 'Search RacketWiki'} autocomplete="off" />
     <button type="submit">Search</button>
   </div>
   {chips && (
