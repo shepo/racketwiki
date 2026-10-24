@@ -8,7 +8,7 @@ export default defineConfig({
   name: 'racketwiki',
   title: 'RacketWiki',
   // The project ID is not a secret. Set SANITY_STUDIO_PROJECT_ID once the project exists.
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'replace-me',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'gojst4dq',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   plugins: [structureTool({structure}), visionTool()],
   schema: {types: schemaTypes},

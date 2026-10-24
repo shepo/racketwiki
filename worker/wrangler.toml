@@ -5,7 +5,7 @@ compatibility_date = "2025-10-01"
 [vars]
 # Comma-separated origins allowed to post the forms.
 ALLOWED_ORIGINS = "https://racketwiki.org,http://localhost:4321"
-SANITY_PROJECT_ID = ""
+SANITY_PROJECT_ID = "gojst4dq"
 SANITY_DATASET = "production"
 
 # Create with: npx wrangler d1 create racketwiki-submissions  (then paste the id below)
