@@ -1,0 +1,4 @@
+# Keep Cloudflare's workers.dev addresses (staging) out of search engines.
+# racketwiki.org itself is unaffected.
+https://:name.:account.workers.dev/*
+  X-Robots-Tag: noindex
