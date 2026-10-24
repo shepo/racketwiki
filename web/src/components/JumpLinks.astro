@@ -1,0 +1,9 @@
+---
+export type Jump = {label: string; href: string; section: string}
+const {links, label = 'Jump to'} = Astro.props as {links: Jump[]; label?: string}
+---
+{links.length > 0 && (
+  <nav class="jumps" aria-label={label} data-pagefind-ignore>
+    {links.map((l) => <a href={l.href} class={`sec-${l.section}`}>{l.label}</a>)}
+  </nav>
+)}

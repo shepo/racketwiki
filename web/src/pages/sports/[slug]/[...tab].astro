@@ -1,0 +1,293 @@
+---
+import Base from '../../../layouts/Base.astro'
+import Page from '../../../components/Page.astro'
+import SportHeader from '../../../components/SportHeader.astro'
+import Fact from '../../../components/Fact.astro'
+import SpecTable from '../../../components/SpecTable.astro'
+import CourtFigure from '../../../components/CourtFigure.astro'
+import SourceList from '../../../components/SourceList.astro'
+import SourceCell from '../../../components/SourceCell.astro'
+import JumpLinks from '../../../components/JumpLinks.astro'
+import PortableText from '../../../components/PortableText.astro'
+import {getStore, slugOf, type Doc} from '../../../lib/content'
+import {sportView, jumpsFor, type SportView} from '../../../lib/sport'
+import {SPORT_TABS, urlFor, type SportTabKey} from '../../../lib/routes'
+import {collectSources, latestVerified, factText, isShown} from '../../../lib/facts'
+import {formatDimensions} from '../../../lib/units.mjs'
+import {abs} from '../../../lib/seo'
+
+export async function getStaticPaths() {
+  const store = await getStore()
+  return store.ofType('sport').flatMap((sport) => {
+    const view = sportView(store, sport)
+    return view.tabs.map((t) => ({
+      params: {slug: slugOf(sport), tab: t.path ? t.path.replace(/\/$/, '') : undefined},
+      props: {sportId: sport._id, tab: t.key},
+    }))
+  })
+}
+
+const {sportId, tab} = Astro.props as {sportId: string; tab: SportTabKey}
+const store = await getStore()
+const sport = store.get(sportId)!
+const v: SportView = sportView(store, sport)
+const name = sport.name as string
+const lname = name.toLowerCase()
+const tabDef = SPORT_TABS.find((t) => t.key === tab)!
+const jumps = jumpsFor(v, tab)
+const href = (d?: Doc) => urlFor(store, d) ?? '#'
+
+const dims = v.mainCourt && isShown(v.mainCourt.length) && isShown(v.mainCourt.width) ? formatDimensions(v.mainCourt.length.measurement, v.mainCourt.width.measurement) : null
+
+const tabDocs: Record<SportTabKey, unknown[]> = {
+  overview: [sport, v.mainCourt],
+  rules: [v.ruleSet],
+  equipment: [v.equipment, v.balls, v.nets],
+  courts: [v.courts],
+  brands: [v.brands],
+  players: [v.players],
+  competitions: [v.competitions],
+  organisations: [v.governingBodies, sport.governingBodyFact],
+}
+const sources = collectSources(store, ...tabDocs[tab])
+const verified = latestVerified(...tabDocs[tab])
+
+const titles: Record<SportTabKey, string> = {
+  overview: `${name}: rules, court size, equipment and governing body`,
+  rules: `${name} rules explained`,
+  equipment: `${name} equipment: specifications and limits`,
+  courts: `${name} court dimensions`,
+  brands: `${name} brands`,
+  players: `Top ${lname} players`,
+  competitions: `${name} competitions and tours`,
+  organisations: `${name} governing bodies and associations`,
+}
+const leads: Record<SportTabKey, string> = {
+  overview: sport.summary,
+  rules: v.ruleSet?.summary ?? `How ${lname} is played: the serve, scoring and faults, from the official rules.`,
+  equipment: `The official limits on ${lname} equipment, with metric and imperial figures and the rule each comes from.`,
+  courts: v.mainCourt?.summary ?? (dims ? `A ${lname} court measures ${dims.text}.` : `The size and markings of a ${lname} court.`),
+  brands: `Makers of ${lname} equipment, with what they make and where they are based.`,
+  players: `Leading ${lname} players, with rankings dated and sourced to the official ranking body.`,
+  competitions: `The main ${lname} competitions and tours, and who runs them.`,
+  organisations: `Who sets the rules for ${lname}, internationally and nationally.`,
+}
+const desc = (leads[tab] ?? '').slice(0, 158)
+const crumbs = [
+  {name: 'Home', path: '/'},
+  {name: 'Sports', path: '/sports/'},
+  ...(tab === 'overview' ? [{name, path: `/sports/${slugOf(sport)}/`}] : [{name, path: `/sports/${slugOf(sport)}/`}, {name: tabDef.label, path: Astro.url.pathname}]),
+]
+const faq = tab === 'overview' ? (sport.faq ?? []).filter((q: any) => q.question && q.answer && q.source?._ref) : []
+const jsonLd = faq.length
+  ? [{'@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((q: any) => ({'@type': 'Question', name: q.question, acceptedAnswer: {'@type': 'Answer', text: q.answer}}))}]
+  : []
+const sponsorCard = ['overview', 'equipment', 'courts'].includes(tab)
+const gbLine = v.governingBodies[0]?.name ?? factText(sport.governingBodyFact)
+const formats = sport.formats ?? []
+const lengthIn = (f: any) => factText(f)
+---
+<Base title={titles[tab]} description={desc} section={tabDef.section as any} navActive="sports" crumbs={crumbs} jsonLd={jsonLd} sportId={sport._id} searchTitle={tab === 'overview' ? name : `${name}: ${tabDef.label}`}>
+  <Page sponsorCard={sponsorCard} section={tabDef.section} sportId={sport._id}>
+    <SportHeader view={v} tab={tab} crumbs={crumbs} lead={leads[tab]} heading={tab === 'overview' ? name : `${name}: ${tabDef.label.toLowerCase()}`} verified={verified} sourceCount={sources.length} />
+
+    {tab === 'overview' && (
+      <>
+        <section class="stack sec-sports" aria-labelledby="facts">
+          <h2 id="facts" class="h-section">At a glance</h2>
+          <dl class="glance">
+            {sport.alsoKnownAs?.length > 0 && (<><dt>Also known as</dt><dd>{sport.alsoKnownAs.join(', ')}</dd></>)}
+            <dt>Court</dt><dd>{dims ? dims.text : v.mainCourt?.standard === false ? 'Not standard: every venue differs' : <span class="pending">Being verified</span>}</dd>
+            {sport.implement && (<><dt>Played with</dt><dd>{sport.implement === 'mixed' ? 'Rackets or paddles' : `A ${sport.implement}`} and a {sport.projectile ?? 'ball'}</dd></>)}
+            <dt>Formats</dt><dd>{formats.length ? formats.map((f: any) => f.name).join(', ') : <span class="pending">Being verified</span>}</dd>
+            <dt>Governing body</dt><dd>{v.governingBodies.length ? v.governingBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{g.name}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
+            <dt>Origin</dt><dd><Fact fact={sport.origin} /></dd>
+          </dl>
+          <JumpLinks links={jumps} />
+        </section>
+
+        {v.mainCourt && (
+          <section class="stack sec-courts" aria-labelledby="court">
+            <h2 id="court" class="h-section">The court</h2>
+            <CourtFigure court={v.mainCourt} compact />
+            <JumpLinks links={[{label: `${name} court in detail`, href: `/sports/${slugOf(sport)}/courts/`, section: 'courts'}, {label: 'Compare every court', href: '/courts/', section: 'courts'}, {label: `Find a ${lname} venue`, href: '/directory/clubs-and-venues/', section: 'directory'}]} />
+          </section>
+        )}
+
+        {formats.length > 0 && (
+          <section class="stack sec-sports" aria-labelledby="formats">
+            <h2 id="formats" class="h-section">Formats</h2>
+            <ul class="formats">
+              {formats.map((f: any) => (
+                <li><strong>{f.name}</strong>{f.description && <> {f.description}</>}</li>
+              ))}
+            </ul>
+            <JumpLinks links={[...(v.has.rules ? [{label: `${name} rules`, href: `/sports/${slugOf(sport)}/rules/`, section: 'rules'}] : []), ...(v.has.competitions ? [{label: `Where formats are played: ${lname} competitions`, href: `/sports/${slugOf(sport)}/competitions/`, section: 'competitions'}] : [])]} />
+          </section>
+        )}
+
+        {sport.body?.length > 0 && (
+          <section class="stack sec-sports" aria-labelledby="about">
+            <h2 id="about" class="h-section">About {lname}</h2>
+            <PortableText value={sport.body} />
+          </section>
+        )}
+
+        {v.ruleSet && (
+          <section class="stack sec-rules" aria-labelledby="rules">
+            <h2 id="rules" class="h-section">How it is played</h2>
+            {v.ruleSet.summary && <p class="dek">{v.ruleSet.summary}</p>}
+            <JumpLinks links={[{label: `${name} rules in full`, href: `/sports/${slugOf(sport)}/rules/`, section: 'rules'}, {label: 'Rules of every sport', href: '/rules/', section: 'rules'}]} />
+          </section>
+        )}
+
+        {(v.brands.length > 0 || v.players.length > 0 || v.competitions.length > 0 || v.governingBodies.length > 0) && (
+          <section class="stack" aria-labelledby="who">
+            <h2 id="who" class="h-section">People and organisations</h2>
+            <div class="grid-cards">
+              {v.governingBodies.map((g) => <a class="card-link sec-governing-bodies" href={href(g)}><div class="kicker c-sec">Governing body</div><div class="t">{g.name}</div></a>)}
+              {v.competitions.slice(0, 3).map((c) => <a class="card-link sec-competitions" href={href(c)}><div class="kicker c-sec">Competition</div><div class="t">{c.name}</div></a>)}
+              {v.players.slice(0, 3).map((p) => <a class="card-link sec-players" href={href(p)}><div class="kicker c-sec">Player</div><div class="t">{p.name}</div></a>)}
+              {v.brands.slice(0, 3).map((b) => <a class="card-link sec-brands" href={href(b)}><div class="kicker c-sec">Brand</div><div class="t">{b.name}</div></a>)}
+            </div>
+            <JumpLinks links={jumps.filter((j) => ['brands', 'players', 'competitions', 'governing-bodies'].includes(j.section))} />
+          </section>
+        )}
+
+        {faq.length > 0 && (
+          <section class="stack sec-sports" aria-labelledby="faq">
+            <h2 id="faq" class="h-section">Questions</h2>
+            {faq.map((q: any) => (
+              <div class="qa"><h3>{q.question}</h3><p>{q.answer}</p></div>
+            ))}
+          </section>
+        )}
+      </>
+    )}
+
+    {tab === 'rules' && v.ruleSet && (
+      <>
+        {(v.ruleSet.sections ?? []).map((s: any) => (
+          <section class="stack sec-rules">
+            <h2 class="h-section">{s.heading}</h2>
+            <ul class="points">
+              {(s.points ?? []).map((pt: any) => (
+                <li><Fact fact={pt} showSource /></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+        <JumpLinks links={[...jumps, {label: 'Rules of every sport', href: '/rules/', section: 'rules'}]} />
+      </>
+    )}
+
+    {tab === 'equipment' && (
+      <>
+        {[...v.equipment, ...v.balls, ...v.nets].map((e) => (
+          <section class="stack sec-equipment">
+            <h2 class="h-section">{e.name}</h2>
+            {e.summary && <p class="dek">{e.summary}</p>}
+            <SpecTable rows={e.specs} caption={e.name} />
+          </section>
+        ))}
+        <JumpLinks links={[{label: 'Racket limits in every sport', href: '/equipment/rackets/', section: 'equipment'}, {label: 'Balls in every sport', href: '/equipment/balls/', section: 'equipment'}, {label: 'Nets in every sport', href: '/equipment/nets/', section: 'equipment'}, ...jumps]} />
+      </>
+    )}
+
+    {tab === 'courts' && (
+      <>
+        {v.courts.map((c) => {
+          const cd = isShown(c.length) && isShown(c.width) ? formatDimensions(c.length.measurement, c.width.measurement) : null
+          const rows = [
+            {label: 'Length', fact: c.length},
+            {label: 'Width', fact: c.width},
+            ...(c.markings ?? []).filter((m: any) => m.offset).map((m: any) => ({label: m.label ?? 'Line', fact: m.offset})),
+            ...(c.specs ?? []),
+          ]
+          return (
+            <section class="stack sec-courts">
+              <h2 class="h-section">{c.name}</h2>
+              {cd && <p class="answer">A {lname} court is <strong>{cd.metric}</strong> ({cd.imperial}).</p>}
+              <CourtFigure court={c} />
+              {c.standard !== false || c.specs?.length ? <SpecTable rows={rows.filter((r) => r.fact)} caption={`${c.name} dimensions`} /> : null}
+            </section>
+          )
+        })}
+        <JumpLinks links={[{label: 'Every court, to scale', href: '/courts/', section: 'courts'}, {label: `Find a ${lname} venue`, href: '/directory/clubs-and-venues/', section: 'directory'}, ...jumps]} />
+      </>
+    )}
+
+    {tab === 'brands' && (
+      <section class="stack sec-brands">
+        <h2 class="h-section">Brands</h2>
+        <div class="grid-cards">
+          {v.brands.map((b) => (
+            <a class="card-link" href={href(b)}><div class="t">{b.name}</div><div class="d">{factText(b.country) ?? ''}</div>{b.summary && <div class="d">{b.summary}</div>}</a>
+          ))}
+        </div>
+        <JumpLinks links={[{label: 'All brands', href: '/brands/', section: 'brands'}, {label: 'Brands in the directory', href: '/directory/brands/', section: 'directory'}, ...jumps]} />
+      </section>
+    )}
+
+    {tab === 'players' && (
+      <section class="stack sec-players">
+        <h2 class="h-section">Players</h2>
+        <div class="table-scroll"><table class="spec">
+          <thead><tr><th>Player</th><th>Nationality</th><th>Ranking</th><th>Source</th></tr></thead>
+          <tbody>{v.players.map((p) => <tr><td><a class="hl" href={href(p)}>{p.name}</a></td><td><Fact fact={p.nationality} /></td><td><Fact fact={p.ranking} /></td><td><SourceCell fact={p.ranking} /></td></tr>)}</tbody>
+        </table></div>
+        <JumpLinks links={[{label: 'All players', href: '/players/', section: 'players'}, {label: 'Find a coach', href: '/directory/coaches/', section: 'directory'}, ...jumps]} />
+      </section>
+    )}
+
+    {tab === 'competitions' && (
+      <section class="stack sec-competitions">
+        <h2 class="h-section">Competitions</h2>
+        <div class="table-scroll"><table class="spec">
+          <thead><tr><th>Competition</th><th>Level</th><th>Run by</th></tr></thead>
+          <tbody>{v.competitions.map((c) => {
+            const org = store.deref(c.organiser)
+            return <tr><td><a class="hl" href={href(c)}>{c.name}</a></td><td>{(c.level ?? '').replace(/-/g, ' ')}</td><td>{org ? <a class="hl" href={href(org)}>{org.name}</a> : <Fact fact={c.organiserFact} />}</td></tr>
+          })}</tbody>
+        </table></div>
+        <JumpLinks links={[{label: 'All competitions', href: '/competitions/', section: 'competitions'}, ...jumps]} />
+      </section>
+    )}
+
+    {tab === 'organisations' && (
+      <section class="stack sec-governing-bodies">
+        <h2 class="h-section">Organisations</h2>
+        {v.governingBodies.length === 0 && sport.governingBodyFact && <p class="dek"><Fact fact={sport.governingBodyFact} showSource /></p>}
+        <div class="grid-cards">
+          {v.governingBodies.map((g) => (
+            <a class="card-link" href={href(g)}><div class="t">{g.name}{g.acronym && ` (${g.acronym})`}</div><div class="d">{g.scope ? `${g.scope[0].toUpperCase()}${g.scope.slice(1)} body` : ''}</div></a>
+          ))}
+        </div>
+        <JumpLinks links={[{label: 'All governing bodies', href: '/governing-bodies/', section: 'governing-bodies'}, {label: 'Why we trust them as sources', href: '/sources/', section: 'sources'}, ...jumps]} />
+      </section>
+    )}
+
+    {v.related.length > 0 && (
+      <section class="stack sec-sports" aria-labelledby="related">
+        <h2 id="related" class="h-section">Related sports</h2>
+        <div class="grid-cards">
+          {v.related.map((r: any) => (
+            <a class="card-link" href={href(r.doc)}>{r.relation && <div class="kicker c-sec">{r.relation}</div>}<div class="t">{r.doc.name}</div>{r.note && <div class="d">{r.note}</div>}</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <SourceList sources={sources} />
+  </Page>
+</Base>
+<style>
+  .glance { display: grid; grid-template-columns: max-content 1fr; gap: 10px 24px; margin: 0; font-size: 16px; }
+  .glance dt { font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+  .glance dd { margin: 0; }
+  @media (max-width: 560px) { .glance { grid-template-columns: 1fr; gap: 2px; } .glance dd { margin-bottom: 10px; } }
+  .formats, .points { margin: 0; padding-left: 22px; font-family: var(--font-head); font-size: 19px; line-height: 1.55; display: flex; flex-direction: column; gap: 8px; }
+  .answer { margin: 0; font-family: var(--font-head); font-size: 20px; }
+  .qa h3 { margin: 0 0 4px; font-family: var(--font-head); font-size: 21px; }
+  .qa p { margin: 0; font-family: var(--font-head); font-size: 18px; color: var(--ink-2); }
+</style>

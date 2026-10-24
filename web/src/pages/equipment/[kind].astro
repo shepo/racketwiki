@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import SpecTable from '../../components/SpecTable.astro'
+import SourceList from '../../components/SourceList.astro'
+import JumpLinks from '../../components/JumpLinks.astro'
+import {getStore} from '../../lib/content'
+import {urlFor} from '../../lib/routes'
+import {collectSources} from '../../lib/facts'
+import {EQUIPMENT_KINDS, equipmentRows, type EquipmentKind} from '../../lib/equipment'
+
+export function getStaticPaths() {
+  return (Object.keys(EQUIPMENT_KINDS) as EquipmentKind[]).map((kind) => ({params: {kind}}))
+}
+const {kind} = Astro.params as {kind: EquipmentKind}
+const def = EQUIPMENT_KINDS[kind]
+const store = await getStore()
+const rows = equipmentRows(store, kind)
+const sources = collectSources(store, rows.map((r) => r.doc.specs))
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Equipment', path: '/equipment/'}, {name: def.title, path: `/equipment/${kind}/`}]
+const others = (Object.keys(EQUIPMENT_KINDS) as EquipmentKind[]).filter((k) => k !== kind)
+---
+<Base title={def.title} description={def.lead} section="equipment" crumbs={crumbs}>
+  <Page sponsorCard section="equipment">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-equipment c-sec">Equipment</div>
+      <h1 class="h-display">{def.h1}</h1>
+      <p class="dek">{def.lead}</p>
+    </header>
+    {rows.map((r) => (
+      <section class="stack sec-equipment" id={r.sport!.slug?.current}>
+        <h2 class="h-section"><a class="hl" href={urlFor(store, r.sport)}>{r.sport!.name}</a>: {r.doc.name.toLowerCase()}</h2>
+        {r.doc.summary && <p class="dek">{r.doc.summary}</p>}
+        <SpecTable rows={r.doc.specs} caption={r.doc.name} />
+      </section>
+    ))}
+    {rows.length === 0 && <p class="note">Being researched.</p>}
+    <JumpLinks links={[...others.map((k) => ({label: EQUIPMENT_KINDS[k].title, href: `/equipment/${k}/`, section: 'equipment'})), {label: 'Court sizes', href: '/courts/', section: 'courts'}]} />
+    <SourceList sources={sources} />
+  </Page>
+</Base>

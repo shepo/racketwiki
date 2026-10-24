@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import {getStore} from '../../lib/content'
+import {TIERS} from '../../lib/sections'
+import {publicDomain, formatDate} from '../../lib/facts'
+import {urlFor} from '../../lib/routes'
+
+const store = await getStore()
+const sources = store.ofType('source')
+const tiers = TIERS.map((t) => ({...t, rows: sources.filter((s) => s.tier === t.tier)}))
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Sources', path: '/sources/'}]
+---
+<Base title="Where our facts come from: the source register" description="Every source RacketWiki cites, ranked in five tiers from official rulebooks to reputable press, with what each is used for and when it was checked." section="sources" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-sources c-sec">Sources</div>
+      <h1 class="h-display">Where our facts come from</h1>
+      <p class="dek">Every rule, measurement and ranking on RacketWiki links to a source. Sources are ranked in five tiers, and a higher tier wins when two disagree.</p>
+      <ol class="rules">
+        <li>Rules, court dimensions and equipment limits cite a Tier 1 source.</li>
+        <li>Rankings and results cite the body that publishes them, with a date.</li>
+        <li>Encyclopaedias, including Wikipedia, point us to primary sources. They are never the citation.</li>
+        <li>Each fact shows the date it was last checked.</li>
+      </ol>
+    </header>
+    {tiers.map((t) => (
+      <section class="stack sec-sources" id={`tier-${t.tier}`}>
+        <h2 class="h-section">{t.name}: {t.label}</h2>
+        <p class="muted">{t.use}</p>
+        {t.rows.length ? (
+          <div class="table-scroll"><table class="spec">
+            <thead><tr><th>Source</th><th>Domain</th><th>What we use it for</th><th>Status</th></tr></thead>
+            <tbody>
+              {t.rows.map((s) => {
+                const d = publicDomain(s)
+                const sports = store.derefAll(s.sports)
+                return (
+                  <tr id={s.slug?.current}>
+                    <td>{s.name}{s.publisher && <div class="small muted">{s.publisher}{s.edition && `, ${s.edition}`}</div>}{sports.length > 0 && <div class="small">{sports.map((sp, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, sp)}>{sp.name}</a></>)}</div>}</td>
+                    <td>{d ? <a class="hl c-sec" href={s.url} rel="noopener">{d}</a> : <span class="muted small">Not shown until verified</span>}</td>
+                    <td>{s.usedFor ?? ''}</td>
+                    <td>{s.status === 'researched' ? <span>Researched{s.accessedOn && <div class="small muted">{formatDate(s.accessedOn)}</div>}</span> : <span class="pending">Verify domain</span>}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table></div>
+        ) : <p class="note">No sources in this tier yet.</p>}
+      </section>
+    ))}
+    <section class="note">
+      <strong>How to read the Status column.</strong> <em>Researched</em> means an editor has opened the source and confirmed its official web address. <em>Verify domain</em> means the organisation is a recognised authority but we have not yet confirmed its current address, so we do not link to it.
+    </section>
+  </Page>
+</Base>
+<style>
+  .rules { margin: 0; padding: 16px 16px 16px 36px; background: var(--panel); font-family: var(--font-head); font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 6px; max-width: 720px; }
+  tr:target { background: color-mix(in srgb, var(--sec-sources) 10%, transparent); }
+</style>

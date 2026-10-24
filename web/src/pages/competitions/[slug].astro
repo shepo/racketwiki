@@ -1,0 +1,11 @@
+---
+import EntityPage from '../../components/EntityPage.astro'
+import {getStore, slugOf} from '../../lib/content'
+import {ENTITIES} from '../../lib/entities'
+export async function getStaticPaths() {
+  const store = await getStore()
+  return store.ofType(ENTITIES['competitions'].type).map((d) => ({params: {slug: slugOf(d)}, props: {id: d._id}}))
+}
+const {id} = Astro.props as {id: string}
+---
+<EntityPage kind="competitions" id={id} />

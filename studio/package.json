@@ -1,0 +1,22 @@
+{
+  "name": "racketwiki-studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "import:seed": "node ../scripts/build-import.mjs && sanity dataset import ../seed/dist/import.ndjson production --replace"
+  },
+  "dependencies": {
+    "@sanity/vision": "^4.10.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sanity": "^4.10.0",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import Listing from '../../components/Listing.astro'
+import DirectoryRail from '../../components/DirectoryRail.astro'
+import {getStore} from '../../lib/content'
+import {DIRECTORY_TYPES} from '../../lib/sections'
+
+const store = await getStore()
+const listings = store.ofType('directoryListing')
+const count = (t: string) => listings.filter((l) => l.listingType === t).length
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory/'}]
+---
+<Base title="Racket sports directory" description="Governing bodies, brands, equipment labs, stats sites, software and apps across every racket sport. Sponsored listings are labelled and never ranked first by payment." section="directory" crumbs={crumbs}>
+  <Page sponsorCard section="directory">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-directory c-sec">Directory</div>
+      <h1 class="h-display">Find anyone in racket sports</h1>
+      <p class="dek">Governing bodies, brands, equipment labs, software and apps, clubs and coaches, worldwide. Listings are never ranked by payment.</p>
+    </header>
+    <section class="stack" aria-label="Filter the directory" data-pagefind-ignore>
+      <label for="dq" class="sr-only">Filter the directory</label>
+      <input id="dq" type="search" class="dq" placeholder="Filter by name, sport or country" />
+      <div class="chips" role="group" aria-label="Listing type">
+        <button type="button" class="pill on" data-t="" aria-pressed="true">All <span>{listings.length}</span></button>
+        {DIRECTORY_TYPES.map((t) => <button type="button" class="pill" style={`--sec:${t.color}`} data-t={t.value} aria-pressed="false">{t.label} <span>{count(t.value)}</span></button>)}
+      </div>
+      <p class="small muted" id="dsum" aria-live="polite">{listings.length} listings</p>
+    </section>
+    <section id="dlist" class="dlist">
+      {listings.map((d) => <Listing d={d} />)}
+      <div id="dempty" class="note" hidden>
+        <strong class="serif" style="font-size:22px">Nothing listed here yet</strong>
+        <p>We are adding listings category by category. If you run one, submit a listing and an editor will check it against an official source.</p>
+        <a class="btn" href="/directory/submit/">List your business</a>
+      </div>
+    </section>
+    <noscript><p class="small">Browse by type: {DIRECTORY_TYPES.map((t, i) => <>{i > 0 && ' · '}<a class="hl" href={`/directory/${t.value}/`}>{t.label}</a></>)}</p></noscript>
+    <Fragment slot="rail"><DirectoryRail /></Fragment>
+  </Page>
+</Base>
+<script>
+  const q = document.getElementById('dq') as HTMLInputElement
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chips .pill')]
+  const items = [...document.querySelectorAll<HTMLElement>('#dlist article')]
+  const sum = document.getElementById('dsum')!
+  const empty = document.getElementById('dempty')!
+  let type = ''
+  function apply() {
+    const term = q.value.trim().toLowerCase()
+    let n = 0
+    for (const el of items) {
+      const ok = (!type || el.dataset.type === type) && (!term || (el.dataset.search ?? '').includes(term))
+      el.hidden = !ok
+      if (ok) n++
+    }
+    sum.textContent = `${n} ${n === 1 ? 'listing' : 'listings'}${term ? ` matching "${term}"` : ''}`
+    empty.hidden = n > 0
+  }
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      type = c.dataset.t ?? ''
+      chips.forEach((x) => { x.classList.toggle('on', x === c); x.setAttribute('aria-pressed', String(x === c)) })
+      apply()
+    }),
+  )
+  q.addEventListener('input', apply)
+</script>
+<style>
+  .dq { width: 100%; padding: 14px 16px; font: inherit; font-size: 18px; border: 2px solid var(--ink); border-radius: 0; background: var(--bg); color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips span { opacity: 0.8; font-weight: 500; }
+  .dlist { border-top: 1px solid var(--ink); }
+  .note p { margin: 8px 0 12px; }
+</style>

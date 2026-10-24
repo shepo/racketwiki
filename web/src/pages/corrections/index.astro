@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import SubmissionForm from '../../components/SubmissionForm.astro'
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Corrections', path: '/corrections/'}]
+---
+<Base title="Spotted a mistake?" description="Report an error on RacketWiki. An editor checks every report against the source before anything changes." section="sources" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <div class="kicker sec-sources c-sec">Corrections</div>
+      <h1 class="h-display">Spotted a mistake?</h1>
+      <p class="dek">Tell us what is wrong, and if you can, point us to the rulebook or official page that shows the right answer. An editor checks every report against the source before anything changes.</p>
+    </header>
+    <SubmissionForm kind="correction" />
+  </Page>
+</Base>

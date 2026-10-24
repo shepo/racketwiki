@@ -1,0 +1,12 @@
+{
+  "name": "racketwiki",
+  "private": true,
+  "workspaces": ["web", "studio", "worker"],
+  "scripts": {
+    "dev": "npm run dev -w web",
+    "build": "npm run build -w web",
+    "studio": "npm run dev -w studio",
+    "validate:seed": "node scripts/validate-seed.mjs",
+    "test": "node --test web/src/lib/*.test.mjs"
+  }
+}

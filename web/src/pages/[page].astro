@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from '../components/Page.astro'
+import PortableText from '../components/PortableText.astro'
+import SourceList from '../components/SourceList.astro'
+import {getStore, slugOf} from '../lib/content'
+export async function getStaticPaths() {
+  const store = await getStore()
+  return store.ofType('page').filter((p) => p.kind !== 'guide').map((p) => ({params: {page: slugOf(p)}, props: {id: p._id}}))
+}
+const store = await getStore()
+const p = store.get((Astro.props as {id: string}).id)!
+---
+<Base title={p.seo?.title ?? p.title} description={p.seo?.description ?? p.lead ?? ''} section={p.section} crumbs={[{name: 'Home', path: '/'}, {name: p.title, path: `/${slugOf(p)}/`}]}>
+  <Page>
+    <header class="stack">
+      {p.kicker && <div class="kicker">{p.kicker}</div>}
+      <h1 class="h-display">{p.title}</h1>
+      {p.lead && <p class="dek">{p.lead}</p>}
+    </header>
+    <PortableText value={p.body} />
+    <SourceList sources={store.derefAll(p.sources)} />
+  </Page>
+</Base>

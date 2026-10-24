@@ -1,0 +1,19 @@
+name = "racketwiki-submissions"
+main = "src/index.ts"
+compatibility_date = "2025-10-01"
+
+[vars]
+# Comma-separated origins allowed to post the forms.
+ALLOWED_ORIGINS = "https://racketwiki.org,http://localhost:4321"
+SANITY_PROJECT_ID = ""
+SANITY_DATASET = "production"
+
+# Create with: npx wrangler d1 create racketwiki-submissions  (then paste the id below)
+[[d1_databases]]
+binding = "DB"
+database_name = "racketwiki-submissions"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# Secrets (never in this file): npx wrangler secret put ADMIN_PASSWORD
+#                               npx wrangler secret put SANITY_WRITE_TOKEN

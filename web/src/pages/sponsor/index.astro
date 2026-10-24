@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import SubmissionForm from '../../components/SubmissionForm.astro'
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Sponsor a page', path: '/sponsor/'}]
+---
+<Base title="Sponsor a page or section" description="Sponsor a RacketWiki page, sport or section. Sponsored placements are labelled and never affect what we publish." section="sources" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <div class="kicker sec-sources c-sec">Advertise</div>
+      <h1 class="h-display">Sponsor a page or section</h1>
+      <p class="dek">Put your brand in front of players, coaches and club organisers reading about the sport they play. You can sponsor a single page, a sport, or a whole section such as Courts or Equipment.</p>
+    </header>
+    <section class="stack sec-sources">
+      <h2 class="h-section">How sponsorship works</h2>
+      <ul class="prose">
+        <li>A sponsored strip at the top of the page, and a sponsor card beside the content on sport, equipment and court pages.</li>
+        <li>Every placement is labelled "Sponsored" and its links are marked as sponsored.</li>
+        <li>Sponsors never see or change our content before it is published, and sponsorship never changes the order of the directory.</li>
+        <li>Rates depend on the page and the length of the campaign. Tell us what you have in mind and we will reply with options.</li>
+      </ul>
+    </section>
+    <section class="stack sec-sources">
+      <h2 class="h-section">Get in touch</h2>
+      <SubmissionForm kind="sponsor" />
+    </section>
+  </Page>
+</Base>

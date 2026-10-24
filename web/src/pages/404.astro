@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro'
+import SearchForm from '../components/SearchForm.astro'
+---
+<Base title="Page not found" description="This page could not be found." noindex headerSearch={false}>
+  <div class="wrap" style="padding-top:48px;display:flex;flex-direction:column;gap:20px">
+    <h1 class="h-display">We could not find that page</h1>
+    <p class="dek">Try a search, or start from the <a class="hl" href="/sports/">list of sports</a>.</p>
+    <SearchForm size="large" />
+  </div>
+</Base>

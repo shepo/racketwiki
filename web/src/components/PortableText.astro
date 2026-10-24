@@ -1,0 +1,40 @@
+---
+/** Minimal Portable Text renderer: paragraphs, h2/h3, quotes, lists, strong/em/link. */
+const {value = []} = Astro.props as {value?: any[]}
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+function spans(block: any) {
+  const defs = Object.fromEntries((block.markDefs ?? []).map((d: any) => [d._key, d]))
+  return (block.children ?? [])
+    .map((c: any) => {
+      let t = esc(c.text ?? '')
+      for (const m of c.marks ?? []) {
+        if (m === 'strong') t = `<strong>${t}</strong>`
+        else if (m === 'em') t = `<em>${t}</em>`
+        else if (defs[m]?._type === 'link' && defs[m].href) {
+          const href = String(defs[m].href)
+          if (!/^(https?:|\/|#|mailto:)/.test(href)) continue
+          const ext = /^https?:/.test(href)
+          const rel = [defs[m].rel, ext ? 'noopener' : ''].filter(Boolean).join(' ')
+          t = `<a href="${esc(href)}"${rel ? ` rel="${rel}"` : ''}>${t}</a>`
+        }
+      }
+      return t
+    })
+    .join('')
+}
+let html = ''
+let list: string | null = null
+for (const b of value) {
+  if (b._type !== 'block') continue
+  const tag = b.listItem === 'number' ? 'ol' : b.listItem ? 'ul' : null
+  if (list && list !== tag) { html += `</${list}>`; list = null }
+  if (tag && !list) { html += `<${tag}>`; list = tag }
+  const inner = spans(b)
+  if (tag) html += `<li>${inner}</li>`
+  else if (b.style === 'h2' || b.style === 'h3') html += `<${b.style}>${inner}</${b.style}>`
+  else if (b.style === 'blockquote') html += `<blockquote>${inner}</blockquote>`
+  else html += `<p>${inner}</p>`
+}
+if (list) html += `</${list}>`
+---
+<div class="prose" set:html={html} />

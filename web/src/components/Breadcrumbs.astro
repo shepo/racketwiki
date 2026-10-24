@@ -1,0 +1,15 @@
+---
+import type {Crumb} from '../lib/seo'
+const {crumbs} = Astro.props as {crumbs: Crumb[]}
+---
+<nav aria-label="Breadcrumb" class="bc">
+  <ol>
+    {crumbs.map((c, i) => (
+      <li>{i < crumbs.length - 1 ? <a class="hl" href={c.path}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>
+    ))}
+  </ol>
+</nav>
+<style>
+  .bc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; font-size: 13px; color: var(--muted); }
+  .bc li + li::before { content: '/'; margin-right: 4px; }
+</style>

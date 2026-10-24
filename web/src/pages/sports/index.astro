@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import {getStore} from '../../lib/content'
+import {urlFor} from '../../lib/routes'
+
+const store = await getStore()
+const sports = store.ofType('sport')
+const FAMILIES: [string, string][] = [
+  ['net', 'Net games'],
+  ['wall', 'Wall and enclosed-court games'],
+  ['heritage', 'Heritage games'],
+  ['beach-and-outdoor', 'Beach and outdoor games'],
+  ['table', 'Table games'],
+  ['other', 'Other racket games'],
+]
+const groups = FAMILIES.map(([k, label]) => ({label, items: sports.filter((s) => (s.family ?? 'other') === k)})).filter((g) => g.items.length)
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Sports', path: '/sports/'}]
+const first = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
+---
+<Base title="Every racket sport, A to Z" description={`All ${sports.length} racket sports on RacketWiki, from tennis, padel and pickleball to real tennis, jokari and frescobol, with rules, courts and governing bodies.`} section="sports" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-sports c-sec">Sports</div>
+      <h1 class="h-display">Every racket sport</h1>
+      <p class="dek">{sports.length} sports played with a racket, bat or paddle that strikes a ball or shuttle. Each page leads with the court, the rules and who governs the game.</p>
+    </header>
+    {groups.map((g) => (
+      <section class="stack sec-sports">
+        <h2 class="h-section">{g.label}</h2>
+        <div class="grid-cards">
+          {g.items.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="t">{s.name}</div><div class="d">{first(s.summary)}</div></a>)}
+        </div>
+      </section>
+    ))}
+  </Page>
+</Base>

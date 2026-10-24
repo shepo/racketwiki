@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.wrangler/
+studio/dist/
+.sanity/
+*.log
+.DS_Store
+seed/dist/

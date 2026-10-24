@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from './Page.astro'
+import Breadcrumbs from './Breadcrumbs.astro'
+import JumpLinks from './JumpLinks.astro'
+import {getStore} from '../lib/content'
+import {ENTITIES, shortText} from '../lib/entities'
+import {urlFor} from '../lib/routes'
+const {kind} = Astro.props as {kind: string}
+const def = ENTITIES[kind]
+const store = await getStore()
+const docs = store.ofType(def.type)
+const crumbs = [{name: 'Home', path: '/'}, {name: def.plural, path: `/${def.route}/`}]
+const bySport = new Map<string, typeof docs>()
+for (const d of docs) for (const s of def.sportsOf(d, store).length ? def.sportsOf(d, store) : [{name: 'Several sports'} as any]) {
+  bySport.set(s.name, [...(bySport.get(s.name) ?? []), d])
+}
+const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+---
+<Base title={def.title} description={def.lead} section={def.section} crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class={`kicker sec-${def.section} c-sec`}>{def.plural}</div>
+      <h1 class="h-display">{def.title}</h1>
+      <p class="dek">{def.lead}</p>
+    </header>
+    {groups.map(([sport, items]) => (
+      <section class={`stack sec-${def.section}`}>
+        <h2 class="h-section">{sport}</h2>
+        <div class="grid-cards">
+          {items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{d.name}</div><div class="d">{shortText(d)}</div></a>)}
+        </div>
+      </section>
+    ))}
+    {docs.length === 0 && <p class="note">Being researched.</p>}
+    <JumpLinks links={[{label: 'All sports', href: '/sports/', section: 'sports'}, {label: 'Directory', href: '/directory/', section: 'directory'}, {label: 'Sources', href: '/sources/', section: 'sources'}]} />
+  </Page>
+</Base>

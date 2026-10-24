@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro'
+import SearchForm from '../../components/SearchForm.astro'
+---
+<Base title="Search" description="Search RacketWiki by sport, rule, equipment, court, brand, player, competition or governing body." noindex headerSearch={false}>
+  <div class="wrap srch">
+    <h1 class="h-display">Search</h1>
+    <SearchForm size="large" />
+    <p id="sum" class="muted" aria-live="polite"></p>
+    <ol id="results" class="results"></ol>
+  </div>
+</Base>
+<script>
+  import {SECTIONS} from '../../lib/sections'
+  const params = new URLSearchParams(location.search)
+  const q = (params.get('q') ?? '').trim()
+  const section = params.get('in') ?? ''
+  const input = document.querySelector<HTMLInputElement>('.srch input[type=search]')!
+  input.value = q
+  const radio = document.querySelector<HTMLInputElement>(`.srch input[name=in][value="${section}"]`)
+  if (radio) radio.checked = true
+  // Changing a chip re-runs the search straight away.
+  document.querySelectorAll<HTMLInputElement>('.srch input[name=in]').forEach((r) => r.addEventListener('change', () => input.form!.requestSubmit()))
+  const sum = document.getElementById('sum')!
+  const list = document.getElementById('results')!
+  const label = section && section in SECTIONS ? SECTIONS[section as keyof typeof SECTIONS].label : ''
+  async function run() {
+    if (!q) return
+    sum.textContent = 'Searching…'
+    try {
+      const url = '/pagefind/pagefind.js'
+      const pf = await import(/* @vite-ignore */ url)
+      const res = await pf.search(q, label ? {filters: {section: label}} : {})
+      const data = await Promise.all(res.results.slice(0, 30).map((r: any) => r.data()))
+      sum.textContent = `${res.results.length} ${res.results.length === 1 ? 'result' : 'results'} for "${q}"${label ? ` in ${label}` : ''}`
+      list.replaceChildren(
+        ...data.map((d: any) => {
+          const li = document.createElement('li')
+          const a = document.createElement('a')
+          a.href = d.url
+          a.className = 'hl t'
+          a.textContent = d.meta?.title ?? d.url
+          const k = document.createElement('div')
+          k.className = 'kicker'
+          k.textContent = d.filters?.section?.[0] ?? ''
+          const p = document.createElement('p')
+          p.innerHTML = d.excerpt // Pagefind escapes content and only adds <mark>
+          li.append(k, a, p)
+          return li
+        }),
+      )
+    } catch {
+      sum.textContent = 'Search is available on the built site (run npm run build, then npm run preview).'
+    }
+  }
+  run()
+</script>
+<style>
+  .srch { padding-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .results { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+  .results :global(li) { padding: 16px 0; border-top: 1px solid var(--rule); }
+  .results :global(.t) { font-family: var(--font-head); font-weight: 800; font-size: 22px; }
+  .results :global(.kicker) { color: var(--muted); }
+  .results :global(p) { margin: 4px 0 0; color: var(--ink-2); }
+  .results :global(mark) { background: color-mix(in srgb, var(--sec-directory) 25%, transparent); color: inherit; }
+</style>

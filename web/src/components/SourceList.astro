@@ -1,0 +1,28 @@
+---
+import type {Doc} from '../lib/content'
+import {publicDomain} from '../lib/facts'
+const {sources, heading = 'Sources'} = Astro.props as {sources: Doc[]; heading?: string}
+---
+{sources.length > 0 && (
+  <section class="sl sec-sources" aria-label={heading}>
+    <h2 class="kicker">{heading}</h2>
+    <ol>
+      {sources.map((s) => {
+        const d = publicDomain(s)
+        return (
+          <li>
+            <a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a>{s.publisher && <span class="muted">, {s.publisher}</span>}{s.edition && <span class="muted">, {s.edition}</span>}{' '}
+            <span class="tier"><b>Tier {s.tier}</b></span>
+            {d && <> <a class="dom" href={s.url} rel="noopener">{d}</a></>}
+          </li>
+        )
+      })}
+    </ol>
+  </section>
+)}
+<style>
+  .sl { border-top: 1px solid var(--rule); padding-top: 12px; }
+  .sl h2 { margin: 0 0 8px; color: var(--sec); }
+  .sl ol { margin: 0; padding-left: 20px; font-size: 14px; display: flex; flex-direction: column; gap: 4px; }
+  .dom { font-size: 13px; color: var(--sec); font-weight: 600; }
+</style>

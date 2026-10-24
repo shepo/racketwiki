@@ -1,0 +1,36 @@
+---
+import type {Doc} from '../lib/content'
+import {getStore} from '../lib/content'
+import {publicDomain} from '../lib/facts'
+import {DIRECTORY_TYPES} from '../lib/sections'
+import {urlFor} from '../lib/routes'
+const {d} = Astro.props as {d: Doc}
+const store = await getStore()
+const t = DIRECTORY_TYPES.find((x) => x.value === d.listingType)
+const sports = store.derefAll(d.sports)
+const domain = publicDomain(d.website)
+const linked = store.deref(d.linkedDocument)
+const rel = d.sponsored ? 'sponsored noopener' : d.submitted ? 'ugc noopener' : 'noopener'
+const search = [d.name, t?.label, d.region, d.description, ...sports.map((s) => s.name)].join(' ').toLowerCase()
+---
+<article class="li" id={d.slug?.current} data-type={d.listingType} data-search={search}>
+  <div class="main">
+    <div class="meta"><span class="kicker" style={`color:${t?.color}`}>{t?.label}</span>{d.sponsored && <span class="badge-sponsored">Sponsored</span>}</div>
+    <h3>{linked ? <a class="hl" href={urlFor(store, linked)}>{d.name}</a> : d.name}</h3>
+    {d.description && <p>{d.description}</p>}
+  </div>
+  <div class="side">
+    {sports.length > 0 && <div><span class="muted">Sports:</span> <strong>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</strong></div>}
+    {d.region && <div><span class="muted">Region:</span> <strong>{d.region}</strong></div>}
+    {domain ? <div class="dom"><a class="hl" href={d.website.url} rel={rel}>{domain}</a></div> : <div class="small muted">Website being verified</div>}
+  </div>
+</article>
+<style>
+  .li { padding: 20px 0; border-bottom: 1px solid var(--rule-soft); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+  .main { flex: 1 1 340px; min-width: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  h3 { margin: 4px 0; font-family: var(--font-head); font-weight: 800; font-size: 25px; line-height: 1.15; }
+  p { margin: 0; font-size: 15px; color: var(--ink-2); }
+  .side { flex: 0 1 240px; font-size: 14px; color: var(--ink-2); }
+  .dom { margin-top: 4px; font-weight: 600; }
+</style>
