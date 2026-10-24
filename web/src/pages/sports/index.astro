@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro'
 import Page from '../../components/Page.astro'
 import Breadcrumbs from '../../components/Breadcrumbs.astro'
-import {getStore} from '../../lib/content'
+import {getStore, byImportance} from '../../lib/content'
+import Rackets from '../../components/Rackets.astro'
 import {urlFor} from '../../lib/routes'
 
 const store = await getStore()
@@ -15,7 +16,7 @@ const FAMILIES: [string, string][] = [
   ['table', 'Table games'],
   ['other', 'Other racket games'],
 ]
-const groups = FAMILIES.map(([k, label]) => ({label, items: sports.filter((s) => (s.family ?? 'other') === k)})).filter((g) => g.items.length)
+const groups = FAMILIES.map(([k, label]) => ({label, items: sports.filter((s) => (s.family ?? 'other') === k).sort(byImportance)})).filter((g) => g.items.length)
 const crumbs = [{name: 'Home', path: '/'}, {name: 'Sports', path: '/sports/'}]
 const first = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
 ---
@@ -25,13 +26,13 @@ const first = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
       <Breadcrumbs crumbs={crumbs} />
       <div class="kicker sec-sports c-sec">Sports</div>
       <h1 class="h-display">Every racket sport</h1>
-      <p class="dek">{sports.length} sports played with a racket, bat or paddle that strikes a ball or shuttle. Each page leads with the court, the rules and who governs the game.</p>
+      <p class="dek">{sports.length} sports played with a racket, bat or paddle that strikes a ball or shuttle. Each page leads with the court, the rules and who governs the game. Sports are ordered by our <a class="hl" href="/editorial-standards/#importance">importance rating</a>.</p>
     </header>
     {groups.map((g) => (
       <section class="stack sec-sports">
         <h2 class="h-section">{g.label}</h2>
         <div class="grid-cards">
-          {g.items.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="t">{s.name}</div><div class="d">{first(s.summary)}</div></a>)}
+          {g.items.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="t">{s.name}</div><Rackets value={s.importance} size={18} /><div class="d">{first(s.summary)}</div></a>)}
         </div>
       </section>
     ))}

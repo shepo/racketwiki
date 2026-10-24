@@ -92,3 +92,6 @@ export function getStore(): Promise<Store> {
 
 export const slugOf = (d?: Doc) => d?.slug?.current ?? ''
 export const nameOf = (d?: Doc) => d?.name ?? d?.title ?? ''
+
+/** Most important first (editorial 1–5 rating), then alphabetical. */
+export const byImportance = (a: Doc, b: Doc) => (b.importance ?? 0) - (a.importance ?? 0) || nameOf(a).localeCompare(nameOf(b))

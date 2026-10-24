@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {commonFields, groups, nameFields, ref} from '../common'
+import {commonFields, groups, nameFields, importanceField, ref} from '../common'
 
 export const sport = defineType({
   name: 'sport',
@@ -9,6 +9,7 @@ export const sport = defineType({
   fields: [
     defineField({name: 'name', type: 'string', validation: (r) => r.required(), group: 'content'}),
     ...nameFields(),
+    importanceField(),
     defineField({
       name: 'family',
       type: 'string',

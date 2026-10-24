@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro'
 import Page from './Page.astro'
 import Breadcrumbs from './Breadcrumbs.astro'
 import JumpLinks from './JumpLinks.astro'
-import {getStore} from '../lib/content'
+import {getStore, byImportance} from '../lib/content'
+import Rackets from './Rackets.astro'
 import {ENTITIES, shortText, bodyLabel} from '../lib/entities'
 import {urlFor} from '../lib/routes'
 const {kind} = Astro.props as {kind: string}
@@ -15,7 +16,7 @@ const bySport = new Map<string, typeof docs>()
 for (const d of docs) for (const s of def.sportsOf(d, store).length ? def.sportsOf(d, store) : [{name: 'Several sports'} as any]) {
   bySport.set(s.name, [...(bySport.get(s.name) ?? []), d])
 }
-const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([k, v]) => [k, [...v].sort(byImportance)] as const)
 ---
 <Base title={def.title} description={def.lead} section={def.section} crumbs={crumbs}>
   <Page>
@@ -29,7 +30,7 @@ const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0]))
       <section class={`stack sec-${def.section}`}>
         <h2 class="h-section">{sport}</h2>
         <div class="grid-cards">
-          {items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{bodyLabel(d)}</div><div class="d">{shortText(d)}</div></a>)}
+          {items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{bodyLabel(d)}</div><Rackets value={d.importance} size={16} /><div class="d">{shortText(d)}</div></a>)}
         </div>
       </section>
     ))}

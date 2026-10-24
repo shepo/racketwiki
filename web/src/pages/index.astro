@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro'
 import SearchForm from '../components/SearchForm.astro'
 import SponsorCard from '../components/SponsorCard.astro'
-import {getStore, type Doc} from '../lib/content'
+import {getStore, byImportance, type Doc} from '../lib/content'
+import Rackets from '../components/Rackets.astro'
 import {urlFor} from '../lib/routes'
 import {courtGeometry, overlaySvg} from '../lib/court'
 import {factText, publicDomain, formatDate, latestVerified, collectSources} from '../lib/facts'
@@ -33,12 +34,10 @@ const overlay = lead?.visual === 'court-overlay' && overlayItems.length >= 2 ? o
 const overlaySources = collectSources(store, overlayCourts.map((x) => [x.c.length, x.c.width]))
 const overlayVerified = latestVerified(overlayCourts.map((x) => [x.c.length, x.c.width]))
 
-const featured = ['tennis', 'padel', 'pickleball', 'badminton', 'squash', 'table-tennis', 'racquetball', 'real-tennis']
-  .map((s) => sports.find((d) => d.slug?.current === s))
-  .filter(Boolean) as Doc[]
-const tail = sports.filter((s) => !['tennis', 'padel', 'pickleball', 'badminton', 'squash', 'table-tennis'].includes(s.slug?.current)).slice(0, 6)
+const ranked = [...sports].sort(byImportance)
+const featured = ranked.slice(0, 8)
+const tail = ranked.filter((s) => (s.importance ?? 0) <= 3).slice(0, 6)
 const bodies = store.ofType('governingBody').filter((g) => g.scope === 'international').slice(0, 8)
-const gbNote = (s: Doc) => store.derefAll(s.governingBodies)[0]?.acronym ?? ''
 const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
 ---
 <Base title="RacketWiki: rules, courts and equipment for every racket sport" description="The sourced reference for every racket sport: rules, court sizes, equipment limits, brands, players, competitions and governing bodies, from tennis and padel to real tennis." headerSearch={false}>
@@ -84,7 +83,7 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
       <section class="rail-box sec-sports" aria-label="Sports index">
         <h2>By sport</h2>
         <ul class="idx">
-          {featured.map((s) => <li><a class="hl" href={urlFor(store, s)}><span>{s.name}</span><span class="muted small">{gbNote(s)}</span></a></li>)}
+          {featured.map((s) => <li><a class="hl" href={urlFor(store, s)}><span>{s.name}</span><Rackets value={s.importance} size={16} /></a></li>)}
         </ul>
         <a class="hl c-sec more" href="/sports/">All {sports.length} sports</a>
       </section>

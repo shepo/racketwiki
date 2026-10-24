@@ -31,7 +31,10 @@ for (const b of value) {
   if (tag && !list) { html += `<${tag}>`; list = tag }
   const inner = spans(b)
   if (tag) html += `<li>${inner}</li>`
-  else if (b.style === 'h2' || b.style === 'h3') html += `<${b.style}>${inner}</${b.style}>`
+  else if (b.style === 'h2' || b.style === 'h3') {
+    const id = (b.children ?? []).map((c: any) => c.text ?? '').join('').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    html += `<${b.style} id="${id}">${inner}</${b.style}>`
+  }
   else if (b.style === 'blockquote') html += `<blockquote>${inner}</blockquote>`
   else html += `<p>${inner}</p>`
 }
