@@ -9,6 +9,7 @@ import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import SponsorStrip from '../components/SponsorStrip.astro'
 import JsonLd from '../components/JsonLd.astro'
+import Analytics from '../components/Analytics.astro'
 import {getStore} from '../lib/content'
 import {pickPlacement} from '../lib/sponsors'
 import {siteJsonLd, breadcrumbJsonLd, abs, type Crumb} from '../lib/seo'
@@ -62,7 +63,7 @@ const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
     <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     {ld.map((d) => <JsonLd data={d} />)}
   </head>
-  <body>
+  <body data-section={p.section}>
     <a class="skip" href="#content">Skip to content</a>
     <SponsorStrip placement={strip} />
     <Header active={p.navActive ?? p.section} showSearch={p.headerSearch !== false} />
@@ -83,6 +84,7 @@ const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
       </aside>
     )}
     <Footer />
+    <Analytics />
   </body>
 </html>
 <style>

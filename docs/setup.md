@@ -28,6 +28,16 @@ The site is a Worker named `racketwiki` that serves `web/dist` as static assets 
 - Custom domain: `racketwiki.org` (already on Cloudflare) once Jake approves going live.
 - **Rebuild on publish:** in the Worker's Settings → Build, create a deploy hook. In Sanity → API → Webhooks, add it as a webhook on create/update/delete of published documents (filter `!(_id in path("drafts.**"))`). Every publish then rebuilds the site.
 
+## Analytics (PostHog)
+
+The site sends analytics to the PostHog project **RacketWiki** (EU) only after a reader accepts the cookie banner. The project key is public and lives in `web/src/site.config.ts`.
+
+For audience figures on the sponsor page, add one **build** variable to the `racketwiki` Worker (Settings → Build → Variables and secrets):
+
+- `POSTHOG_PERSONAL_API_KEY`: a PostHog personal API key (posthog.com → Settings → Personal API keys) limited to the RacketWiki project with **Query: read** only. Mark it as a secret.
+
+Figures refresh on each build and appear once 100 readers have been counted in the last 30 days.
+
 ## 3. Submissions Worker
 
 Live as the Worker **`racketwiki-submission`** at `https://racketwiki-submission.jake-02f.workers.dev`, connected to the repo through Workers Builds:

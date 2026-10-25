@@ -12,6 +12,7 @@ import SearchForm from '../../components/SearchForm.astro'
 </Base>
 <script>
   import {SECTIONS} from '../../lib/sections'
+  import {track} from '../../scripts/analytics'
   const params = new URLSearchParams(location.search)
   const q = (params.get('q') ?? '').trim()
   const section = params.get('in') ?? ''
@@ -31,6 +32,7 @@ import SearchForm from '../../components/SearchForm.astro'
       const url = '/pagefind/pagefind.js'
       const pf = await import(/* @vite-ignore */ url)
       const res = await pf.search(q, label ? {filters: {section: label}} : {})
+      track('search', {query: q.toLowerCase().slice(0, 100), scope: section || 'everything', results: res.results.length})
       const data = await Promise.all(res.results.slice(0, 30).map((r: any) => r.data()))
       sum.textContent = `${res.results.length} ${res.results.length === 1 ? 'result' : 'results'} for "${q}"${label ? ` in ${label}` : ''}`
       list.replaceChildren(
