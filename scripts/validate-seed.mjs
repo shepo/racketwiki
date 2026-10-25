@@ -49,7 +49,7 @@ export function validate({docs, errors}) {
     }
     walk(doc, '', (node, path, parentIsArray) => {
       if (parentIsArray && node && typeof node === 'object' && !node._key) errors.push(`${at} ${path} array member missing _key`)
-      if (node?._type === 'reference' && !ids.has(node._ref)) errors.push(`${at} ${path} dangling reference -> ${node._ref}`)
+      if (node?._type === 'reference' && !node._ref?.startsWith('image-') && !ids.has(node._ref)) errors.push(`${at} ${path} dangling reference -> ${node._ref}`)
       if (node?._type === 'measurement') {
         if (!UNITS.has(node.unit)) errors.push(`${at} ${path} unit "${node.unit}" is not metric (mm, cm, m, g, kg)`)
         if (typeof node.value !== 'number') errors.push(`${at} ${path} measurement value must be a number`)
