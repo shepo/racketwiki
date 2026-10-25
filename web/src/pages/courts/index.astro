@@ -5,7 +5,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro'
 import SourceCell from '../../components/SourceCell.astro'
 import SourceList from '../../components/SourceList.astro'
 import JumpLinks from '../../components/JumpLinks.astro'
-import {getStore} from '../../lib/content'
+import {getStore, byImportance} from '../../lib/content'
 import {urlFor} from '../../lib/routes'
 import {courtGeometry} from '../../lib/court'
 import {collectSources} from '../../lib/facts'
@@ -16,6 +16,7 @@ const courts = store.ofType('court').map((c) => ({c, g: courtGeometry(c), sport:
 const drawn = courts.filter((x) => x.g).sort((a, b) => b.g!.length - a.g!.length)
 const nonStandard = courts.filter((x) => x.c.standard === false)
 const pending = courts.filter((x) => !x.g && x.c.standard !== false)
+const venues = store.ofType('venue').sort(byImportance).slice(0, 12)
 const maxL = Math.max(1, ...drawn.map((x) => x.g!.length))
 const sources = collectSources(store, drawn.map((x) => [x.c.length, x.c.width]))
 const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
@@ -75,6 +76,17 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
         {nonStandard.map(({c, sport}) => <a class="card-link" href={urlFor(store, c)}><div class="t">{sport?.name}</div><div class="d">{c.nonStandardNote}</div></a>)}
       </div>
     </section>
+
+    {venues.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Famous venues</h2>
+        <p class="dek">Where each sport’s biggest events are played.</p>
+        <div class="grid-cards">
+          {venues.map((x) => <a class="card-link" href={urlFor(store, x)}><div class="kicker c-sec">{store.derefAll(x.sports).map((s) => s.name).join(', ')}</div><div class="t">{x.name}</div>{x.summary && <div class="d">{x.summary}</div>}</a>)}
+        </div>
+        <JumpLinks links={[{label: 'All famous venues', href: '/venues/', section: 'courts'}]} />
+      </section>
+    )}
 
     {pending.length > 0 && (
       <section class="stack sec-courts">

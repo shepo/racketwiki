@@ -44,7 +44,7 @@ const tabDocs: Record<SportTabKey, unknown[]> = {
   overview: [sport, v.mainCourt],
   rules: [v.ruleSet],
   equipment: [v.equipment, v.balls, v.nets],
-  courts: [v.courts],
+  courts: [v.courts, v.venues],
   brands: [v.brands],
   players: [v.players],
   competitions: [v.competitions],
@@ -228,7 +228,15 @@ const lengthIn = (f: any) => factText(f)
             </section>
           )
         })}
-        <JumpLinks links={[{label: 'Every court, to scale', href: '/courts/', section: 'courts'}, {label: `Find a ${lname} venue`, href: '/directory/clubs-and-venues/', section: 'directory'}, ...jumps]} />
+        {v.venues.length > 0 && (
+          <section class="stack sec-courts">
+            <h2 class="h-section">Famous venues</h2>
+            <div class="grid-cards">
+              {v.venues.map((x) => <a class="card-link" href={href(x)}><div class="t">{x.name}</div>{factText(x.country) && <div class="kicker c-sec">{[factText(x.city), factText(x.country)].filter(Boolean).join(', ')}</div>}{x.summary && <div class="d">{x.summary}</div>}</a>)}
+            </div>
+          </section>
+        )}
+        <JumpLinks links={[{label: 'Every court, to scale', href: '/courts/', section: 'courts'}, {label: 'All famous venues', href: '/venues/', section: 'courts'}, {label: `Find a ${lname} venue`, href: '/directory/clubs-and-venues/', section: 'directory'}, ...jumps]} />
       </>
     )}
 

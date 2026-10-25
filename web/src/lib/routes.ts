@@ -39,6 +39,8 @@ export function urlFor(store: Store, doc?: Doc): string | undefined {
       const sp = sportOf()
       return sp ? sportUrl(sp, 'equipment') : '/equipment/'
     }
+    case 'venue':
+      return `/venues/${s}/`
     case 'brand':
       return `/brands/${s}/`
     case 'player':

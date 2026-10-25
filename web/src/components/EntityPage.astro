@@ -27,10 +27,11 @@ const domain = publicDomain(d.website)
 const organiser = store.deref(d.organiser)
 const rulebook = store.deref(d.rulebook)
 const players = kind === 'brands' ? store.referencing('player', 'brands', id) : []
-const comps = kind === 'governing-bodies' ? store.referencing('competition', 'organiser', id) : kind === 'players' ? store.derefAll(d.competitions) : []
+const comps = kind === 'governing-bodies' ? store.referencing('competition', 'organiser', id) : kind === 'players' || kind === 'venues' ? store.derefAll(d.competitions) : []
+const venues = kind === 'competitions' ? store.referencing('venue', 'competitions', id) : []
 const listings = store.referencing('directoryListing', 'linkedDocument', id)
 const lead = d.summary ?? `${d.name}: ${def.label.toLowerCase()}${sports.length ? ` in ${sports.map((s) => s.name.toLowerCase()).join(', ')}` : ''}.`
-const tabFor: Record<string, any> = {brands: 'brands', players: 'players', competitions: 'competitions', 'governing-bodies': 'organisations'}
+const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players: 'players', competitions: 'competitions', 'governing-bodies': 'organisations'}
 ---
 <Base title={d.seo?.title ?? d.name} description={(d.seo?.description ?? lead).slice(0, 158)} section={def.section} crumbs={crumbs} jsonLd={def.jsonLd ? [def.jsonLd(d, store)] : []} sportId={sports[0]?._id}>
   <Page>
@@ -67,6 +68,12 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
       <section class="stack sec-competitions">
         <h2 class="h-section">Competitions</h2>
         <div class="grid-cards">{comps.map((c) => <a class="card-link" href={urlFor(store, c)}><div class="t">{c.name}</div></a>)}</div>
+      </section>
+    )}
+    {venues.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Venues</h2>
+        <div class="grid-cards">{venues.map((x) => <a class="card-link" href={urlFor(store, x)}><div class="t">{x.name}</div></a>)}</div>
       </section>
     )}
     {players.length > 0 && (

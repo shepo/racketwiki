@@ -24,6 +24,10 @@ export const UNVERIFIED_FILTER = [
   'headquarters.unverified',
   'members.unverified',
   'nameChange.unverified',
+  'city.unverified',
+  'opened.unverified',
+  'capacity.unverified',
+  'surface.unverified',
 ]
   .map((p) => `${p} == true`)
   .concat([
@@ -43,6 +47,7 @@ const CONTENT_TYPES: [string, string][] = [
   ['ball', 'Equipment: balls and shuttles'],
   ['net', 'Equipment: nets'],
   ['court', 'Courts'],
+  ['venue', 'Famous venues'],
   ['brand', 'Brands'],
   ['player', 'Players'],
   ['competition', 'Competitions'],

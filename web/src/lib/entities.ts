@@ -46,6 +46,17 @@ export const ENTITIES: Record<string, EntityDef> = {
     sportsOf: (d, s) => s.derefAll(d.sports),
     jsonLd: (d, s) => ({'@context': 'https://schema.org', '@type': d.isTour ? 'SportsOrganization' : 'SportsEvent', name: d.name, url: abs(urlFor(s, d)!), ...(s.derefAll(d.sports)[0] ? {sport: s.derefAll(d.sports)[0].name} : {})}),
   },
+  venues: {
+    type: 'venue', section: 'courts', route: 'venues', label: 'Venue', plural: 'Famous venues',
+    title: 'Famous racket sport venues', lead: 'The stadiums, clubs and courts where racket sports\u2019 biggest events are played.',
+    facts: (d) => [row('City', d.city), row('Country', d.country), row('Opened', d.opened), row('Capacity', d.capacity), row('Surface', d.surface)],
+    sportsOf: (d, s) => s.derefAll(d.sports),
+    jsonLd: (d, s) => ({
+      '@context': 'https://schema.org', '@type': 'StadiumOrArena', name: d.name, url: abs(urlFor(s, d)!),
+      ...(isShown(d.city) && isShown(d.country) && d.city.text && d.country.text ? {address: {'@type': 'PostalAddress', addressLocality: d.city.text, addressCountry: d.country.text}} : {}),
+      ...(publicDomain(d.website) ? {sameAs: [d.website.url]} : {}),
+    }),
+  },
   'governing-bodies': {
     type: 'governingBody', section: 'governing-bodies', route: 'governing-bodies', label: 'Governing body', plural: 'Governing bodies',
     title: 'Racket sport governing bodies', lead: 'The international federations and national associations that write the rules of each racket sport.',

@@ -16,6 +16,7 @@ Each research agent owns specific files (see below) and must not edit anyone els
 | equipmentSpec | `eq-<sport-slug>-<item>` | `eq-padel-racket` |
 | ball | `ball-<sport-slug>` | `ball-padel` |
 | net | `net-<sport-slug>` | `net-padel` |
+| venue | `venue-<slug>` | `venue-wimbledon` |
 | brand | `brand-<slug>` | `brand-bullpadel` |
 | player | `player-<slug>` | `player-firstname-lastname` |
 | competition | `comp-<slug>` | `comp-premier-padel` |
