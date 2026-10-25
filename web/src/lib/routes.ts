@@ -17,7 +17,7 @@ export type SportTabKey = (typeof SPORT_TABS)[number]['key']
 export const sportUrl = (sport: Doc, tab: SportTabKey = 'overview') =>
   `/sports/${slugOf(sport)}/${SPORT_TABS.find((t) => t.key === tab)!.path}`
 
-/** Canonical URL for any document. */
+/** Canonical URL for any document. Keep sitePath() in studio/actions/openOnSite.tsx in step. */
 export function urlFor(store: Store, doc?: Doc): string | undefined {
   if (!doc) return undefined
   const s = slugOf(doc)
