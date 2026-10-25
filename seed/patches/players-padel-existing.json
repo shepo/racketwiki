@@ -1,0 +1,145 @@
+[
+  {
+    "id": "player-arturo-coello",
+    "set": {
+      "highlights": [
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "11 Premier Padel Major titles: Mexico 2022 (with Fernando Belasteguín); Italy 2023; Paris 2023; Qatar 2024; Paris 2024; Mexico 2024; Qatar 2025; Paris 2025; Acapulco 2025; Italy 2026; Paris 2026",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-titles-and-finals"
+          },
+          "tier": 1,
+          "citation": "Circuit Premier Padel, category Major",
+          "verifiedOn": "2026-10-25",
+          "_key": "h1"
+        },
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "Premier Padel Finals winner 2025",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-titles-and-finals"
+          },
+          "tier": 1,
+          "citation": "Circuit Premier Padel, Finals",
+          "verifiedOn": "2026-10-25",
+          "_key": "h2"
+        }
+      ],
+      "photo": {
+        "_type": "photo",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-9b98d5cc790a0e24b05f0ed3ff48d82581934f67-685x1166-jpg"
+          }
+        },
+        "alt": "Arturo Coello at the 2024 Premier Padel Paris Major",
+        "photographer": "Hombrey",
+        "photographerUrl": "https://commons.wikimedia.org/wiki/User:Hombrey",
+        "site": "wikimedia",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Arturo_Coello.jpg",
+        "licence": "CC0"
+      }
+    }
+  },
+  {
+    "id": "player-agustin-tapia",
+    "set": {
+      "highlights": [
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "10 Premier Padel Major titles: Italy 2023; Paris 2023; Qatar 2024; Paris 2024; Mexico 2024; Qatar 2025; Paris 2025; Acapulco 2025; Italy 2026; Paris 2026",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-titles-and-finals"
+          },
+          "tier": 1,
+          "citation": "Circuit Premier Padel, category Major",
+          "verifiedOn": "2026-10-25",
+          "_key": "h1"
+        },
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "Premier Padel Finals winner 2025",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-titles-and-finals"
+          },
+          "tier": 1,
+          "citation": "Circuit Premier Padel, Finals",
+          "verifiedOn": "2026-10-25",
+          "_key": "h2"
+        },
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "World Padel Championships 2024: team gold with Argentina (played in the final)",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-wpc-2024-final-men"
+          },
+          "tier": 1,
+          "citation": "FIP press release, 2 November 2024",
+          "verifiedOn": "2026-10-25",
+          "_key": "h3"
+        }
+      ],
+      "photo": {
+        "_type": "photo",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-08278d1b2ee00c432df9763930d024597826f831-750x500-jpg"
+          }
+        },
+        "alt": "Agustín Tapia waits for the ball in the ready position, racket raised, on a glass-walled padel court",
+        "photographer": "Daniel Luque Jiménez",
+        "site": "wikimedia",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agustin-tapia.jpg",
+        "licence": "CC BY-SA 4.0"
+      }
+    }
+  },
+  {
+    "id": "player-gemma-triay",
+    "set": {
+      "highlights": [
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "6 Premier Padel Major titles: Italy 2023; Mexico 2024; Qatar 2025; Italy 2025; Paris 2025; Italy 2026",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-titles-and-finals"
+          },
+          "tier": 1,
+          "citation": "Circuit Premier Padel, category Major",
+          "verifiedOn": "2026-10-25",
+          "_key": "h1"
+        },
+        {
+          "_type": "sourcedFact",
+          "unverified": false,
+          "text": "World Padel Championships 2024: team gold with Spain (played in the final)",
+          "source": {
+            "_type": "reference",
+            "_ref": "source-fip-wpc-2024-final-women"
+          },
+          "tier": 1,
+          "citation": "FIP press release, 2 November 2024",
+          "verifiedOn": "2026-10-25",
+          "_key": "h2"
+        }
+      ]
+    }
+  }
+]
