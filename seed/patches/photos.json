@@ -376,5 +376,68 @@
         "licence": "Pexels License"
       }
     }
+  },
+  {
+    "id": "sport-squash",
+    "set": {
+      "photo": {
+        "_type": "photo",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-b45d6ca9e920b221174a5ef504241ba65b17fe83-2000x1125-jpg"
+          }
+        },
+        "alt": "A man in a white shirt and black shorts prepares to swing on an indoor squash court with white walls, red court lines and a wooden floor, with the small black ball in flight to his left",
+        "photographer": "Artem Podrez",
+        "photographerUrl": "https://www.pexels.com/@artempodrez/",
+        "site": "pexels",
+        "sourceUrl": "https://www.pexels.com/photo/man-playing-squash-7648084/",
+        "licence": "Pexels License"
+      }
+    }
+  },
+  {
+    "id": "ball-padel",
+    "set": {
+      "photo": {
+        "_type": "photo",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-f3f22794fc1b7bae60305eb56729610b304387c2-2000x3000-jpg"
+          }
+        },
+        "alt": "Two padel rackets and two yellow balls resting against the net on a blue indoor padel court, with mesh fencing and floodlights behind",
+        "photographer": "Timothy Yiadom",
+        "photographerUrl": "https://www.pexels.com/photo/vibrant-indoor-padel-court-with-racket-and-balls-32897040/",
+        "site": "pexels",
+        "sourceUrl": "https://www.pexels.com/photo/vibrant-indoor-padel-court-with-racket-and-balls-32897040/",
+        "licence": "Pexels License"
+      }
+    }
+  },
+  {
+    "id": "net-badminton",
+    "set": {
+      "photo": {
+        "_type": "photo",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-cefa6e5859b8c2060ff6f4170470496bd786b7a8-2000x1335-jpg"
+          }
+        },
+        "alt": "A white feather shuttlecock with a red band resting on a wooden rail in front of a white mesh badminton net",
+        "photographer": "Amit Rai",
+        "photographerUrl": "https://www.pexels.com/@amitrai10/",
+        "site": "pexels",
+        "sourceUrl": "https://www.pexels.com/photo/shuttlecock-on-a-wooden-surface-near-the-net-8496270/",
+        "licence": "Pexels License"
+      }
+    }
   }
 ]
