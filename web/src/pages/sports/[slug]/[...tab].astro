@@ -90,9 +90,29 @@ const topBodies = (() => {
   const world = v.governingBodies.filter((g) => g.scope === 'international')
   return world.length ? world : [...v.governingBodies].filter((g) => g.scope !== 'coaching').sort(byImportance).slice(0, 2)
 })()
-const moreBodies = v.governingBodies.length - topBodies.length
 const gbLine = topBodies[0]?.name ?? factText(sport.governingBodyFact)
 const formats = sport.formats ?? []
+// "Explore" contents box on the Overview: one line per other tab, saying what is there.
+// Counts and headings only, so it never singles out a player, brand or competition.
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`
+const listJoin = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : xs[0] ?? '')
+const exploreNotes: Partial<Record<SportTabKey, string>> = {
+  rules: (() => {
+    const heads = (v.ruleSet?.sections ?? []).map((x: any) => String(x.heading ?? '').toLowerCase()).filter(Boolean).slice(0, 4)
+    return heads.length ? `${listJoin(heads)}, each point from the official rules`.replace(/^./, (c) => c.toUpperCase()) : 'How the game is played, from the official rules'
+  })(),
+  equipment: `${listJoin([...v.equipment, ...v.balls, ...v.nets].map((e) => String(e.name).toLowerCase().replace(`${lname} `, '')))} limits, in metric and imperial`.replace(/^./, (c) => c.toUpperCase()),
+  courts: [dims ? `Court size ${dims.text}, drawn to scale` : 'Court size and markings', v.venues.length ? plural(v.venues.length, 'famous venue') : ''].filter(Boolean).join(' · '),
+  brands: `${plural(v.brands.length, 'brand')} and what they make`,
+  players: (() => {
+    const men = v.players.filter((p) => p.gender === 'men').length
+    const women = v.players.filter((p) => p.gender === 'women').length
+    return `${men && women ? `${plural(v.players.length, 'player')} on the men’s and women’s tours` : plural(v.players.length, 'player')}, with the titles they have won`
+  })(),
+  competitions: `${plural(v.competitions.length, 'competition')} and tours, and who runs them`,
+  organisations: v.governingBodies.length ? `${plural(v.governingBodies.length, 'organisation')}${topBodies[0] ? `, from ${topBodies[0].name}` : ''} to national federations, by region` : 'Who governs the sport',
+}
+const explore = v.tabs.filter((t) => t.key !== 'overview' && exploreNotes[t.key]).map((t) => ({label: t.label, href: t.href, section: t.section, note: exploreNotes[t.key]!}))
 const lengthIn = (f: any) => factText(f)
 ---
 <Base title={titles[tab]} description={desc} section={tabDef.section as any} navActive="sports" crumbs={crumbs} jsonLd={jsonLd} sportId={sport._id} searchTitle={tab === 'overview' ? name : `${name}: ${tabDef.label}`}>
@@ -151,17 +171,12 @@ const lengthIn = (f: any) => factText(f)
           </section>
         )}
 
-        {(v.brands.length > 0 || v.players.length > 0 || v.competitions.length > 0 || v.governingBodies.length > 0) && (
-          <section class="stack" aria-labelledby="who">
-            <h2 id="who" class="h-section">People and organisations</h2>
-            <div class="grid-cards">
-              {topBodies.map((g) => <a class="card-link sec-governing-bodies" href={href(g)}><div class="kicker c-sec">Governing body</div><div class="t">{g.name}</div></a>)}
-              {moreBodies > 0 && <a class="card-link sec-governing-bodies" href={`/sports/${slugOf(sport)}/organisations/`}><div class="kicker c-sec">Organisations</div><div class="t">All {v.governingBodies.length} organisations</div></a>}
-              {v.competitions.slice(0, 3).map((c) => <a class="card-link sec-competitions" href={href(c)}><div class="kicker c-sec">Competition</div><div class="t">{c.name}</div></a>)}
-              {v.players.slice(0, 3).map((p) => <a class="card-link sec-players" href={href(p)}><div class="kicker c-sec">Player</div><div class="t">{p.name}</div></a>)}
-              {v.brands.slice(0, 3).map((b) => <a class="card-link sec-brands" href={href(b)}><div class="kicker c-sec">Brand</div><div class="t">{b.name}</div></a>)}
-            </div>
-            <JumpLinks links={jumps.filter((j) => ['brands', 'players', 'competitions', 'governing-bodies'].includes(j.section))} />
+        {explore.length > 0 && (
+          <section class="stack" aria-labelledby="explore">
+            <h2 id="explore" class="h-section">Explore {lname}</h2>
+            <ul class="explore">
+              {explore.map((x) => <li class={`sec-${x.section}`}><a class="hl c-sec" href={x.href}>{x.label}</a><span>{x.note}</span></li>)}
+            </ul>
           </section>
         )}
 
@@ -322,6 +337,11 @@ const lengthIn = (f: any) => factText(f)
   .eq-photo { max-width: 360px; }
   .eq-photo:empty { display: none; }
   /* Related sports: a plain list (name + why), so it reads differently from the coloured jump links. */
+  .explore { list-style: none; margin: 0; padding: 0; }
+  .explore li { display: grid; grid-template-columns: 160px 1fr; gap: 4px 24px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--rule-soft); border-left: 3px solid var(--sec); padding-left: 12px; }
+  .explore a { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); }
+  .explore span { font-size: var(--fs-sm); color: var(--ink-2); }
+  @media (max-width: 560px) { .explore li { grid-template-columns: 1fr; } }
   .related { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: 32px; }
   .related li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0; border-top: 1px solid var(--rule-soft); font-size: var(--fs-sm); }
   .related a { font-size: var(--fs-md); }
