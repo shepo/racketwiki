@@ -46,7 +46,7 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
       <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sources.length} {sources.length === 1 ? 'source' : 'sources'}</span></div>
     </header>
 
-    {d.photo && <div class="ent-photo"><Photo photo={d.photo} sizes="(min-width: 960px) 480px, 100vw" ratio="4 / 3" /></div>}
+    {d.photo && <div class={kind === 'players' ? 'ent-photo person' : 'ent-photo'}><Photo photo={d.photo} sizes="(min-width: 960px) 480px, 100vw" ratio={kind === 'players' ? '4 / 5' : '4 / 3'} focus={kind === 'players' ? 'person' : 'auto'} /></div>}
 
     <section class={`stack sec-${def.section}`}>
       <h2 class="h-section">Key facts</h2>
@@ -86,4 +86,4 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
   </Page>
 </Base>
 <style>
-  .ent-photo { max-width: 480px; }.acr { font-weight: 400; color: var(--muted); } .imp { display: flex; align-items: center; gap: 10px; } .aka { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }</style>
+  .ent-photo { max-width: 480px; } .ent-photo.person { max-width: 360px; } .acr { font-weight: 400; color: var(--muted); } .imp { display: flex; align-items: center; gap: 10px; } .aka { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }</style>

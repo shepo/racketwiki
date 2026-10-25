@@ -9,6 +9,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-c2d6ab3f06ac3a88bcc5bdbeb462c5ee9a7a5169-2000x1331-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.4,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A pickleball player volleys a yellow holed plastic ball with a solid paddle at the net of a covered court",
@@ -30,6 +37,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-b8d445650878f510cd7b9239b4a1b5ad7441f6bc-2000x1325-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.2,
+            "y": 0.5,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A tennis player leaps to hit a forehand on an outdoor clay court at sunset, with a wire fence behind",
@@ -51,6 +65,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-50c0f701693c1e3805cfb6a469a4c39c60699a1a-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.48,
+            "y": 0.55,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "Feather badminton shuttlecocks with cork bases lying on a wooden sports hall floor beside a court line",
@@ -72,6 +93,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-172f1d7e5dbe478fd7b1564c29fd7ac457704a7a-2000x1334-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.6,
+            "y": 0.5,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A table tennis bat with black rubber and a layered wooden handle lying on white marble beside an orange ball",
@@ -93,6 +121,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-145786893cb12128186ad463c910bcaa57f043d5-2000x2667-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.6,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A solid, perforated padel racket leaning against the net on a blue outdoor court, with three padel balls at its base",
@@ -114,6 +149,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-cb2339ad78d904bd08883d16055d7ba1f01fa277-2000x1500-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.55,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "Two optic-yellow felt tennis balls with white seams on a black background",
@@ -135,6 +177,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-471676600d81790328284318f7ecf8b841f2ae2d-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.4,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A tennis net with its white headband stretched across a clay court, with a single ball lying beyond it",
@@ -156,6 +205,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-72778a9611729c2d1425499f77b3261ae40df295-2000x3000-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.6,
+            "y": 0.65,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A strung tennis racket leaning against the net on an outdoor clay court",
@@ -177,6 +233,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-3a101e79d3be0cb4e7e0e2d23fd5cf615b4adeae-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.55,
+            "y": 0.5,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "Two badminton rackets lying crossed on a pale surface with three plastic shuttlecocks on and beside them",
@@ -198,6 +261,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-76d2c1f02b71d2274477dfcef18812759b663933-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.45,
+            "y": 0.5,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A solid black pickleball paddle lying on a blue court surface, with a yellow holed ball tucked beneath its edge",
@@ -219,6 +289,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-12fd0cdeeba4fb5337e0c472202aa41309bed8fb-2000x1172-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.6,
+            "y": 0.45,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A yellow perforated plastic pickleball ball beside a black paddle on a blue court near the white lines",
@@ -240,6 +317,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-0aac030065567a5b3ed41f43a30e9d3b7ac7fd92-2000x1222-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.55,
+            "y": 0.6,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A portable pickleball net on a blue court, with a paddle and yellow holed ball resting against its frame",
@@ -261,6 +345,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-fee5d4b3874fffd508096254925b460f16230e1a-2000x3000-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.55,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "The net across a green table tennis table, with two bats and a white ball lying beside it",
@@ -282,6 +373,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-70e269aac4a18a25ae3d2bb3c457c549afd506d1-2000x1228-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.55,
+            "y": 0.55,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A white table tennis ball resting under the edge of a red bat on a table, with the net behind",
@@ -303,6 +401,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-129c7bbd0c29aa6689b93cf19249ccbe47e81ba7-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.55,
+            "y": 0.42,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A badminton player in a ready stance on a green indoor court, with other players resting at the side of the hall",
@@ -324,6 +429,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-8dabe10c271cd3319a25a8f31607c9bf1db4598b-2000x1333-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.45,
+            "y": 0.45,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A table tennis player tosses the ball for a serve, bat ready, over the edge of a blue table",
@@ -345,6 +457,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-b3a5547a84c1d96ff1b27f68adc560ae3d29c1aa-2000x2666-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.42,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "Black-and-white photo of a padel player hitting a low forehand on an indoor court, with the glass back wall behind",
@@ -366,6 +485,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-320c1665bcdc9c08ca4d07d3a9893954e5a6cc0c-2000x1500-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.6,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "The net across an indoor padel court with a blue surface, enclosed by glass back walls and mesh side fencing",
@@ -387,6 +513,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-b45d6ca9e920b221174a5ef504241ba65b17fe83-2000x1125-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.68,
+            "y": 0.52,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A man in a white shirt and black shorts prepares to swing on an indoor squash court with white walls, red court lines and a wooden floor, with the small black ball in flight to his left",
@@ -408,6 +541,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-f3f22794fc1b7bae60305eb56729610b304387c2-2000x3000-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.5,
+            "y": 0.68,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "Two padel rackets and two yellow balls resting against the net on a blue indoor padel court, with mesh fencing and floodlights behind",
@@ -429,6 +569,13 @@
           "asset": {
             "_type": "reference",
             "_ref": "image-cefa6e5859b8c2060ff6f4170470496bd786b7a8-2000x1335-jpg"
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "x": 0.6,
+            "y": 0.55,
+            "width": 0.3,
+            "height": 0.3
           }
         },
         "alt": "A white feather shuttlecock with a red band resting on a wooden rail in front of a white mesh badminton net",
