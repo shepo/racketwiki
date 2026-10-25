@@ -84,7 +84,14 @@ const jsonLd = faq.length
   ? [{'@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((q: any) => ({'@type': 'Question', name: q.question, acceptedAnswer: {'@type': 'Answer', text: q.answer}}))}]
   : []
 const sponsorCard = ['overview', 'equipment', 'courts'].includes(tab)
-const gbLine = v.governingBodies[0]?.name ?? factText(sport.governingBodyFact)
+// The Overview names only the world body (or, failing that, the two most important bodies);
+// the full list, grouped by region, is on the Organisations tab.
+const topBodies = (() => {
+  const world = v.governingBodies.filter((g) => g.scope === 'international')
+  return world.length ? world : [...v.governingBodies].filter((g) => g.scope !== 'coaching').sort(byImportance).slice(0, 2)
+})()
+const moreBodies = v.governingBodies.length - topBodies.length
+const gbLine = topBodies[0]?.name ?? factText(sport.governingBodyFact)
 const formats = sport.formats ?? []
 const lengthIn = (f: any) => factText(f)
 ---
@@ -103,7 +110,7 @@ const lengthIn = (f: any) => factText(f)
             <dt>Court</dt><dd>{dims ? dims.text : v.mainCourt?.standard === false ? 'Not standard: every venue differs' : <span class="pending">Being verified</span>}</dd>
             {sport.implement && (<><dt>Played with</dt><dd>{sport.implement === 'mixed' ? 'Rackets or paddles' : `A ${sport.implement}`} and a {sport.projectile ?? 'ball'}</dd></>)}
             <dt>Formats</dt><dd>{formats.length ? formats.map((f: any) => f.name).join(', ') : <span class="pending">Being verified</span>}</dd>
-            <dt>Governing body</dt><dd>{v.governingBodies.length ? v.governingBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{bodyLabel(g)}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
+            <dt>Governing body</dt><dd>{topBodies.length ? topBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{bodyLabel(g)}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
             <dt>Origin</dt><dd><Fact fact={sport.origin} /></dd>
           </dl>
           <JumpLinks links={[{label: 'Every court, to scale', href: '/courts/', section: 'courts'}, {label: 'Rules of every sport', href: '/rules/', section: 'rules'}, {label: 'All sports', href: '/sports/', section: 'sports'}]} />
@@ -148,7 +155,8 @@ const lengthIn = (f: any) => factText(f)
           <section class="stack" aria-labelledby="who">
             <h2 id="who" class="h-section">People and organisations</h2>
             <div class="grid-cards">
-              {v.governingBodies.map((g) => <a class="card-link sec-governing-bodies" href={href(g)}><div class="kicker c-sec">Governing body</div><div class="t">{g.name}</div></a>)}
+              {topBodies.map((g) => <a class="card-link sec-governing-bodies" href={href(g)}><div class="kicker c-sec">Governing body</div><div class="t">{g.name}</div></a>)}
+              {moreBodies > 0 && <a class="card-link sec-governing-bodies" href={`/sports/${slugOf(sport)}/organisations/`}><div class="kicker c-sec">Organisations</div><div class="t">All {v.governingBodies.length} organisations</div></a>}
               {v.competitions.slice(0, 3).map((c) => <a class="card-link sec-competitions" href={href(c)}><div class="kicker c-sec">Competition</div><div class="t">{c.name}</div></a>)}
               {v.players.slice(0, 3).map((p) => <a class="card-link sec-players" href={href(p)}><div class="kicker c-sec">Player</div><div class="t">{p.name}</div></a>)}
               {v.brands.slice(0, 3).map((b) => <a class="card-link sec-brands" href={href(b)}><div class="kicker c-sec">Brand</div><div class="t">{b.name}</div></a>)}

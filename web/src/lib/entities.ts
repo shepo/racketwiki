@@ -75,8 +75,34 @@ export const BODY_SCOPES = [
   {key: 'association', label: 'Other associations'},
 ] as const
 
-/** Splits bodies into BODY_SCOPES groups (empty groups dropped); unknown scopes fall into "Other associations". */
-export function groupByScope<T extends {scope?: string}>(docs: T[]) {
+/** Regions that continental and national bodies are listed under. */
+export const BODY_REGIONS = [
+  {key: 'africa', label: 'Africa'},
+  {key: 'americas', label: 'Americas'},
+  {key: 'asia', label: 'Asia'},
+  {key: 'europe', label: 'Europe'},
+  {key: 'oceania', label: 'Oceania'},
+] as const
+
+/**
+ * Groups bodies for display: world body, tours, then one group per region (its continental
+ * association first, then the national federations), then coaching bodies and other
+ * associations. Continental or national bodies with no region fall into "Other national
+ * federations". Order within a group is kept, so sort before calling. Empty groups are dropped.
+ */
+export function groupByScope<T extends {scope?: string; region?: string}>(docs: T[]) {
   const known = new Set(BODY_SCOPES.map((x) => x.key as string))
-  return BODY_SCOPES.map((sc) => ({...sc, items: docs.filter((d) => (known.has(d.scope ?? '') ? d.scope : 'association') === sc.key)})).filter((g) => g.items.length > 0)
+  const scopeOf = (d: T) => (known.has(d.scope ?? '') ? d.scope! : 'association')
+  const regional = (d: T) => scopeOf(d) === 'continental' || scopeOf(d) === 'national'
+  const regionKeys = new Set(BODY_REGIONS.map((r) => r.key as string))
+  const byScope = (key: string) => docs.filter((d) => scopeOf(d) === key)
+  const continentalFirst = (items: T[]) => [...items.filter((d) => scopeOf(d) === 'continental'), ...items.filter((d) => scopeOf(d) === 'national')]
+  return [
+    {key: 'international', label: 'World governing body', items: byScope('international')},
+    {key: 'tour', label: 'Professional tours', items: byScope('tour')},
+    ...BODY_REGIONS.map((r) => ({key: r.key as string, label: r.label as string, items: continentalFirst(docs.filter((d) => regional(d) && d.region === r.key))})),
+    {key: 'unplaced', label: 'Other national federations', items: continentalFirst(docs.filter((d) => regional(d) && !regionKeys.has(d.region ?? '')))},
+    {key: 'coaching', label: 'Coaching and qualification bodies', items: byScope('coaching')},
+    {key: 'association', label: 'Other associations', items: byScope('association')},
+  ].filter((g) => g.items.length > 0)
 }
