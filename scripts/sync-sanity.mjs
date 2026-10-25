@@ -4,7 +4,7 @@
  *
  *   node scripts/sync-sanity.mjs                 # create-missing: add seed docs that are not in Sanity yet (safe default)
  *   node scripts/sync-sanity.mjs --mode=replace  # overwrite every seed doc and discard its draft (first switch-over only)
- *   node scripts/sync-sanity.mjs --mode=patches  # apply seed/patches/*.json ([{id, set}]) to published documents
+ *   node scripts/sync-sanity.mjs --mode=patches  # apply seed/patches/*.json ([{id, set}]) to published documents — files in seed/patches/applied/ are ignored
  *   node scripts/sync-sanity.mjs --dry-run       # print what would change, write nothing
  *
  * Needs SANITY_WRITE_TOKEN (a Sanity token with Editor access). Runs from .github/workflows/sanity-sync.yml.

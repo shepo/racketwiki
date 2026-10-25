@@ -87,3 +87,10 @@ Tiers: 1 governing bodies and official rulebooks; 2 national bodies, tours, tour
 
 Every document has `slug`, `section`, and optional `updatedAt` (ISO datetime) and `seo` `{title, description}`.
 `section` values: `sports, rules, equipment, courts, brands, players, competitions, governing-bodies, directory, sources`.
+
+## Patches (changes to documents already in Sanity)
+
+`seed/patches/*.json` holds `[{"id": "<doc id>", "set": {"<field or path>": <value>}}]`. The Sync seed to
+Sanity workflow in `patches` mode applies every file directly in `seed/patches/`. Once a file has been
+applied, move it to `seed/patches/applied/` (kept as a record, never run again), so a later run cannot
+overwrite edits made in the Studio since.

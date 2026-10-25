@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'create-missing (safe), patches (apply seed/patches/*.json) or replace (overwrites Studio edits to seed documents)'
+        description: 'create-missing (safe), patches (apply seed/patches/*.json; move each to seed/patches/applied/ once run) or replace (overwrites Studio edits to seed documents)'
         default: create-missing
         type: choice
         options: [create-missing, patches, replace]
