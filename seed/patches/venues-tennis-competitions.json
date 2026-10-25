@@ -1,0 +1,77 @@
+[
+  {
+    "id": "venue-all-england-club",
+    "set": {
+      "competitions": [
+        {
+          "_type": "reference",
+          "_ref": "comp-wimbledon",
+          "_key": "k1"
+        },
+        {
+          "_type": "reference",
+          "_ref": "comp-olympic-tennis",
+          "_key": "k2"
+        }
+      ]
+    }
+  },
+  {
+    "id": "venue-roland-garros",
+    "set": {
+      "competitions": [
+        {
+          "_type": "reference",
+          "_ref": "comp-premier-padel",
+          "_key": "k1"
+        },
+        {
+          "_type": "reference",
+          "_ref": "comp-roland-garros",
+          "_key": "k2"
+        },
+        {
+          "_type": "reference",
+          "_ref": "comp-olympic-tennis",
+          "_key": "k3"
+        }
+      ]
+    }
+  },
+  {
+    "id": "venue-melbourne-park",
+    "set": {
+      "competitions": [
+        {
+          "_type": "reference",
+          "_ref": "comp-australian-open",
+          "_key": "k1"
+        }
+      ]
+    }
+  },
+  {
+    "id": "venue-usta-billie-jean-king-national-tennis-center",
+    "set": {
+      "competitions": [
+        {
+          "_type": "reference",
+          "_ref": "comp-us-open",
+          "_key": "k1"
+        }
+      ]
+    }
+  },
+  {
+    "id": "venue-indian-wells-tennis-garden",
+    "set": {
+      "competitions": [
+        {
+          "_type": "reference",
+          "_ref": "comp-wta-finals",
+          "_key": "k1"
+        }
+      ]
+    }
+  }
+]
