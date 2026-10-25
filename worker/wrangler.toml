@@ -1,6 +1,8 @@
 name = "racketwiki-submission"
 main = "src/index.ts"
 compatibility_date = "2025-10-01"
+# Keep variables added in the Cloudflare dashboard when deploying (otherwise [vars] replaces them).
+keep_vars = true
 
 [vars]
 # Comma-separated origins allowed to post the forms.
