@@ -1,0 +1,20 @@
+[
+ {
+  "id": "player-agustin-tapia",
+  "set": {
+   "gender": "men"
+  }
+ },
+ {
+  "id": "player-arturo-coello",
+  "set": {
+   "gender": "men"
+  }
+ },
+ {
+  "id": "player-gemma-triay",
+  "set": {
+   "gender": "women"
+  }
+ }
+]

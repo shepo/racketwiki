@@ -29,8 +29,8 @@ export const ENTITIES: Record<string, EntityDef> = {
   },
   players: {
     type: 'player', section: 'players', route: 'players', label: 'Player', plural: 'Players',
-    title: 'Racket sport players', lead: 'Leading players across racket sports, with rankings dated and sourced to the body that publishes them.',
-    facts: (d) => [row('Nationality', d.nationality), row('Born', d.born), row('Plays', d.plays), row('Ranking', d.ranking), ...(d.highlights ?? []).map((h: any) => row('Highlight', h))],
+    title: 'Racket sport players', lead: 'Leading players across racket sports and the honours they have won. We do not publish rankings; follow the tours for those.',
+    facts: (d) => [row('Nationality', d.nationality), row('Born', d.born), row('Plays', d.plays), ...(d.highlights ?? []).map((h: any) => row('Honour', h))],
     sportsOf: (d, s) => s.derefAll(d.sport ? [d.sport] : []),
     jsonLd: (d, s) => ({
       '@context': 'https://schema.org', '@type': 'Person', name: d.name, url: abs(urlFor(s, d)!),

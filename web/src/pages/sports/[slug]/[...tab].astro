@@ -239,10 +239,19 @@ const lengthIn = (f: any) => factText(f)
     {tab === 'players' && (
       <section class="stack sec-players">
         <h2 class="h-section">Players</h2>
-        <div class="table-scroll"><table class="spec">
-          <thead><tr><th>Player</th><th>Nationality</th><th>Ranking</th><th>Source</th></tr></thead>
-          <tbody>{v.players.map((p) => <tr><td><a class="hl" href={href(p)}>{p.name}</a></td><td><Fact fact={p.nationality} /></td><td><Fact fact={p.ranking} /></td><td><SourceCell fact={p.ranking} /></td></tr>)}</tbody>
-        </table></div>
+        {/* Grouped by tour, alphabetical. RacketWiki lists honours, not rankings. */}
+        {[['men', "Men's tour"], ['women', "Women's tour"], ['', 'Other players']].map(([g, label]) => {
+          const ps = v.players.filter((p) => (p.gender ?? '') === g).sort((a, b) => a.name.localeCompare(b.name))
+          return ps.length > 0 && (
+            <div class="stack">
+              <h3 class="h-sub">{label}</h3>
+              <div class="table-scroll"><table class="spec">
+                <thead><tr><th>Player</th><th>Nationality</th><th>Honours</th></tr></thead>
+                <tbody>{ps.map((p) => <tr><td><a class="hl" href={href(p)}>{p.name}</a></td><td><Fact fact={p.nationality} /></td><td>{(p.highlights ?? []).filter((h: any) => isShown(h)).length || '–'}</td></tr>)}</tbody>
+              </table></div>
+            </div>
+          )
+        })}
         <JumpLinks links={[{label: 'All players', href: '/players/', section: 'players'}, {label: 'Find a coach', href: '/directory/coaches/', section: 'directory'}, ...jumps]} />
       </section>
     )}

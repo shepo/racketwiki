@@ -8,6 +8,7 @@ import SourceCell from './SourceCell.astro'
 import SourceList from './SourceList.astro'
 import JumpLinks from './JumpLinks.astro'
 import Rackets from './Rackets.astro'
+import Photo from './Photo.astro'
 import {getStore} from '../lib/content'
 import {ENTITIES} from '../lib/entities'
 import {urlFor, sportUrl} from '../lib/routes'
@@ -35,7 +36,7 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
   <Page>
     <header class="stack">
       <Breadcrumbs crumbs={crumbs} />
-      <div class={`kicker sec-${def.section} c-sec`}>{def.label}</div>
+      <div class={`kicker sec-${def.section} c-sec`}>{def.label}{d.gender ? ` · ${d.gender === 'men' ? 'Men' : 'Women'}` : ''}</div>
       <h1 class="h-display">{d.name}{d.acronym && d.acronym !== d.name && <span class="acr"> ({d.acronym})</span>}</h1>
       {(d.formerNames?.length || d.alsoKnownAs?.length) && (
         <p class="aka">{d.formerNames?.length ? <>Formerly <strong>{d.formerNames.join(', ')}</strong></> : null}{d.formerNames?.length && d.alsoKnownAs?.length ? ' · ' : ''}{d.alsoKnownAs?.length ? <>Also known as <strong>{d.alsoKnownAs.join(', ')}</strong></> : null}</p>
@@ -44,6 +45,8 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
       <p class="dek">{lead}</p>
       <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sources.length} {sources.length === 1 ? 'source' : 'sources'}</span></div>
     </header>
+
+    {d.photo && <div class="ent-photo"><Photo photo={d.photo} sizes="(min-width: 960px) 480px, 100vw" ratio="4 / 3" /></div>}
 
     <section class={`stack sec-${def.section}`}>
       <h2 class="h-section">Key facts</h2>
@@ -82,4 +85,5 @@ const tabFor: Record<string, any> = {brands: 'brands', players: 'players', compe
     <SourceList sources={sources} />
   </Page>
 </Base>
-<style>.acr { font-weight: 400; color: var(--muted); } .imp { display: flex; align-items: center; gap: 10px; } .aka { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }</style>
+<style>
+  .ent-photo { max-width: 480px; }.acr { font-weight: 400; color: var(--muted); } .imp { display: flex; align-items: center; gap: 10px; } .aka { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }</style>
