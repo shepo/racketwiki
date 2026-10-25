@@ -64,7 +64,7 @@ Cloudflare skips duplicate builds when several publishes arrive before a build s
 Live as the Worker **`racketwiki-submission`** at `https://racketwiki-submission.jake-02f.workers.dev`, connected to the repo through Workers Builds:
 
 - Production branch `main`. Build command: empty. Deploy command: `npx wrangler deploy -c worker/wrangler.toml`. Root directory `/`.
-- Previews Base: build command empty, Preview command `npx wrangler preview -c worker/wrangler.toml`, root `/`. Every Wrangler command needs `-c worker/wrangler.toml`: without it Wrangler reads the website's `wrangler.jsonc` at the repo root (name `racketwiki`) and the build fails. Ignore Cloudflare's banner asking to rename `wrangler.jsonc`: that file belongs to the site. Previews do not get the production secrets, so `/admin` and approvals only work on the production Worker.
+- Previews Base: **Builds for Preview branches is off** (previews cannot use the production secrets, so they add little). Every Wrangler command needs `-c worker/wrangler.toml`: without it Wrangler reads the website's `wrangler.jsonc` at the repo root (name `racketwiki`). Cloudflare's banner asking to rename `wrangler.jsonc` comes from that same mismatch: ignore it, that file belongs to the site. To remove the banner for good, build this Worker with root directory `worker`.
 - D1 database `racketwiki-submissions` (id in `worker/wrangler.toml`), migration 0001 applied.
 - Secrets (Worker → Settings → Variables and Secrets): `ADMIN_PASSWORD`, `SANITY_WRITE_TOKEN` (Sanity Editor token).
 - The site needs `PUBLIC_SUBMISSIONS_URL` set to the Worker address in its build variables, or the forms show "opening soon".
