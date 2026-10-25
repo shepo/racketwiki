@@ -71,6 +71,7 @@ export const BODY_SCOPES = [
   {key: 'tour', label: 'Professional tours'},
   {key: 'continental', label: 'Continental associations'},
   {key: 'national', label: 'National federations'},
+  {key: 'coaching', label: 'Coaching and qualification bodies'},
   {key: 'association', label: 'Other associations'},
 ] as const
 
