@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import Fact from '../../components/Fact.astro'
+import SourceList from '../../components/SourceList.astro'
+import JumpLinks from '../../components/JumpLinks.astro'
+import {getStore} from '../../lib/content'
+import {urlFor} from '../../lib/routes'
+import {collectSources} from '../../lib/facts'
+import {EQUIPMENT_KINDS, equipmentRows, type EquipmentKind} from '../../lib/equipment'
+
+const store = await getStore()
+const kinds = Object.keys(EQUIPMENT_KINDS) as EquipmentKind[]
+const tables = kinds.map((k) => ({k, def: EQUIPMENT_KINDS[k], rows: equipmentRows(store, k)}))
+const sources = collectSources(store, tables.map((t) => t.rows.map((r) => r.cells)))
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Equipment', path: '/equipment/'}]
+---
+<Base title="Racket sport equipment: rackets, balls and nets compared" description="Official equipment limits for every racket sport: maximum racket and paddle sizes, ball and shuttle weights, and net heights, in metric and imperial." section="equipment" crumbs={crumbs}>
+  <Page sponsorCard section="equipment">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-equipment c-sec">Equipment</div>
+      <h1 class="h-display">What the rulebooks let you play with</h1>
+      <p class="dek">Racket, ball and net limits for each racket sport, side by side, in metric and imperial, with the rule each figure comes from.</p>
+    </header>
+    {tables.map(({k, def, rows}) => (
+      <section class="stack sec-equipment">
+        <h2 class="h-section"><a class="hl" href={`/equipment/${k}/`}>{def.title}</a></h2>
+        {rows.length ? (
+          <div class="table-scroll"><table class="spec">
+            <thead data-pagefind-ignore><tr><th>Sport</th>{def.columns.map((c) => <th>{c.label}</th>)}</tr></thead>
+            <tbody>{rows.map((r) => <tr><td><a class="hl" href={urlFor(store, r.doc)}>{r.sport!.name}</a></td>{r.cells.map((f) => <td>{f ? <Fact fact={f} /> : <span class="muted small">Not specified</span>}</td>)}</tr>)}</tbody>
+          </table></div>
+        ) : <p class="note">Being researched.</p>}
+        <JumpLinks links={[{label: `${def.title} in full`, href: `/equipment/${k}/`, section: 'equipment'}]} />
+      </section>
+    ))}
+    <JumpLinks links={[{label: 'Court sizes', href: '/courts/', section: 'courts'}, {label: 'Brands', href: '/brands/', section: 'brands'}, {label: 'Equipment labs in the directory', href: '/directory/equipment-labs/', section: 'directory'}]} />
+    <SourceList sources={sources} />
+  </Page>
+</Base>

@@ -1,0 +1,20 @@
+---
+/** Main column plus right rail. Puts the sponsor card in the rail when asked. */
+import SponsorCard from './SponsorCard.astro'
+import {getStore} from '../lib/content'
+import {pickPlacement} from '../lib/sponsors'
+const {sponsorCard = false, section, sportId} = Astro.props as {sponsorCard?: boolean; section?: string; sportId?: string}
+const store = await getStore()
+const path = Astro.url.pathname
+const card = sponsorCard ? pickPlacement(store, 'card', {path, section, sportId}) : undefined
+const hasRail = Astro.slots.has('rail') || !!card
+---
+<div class="wrap page">
+  <main><slot /></main>
+  {hasRail && (
+    <aside data-pagefind-ignore>
+      <slot name="rail" />
+      <SponsorCard placement={card} pagePath={path} />
+    </aside>
+  )}
+</div>

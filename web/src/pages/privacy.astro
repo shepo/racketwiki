@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from '../components/Page.astro'
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Privacy', path: '/privacy/'}]
+---
+<Base title="Privacy notice" description="What personal data RacketWiki collects, why, who processes it and your rights." section="sources" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <div class="kicker">About this site</div>
+      <h1 class="h-display">Privacy notice</h1>
+      <p class="dek">You can read every page on RacketWiki without telling us who you are. We collect a small amount of data, and only for the reasons below.</p>
+    </header>
+    <div class="prose">
+      <h2>Who we are</h2>
+      <p>RacketWiki (racketwiki.org) is run by Jake Shepherd, who decides how the data described here is used. To ask about your data, use the <a href="/corrections/">contact form</a>, choose "Something else" and include your email address.</p>
+
+      <h2>Analytics, only if you agree</h2>
+      <p>If you accept analytics cookies, we use PostHog to record which pages you read, how you move between them, what you search for on the site and which outside links you follow. We use this to improve the site and to tell sponsors, in total figures only, how many people read RacketWiki and which sports and pages are most popular.</p>
+      <ul>
+        <li>We do not ask for your name or email for analytics, and we do not try to identify you.</li>
+        <li>PostHog is set to discard your IP address, and stores data on servers in the European Union.</li>
+        <li>Session recordings are switched off.</li>
+        <li>Our legal basis is your consent. You can change your mind at any time with <a href="/cookies/" data-cookie-settings>Cookie settings</a>; rejecting stops tracking and removes the analytics cookies from your browser.</li>
+      </ul>
+      <p>If you reject, or ignore the banner, no analytics script is loaded. See <a href="/cookies/">Cookies</a> for the details.</p>
+
+      <h2>Corrections, listings and sponsorship enquiries</h2>
+      <p>When you send a form, we store what you type, your email address if you give it, the date, and a one-way scrambled code made from your IP address and the day, which we use only to stop spam. We use this to check your correction, add your listing or reply to your enquiry. Our legal basis is our legitimate interest in keeping the site accurate and answering people who contact us. We keep submissions for as long as we need them for that purpose, and delete them on request.</p>
+
+      <h2>Hosting</h2>
+      <p>The site is hosted by Cloudflare. Like any web host, Cloudflare processes your IP address and browser details to deliver pages and protect the site from attack. Our content is stored with Sanity, and pictures are served from Sanity's image service; neither receives anything about you beyond what is needed to deliver an image to your browser.</p>
+
+      <h2>Who we share data with</h2>
+      <p>Only the services named above, which process data for us under their own data processing terms: PostHog (analytics), Cloudflare (hosting and form storage) and Sanity (content and images). We never sell personal data, and sponsors never receive data about individual readers.</p>
+
+      <h2>Your rights</h2>
+      <p>You can ask to see, correct or delete the personal data we hold about you, object to how we use it, or withdraw consent. If you are unhappy with how we handle your data, you can complain to the Information Commissioner's Office (ico.org.uk).</p>
+
+      <h2>Changes</h2>
+      <p>We will update this notice if what we collect changes. Last updated 25 October 2026.</p>
+    </div>
+  </Page>
+</Base>

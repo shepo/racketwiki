@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import PortableText from '../../components/PortableText.astro'
+import SourceList from '../../components/SourceList.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import {getStore, slugOf} from '../../lib/content'
+import {abs} from '../../lib/seo'
+export async function getStaticPaths() {
+  const store = await getStore()
+  return store.ofType('page').filter((p) => p.kind === 'guide').map((p) => ({params: {slug: slugOf(p)}, props: {id: p._id}}))
+}
+const store = await getStore()
+const p = store.get((Astro.props as {id: string}).id)!
+const path = `/guides/${slugOf(p)}/`
+const crumbs = [{name: 'Home', path: '/'}, {name: p.title, path}]
+const article = {'@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.lead, author: {'@type': 'Organization', name: p.author ?? 'RacketWiki Editors'}, publisher: {'@id': 'https://racketwiki.org/#org'}, mainEntityOfPage: abs(path), ...(p.publishedAt ? {datePublished: p.publishedAt} : {}), ...(p.updatedAt ? {dateModified: p.updatedAt} : {})}
+---
+<Base title={p.seo?.title ?? p.title} description={p.seo?.description ?? p.lead ?? ''} section={p.section} crumbs={crumbs} jsonLd={[article]}>
+  <Page sponsorCard section={p.section}>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      {p.kicker && <div class={`kicker sec-${p.section} c-sec`}>{p.kicker}</div>}
+      <h1 class="h-display">{p.title}</h1>
+      {p.lead && <p class="dek">{p.lead}</p>}
+      <div class="byline"><strong>{p.author ?? 'RacketWiki Editors'}</strong></div>
+    </header>
+    <PortableText value={p.body} />
+    <SourceList sources={store.derefAll(p.sources)} />
+  </Page>
+</Base>

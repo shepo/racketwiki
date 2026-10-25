@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from './Page.astro'
+import Breadcrumbs from './Breadcrumbs.astro'
+import JumpLinks from './JumpLinks.astro'
+import {getStore, byImportance} from '../lib/content'
+import Rackets from './Rackets.astro'
+import {ENTITIES, shortText, bodyLabel, groupByScope} from '../lib/entities'
+import {urlFor} from '../lib/routes'
+const {kind} = Astro.props as {kind: string}
+const def = ENTITIES[kind]
+const store = await getStore()
+const docs = store.ofType(def.type)
+const crumbs = [{name: 'Home', path: '/'}, {name: def.plural, path: `/${def.route}/`}]
+const bySport = new Map<string, typeof docs>()
+for (const d of docs) for (const s of def.sportsOf(d, store).length ? def.sportsOf(d, store) : [{name: 'Several sports'} as any]) {
+  bySport.set(s.name, [...(bySport.get(s.name) ?? []), d])
+}
+const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([k, v]) => [k, [...v].sort(byImportance)] as const)
+---
+<Base title={def.title} description={def.lead} section={def.section} crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class={`kicker sec-${def.section} c-sec`}>{def.plural}</div>
+      <h1 class="h-display">{def.title}</h1>
+      <p class="dek">{def.lead}</p>
+    </header>
+    {groups.map(([sport, items]) => (
+      <section class={`stack sec-${def.section}`}>
+        <h2 class="h-section">{sport}</h2>
+        {/* Governing bodies with several levels (world, tours, continental, national) get a sub-heading per level. */}
+        {(def.type === 'governingBody' && groupByScope(items).length > 1 ? groupByScope(items) : [{key: 'all', label: '', items}]).map((grp) => (
+          <div class="stack">
+            {grp.label && <h3 class="h-sub">{grp.label}</h3>}
+            <div class="grid-cards">
+              {grp.items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{bodyLabel(d)}</div><Rackets value={d.importance} size={16} /><div class="d">{shortText(d)}</div></a>)}
+            </div>
+          </div>
+        ))}
+      </section>
+    ))}
+    {docs.length === 0 && <p class="note">Being researched.</p>}
+    <JumpLinks links={[{label: 'All sports', href: '/sports/', section: 'sports'}, {label: 'Directory', href: '/directory/', section: 'directory'}, {label: 'Sources', href: '/sources/', section: 'sources'}]} />
+  </Page>
+</Base>

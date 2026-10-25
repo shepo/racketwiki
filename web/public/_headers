@@ -1,0 +1,4 @@
+# Keep Cloudflare's workers.dev addresses (staging and previews) out of search engines;
+# racketwiki.org itself is indexed. Preview URLs also get this header from Cloudflare.
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex

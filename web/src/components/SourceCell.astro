@@ -1,0 +1,14 @@
+---
+import type {Fact} from '../lib/content'
+import {getStore} from '../lib/content'
+import {factSource, isShown, formatDate} from '../lib/facts'
+const {fact} = Astro.props as {fact?: Fact | null}
+const store = await getStore()
+const src = factSource(store, fact)
+---
+{isShown(fact) && src ? (
+  <span class="sc"><a class="hl" href={`/sources/#${src.slug?.current}`} title={`Checked ${formatDate(fact!.verifiedOn)}`}>{src.name}</a>{fact!.citation && <span class="muted">, {fact!.citation}</span>}</span>
+) : (
+  <span class="muted small">Not yet sourced</span>
+)}
+<style>.sc { font-size: var(--fs-sm); }</style>

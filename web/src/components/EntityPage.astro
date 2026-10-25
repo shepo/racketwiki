@@ -1,0 +1,96 @@
+---
+import Tier from './Tier.astro'
+import Base from '../layouts/Base.astro'
+import Page from './Page.astro'
+import Breadcrumbs from './Breadcrumbs.astro'
+import Fact from './Fact.astro'
+import SourceCell from './SourceCell.astro'
+import SourceList from './SourceList.astro'
+import JumpLinks from './JumpLinks.astro'
+import Rackets from './Rackets.astro'
+import Photo from './Photo.astro'
+import {getStore} from '../lib/content'
+import {ENTITIES} from '../lib/entities'
+import {urlFor, sportUrl} from '../lib/routes'
+import {collectSources, latestVerified, publicDomain, formatDate, isShown} from '../lib/facts'
+
+const {kind, id} = Astro.props as {kind: string; id: string}
+const def = ENTITIES[kind]
+const store = await getStore()
+const d = store.get(id)!
+const sports = def.sportsOf(d, store)
+const facts = def.facts(d, store).filter((r) => r.fact)
+const sources = collectSources(store, facts.map((r) => r.fact))
+const verified = latestVerified(facts.map((r) => r.fact))
+const crumbs = [{name: 'Home', path: '/'}, {name: def.plural, path: `/${def.route}/`}, {name: d.name, path: urlFor(store, d)!}]
+const domain = publicDomain(d.website)
+const organiser = store.deref(d.organiser)
+const rulebook = store.deref(d.rulebook)
+const players = kind === 'brands' ? store.referencing('player', 'brands', id) : []
+const comps = kind === 'governing-bodies' ? store.referencing('competition', 'organiser', id) : kind === 'players' || kind === 'venues' ? store.derefAll(d.competitions) : []
+const venues = kind === 'competitions' ? store.referencing('venue', 'competitions', id) : []
+const listings = store.referencing('directoryListing', 'linkedDocument', id)
+const lead = d.summary ?? `${d.name}: ${def.label.toLowerCase()}${sports.length ? ` in ${sports.map((s) => s.name.toLowerCase()).join(', ')}` : ''}.`
+const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players: 'players', competitions: 'competitions', 'governing-bodies': 'organisations'}
+---
+<Base title={d.seo?.title ?? d.name} description={(d.seo?.description ?? lead).slice(0, 158)} section={def.section} crumbs={crumbs} jsonLd={def.jsonLd ? [def.jsonLd(d, store)] : []} sportId={sports[0]?._id}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class={`kicker sec-${def.section} c-sec`}>{def.label}{d.gender ? ` · ${d.gender === 'men' ? 'Men' : 'Women'}` : ''}</div>
+      <h1 class="h-display">{d.name}{d.acronym && d.acronym !== d.name && <span class="acr"> ({d.acronym})</span>}</h1>
+      {(d.formerNames?.length || d.alsoKnownAs?.length) && (
+        <p class="aka">{d.formerNames?.length ? <>Formerly <strong>{d.formerNames.join(', ')}</strong></> : null}{d.formerNames?.length && d.alsoKnownAs?.length ? ' · ' : ''}{d.alsoKnownAs?.length ? <>Also known as <strong>{d.alsoKnownAs.join(', ')}</strong></> : null}</p>
+      )}
+      {d.importance && <div class="imp"><Rackets value={d.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#importance">Importance rating</a></div>}
+      <p class="dek">{lead}</p>
+      <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sources.length} {sources.length === 1 ? 'source' : 'sources'}</span></div>
+    </header>
+
+    {d.photo && <div class={kind === 'players' ? 'ent-photo person' : 'ent-photo'}><Photo photo={d.photo} sizes="(min-width: 960px) 480px, 100vw" ratio={kind === 'players' ? '4 / 5' : '4 / 3'} focus={kind === 'players' ? 'person' : 'auto'} /></div>}
+
+    <section class={`stack sec-${def.section}`}>
+      <h2 class="h-section">Key facts</h2>
+      <div class="table-scroll"><table class="spec">
+        <thead data-pagefind-ignore><tr><th>Item</th><th>Detail</th><th>Source</th></tr></thead>
+        <tbody>
+          {sports.length > 0 && <tr><td>{sports.length > 1 ? 'Sports' : 'Sport'}</td><td>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td><td></td></tr>}
+          {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td><td></td></tr>}
+          {organiser && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td><td></td></tr>}
+          {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td><td><SourceCell fact={r.fact} /></td></tr>)}
+          {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td><td><Tier tier={rulebook.tier} /></td></tr>}
+          {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td><td></td></tr>}
+        </tbody>
+      </table></div>
+    </section>
+
+    {comps.length > 0 && (
+      <section class="stack sec-competitions">
+        <h2 class="h-section">Competitions</h2>
+        <div class="grid-cards">{comps.map((c) => <a class="card-link" href={urlFor(store, c)}><div class="t">{c.name}</div></a>)}</div>
+      </section>
+    )}
+    {venues.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Venues</h2>
+        <div class="grid-cards">{venues.map((x) => <a class="card-link" href={urlFor(store, x)}><div class="t">{x.name}</div></a>)}</div>
+      </section>
+    )}
+    {players.length > 0 && (
+      <section class="stack sec-players">
+        <h2 class="h-section">Players</h2>
+        <div class="grid-cards">{players.map((p) => <a class="card-link" href={urlFor(store, p)}><div class="t">{p.name}</div></a>)}</div>
+      </section>
+    )}
+
+    <JumpLinks links={[
+      ...sports.map((s) => ({label: `${s.name}: ${tabFor[kind] === 'organisations' ? 'organisations' : def.plural.toLowerCase()}`, href: sportUrl(s, tabFor[kind]), section: def.section})),
+      ...sports.slice(0, 2).map((s) => ({label: `${s.name} overview`, href: urlFor(store, s)!, section: 'sports'})),
+      ...listings.map((l) => ({label: 'In the directory', href: urlFor(store, l)!, section: 'directory'})),
+      {label: `All ${def.plural.toLowerCase()}`, href: `/${def.route}/`, section: def.section},
+    ]} />
+    <SourceList sources={sources} />
+  </Page>
+</Base>
+<style>
+  .ent-photo { max-width: 480px; } .ent-photo.person { max-width: 360px; } .acr { font-weight: 400; color: var(--muted); } .imp { display: flex; align-items: center; gap: 10px; } .aka { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }</style>

@@ -1,0 +1,40 @@
+---
+import {photoAsset, SITE_NAMES, type PhotoDoc, type PhotoFocus} from '../lib/images'
+/** A credited stock photo. Renders nothing when the document has no photo. */
+const {photo, sizes = '(min-width: 960px) 760px, 100vw', priority = false, ratio, focus = 'auto'} = Astro.props as {photo?: PhotoDoc | null; sizes?: string; priority?: boolean; ratio?: string; focus?: PhotoFocus}
+// "21 / 9" → 2.333…; the image CDN crops to this shape (see photoAsset for how it chooses the crop).
+const r = ratio ? (([a, b]) => a / b)(ratio.split('/').map(Number)) : undefined
+const a = photoAsset(photo, r, focus)
+const widths = a ? [480, 800, 1200, 1600].filter((w) => w <= a.width) : []
+const site = photo?.site ? SITE_NAMES[photo.site] ?? photo.site : null
+// Creative Commons (and similar) licences require the licence in the credit; Unsplash/Pexels/Pixabay do not.
+const ccLicence = photo?.licence && /^(CC|Public domain)/i.test(photo.licence) ? photo.licence : null
+---
+{a && photo && (
+  <figure class="photo">
+    <img
+      src={a.url(Math.min(1200, a.width))}
+      srcset={widths.map((w) => `${a.url(w)} ${w}w`).join(', ')}
+      sizes={sizes}
+      width={a.width}
+      height={a.height}
+      alt={photo.alt ?? ''}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      style={ratio ? `aspect-ratio:${ratio};object-fit:cover` : undefined}
+    />
+    {photo.photographer && (
+      <figcaption>
+        Photo: {photo.photographerUrl ? <a href={photo.photographerUrl} rel="nofollow noopener">{photo.photographer}</a> : photo.photographer}
+        {ccLicence && `, ${ccLicence}`}
+        {site && <>{' '}{photo.site === 'wikimedia' ? 'via' : 'on'}{' '}{photo.sourceUrl ? <a href={photo.sourceUrl} rel="nofollow noopener">{site}</a> : site}</>}
+      </figcaption>
+    )}
+  </figure>
+)}
+<style>
+  .photo img { display: block; width: 100%; height: auto; background: var(--panel); }
+  .photo figcaption { font-size: var(--fs-xs); }
+  .photo figcaption a { text-decoration: underline; text-underline-offset: 2px; }
+</style>

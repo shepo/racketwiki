@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import Listing from '../../components/Listing.astro'
+import DirectoryRail from '../../components/DirectoryRail.astro'
+import JumpLinks from '../../components/JumpLinks.astro'
+import {getStore} from '../../lib/content'
+import {DIRECTORY_TYPES} from '../../lib/sections'
+
+export function getStaticPaths() {
+  return DIRECTORY_TYPES.map((t) => ({params: {type: t.value}}))
+}
+const {type} = Astro.params as {type: string}
+const t = DIRECTORY_TYPES.find((x) => x.value === type)!
+const store = await getStore()
+const listings = store.ofType('directoryListing').filter((l) => l.listingType === type)
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory/'}, {name: t.label, path: `/directory/${type}/`}]
+---
+<Base title={`${t.label}: racket sports directory`} description={`${t.label} across racket sports. ${t.blurb}`} section="directory" crumbs={crumbs} noindex={listings.length === 0}>
+  <Page sponsorCard section="directory">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-directory c-sec">Directory</div>
+      <h1 class="h-display">{t.label}</h1>
+      <p class="dek">{t.blurb}</p>
+    </header>
+    {listings.length > 0 ? (
+      <section class="dlist">{listings.map((d) => <Listing d={d} />)}</section>
+    ) : (
+      <div class="note empty">
+        <strong class="serif">No {t.label.toLowerCase()} listed yet</strong>
+        <p>We are adding these category by category, starting with the organisations that set the rules. If you run one, submit a listing and an editor will check it against an official source.</p>
+        <a class="btn" href={`/directory/submit/?type=${type}`}>List your business</a>
+      </div>
+    )}
+    <JumpLinks links={DIRECTORY_TYPES.filter((x) => x.value !== type).map((x) => ({label: x.label, href: `/directory/${x.value}/`, section: 'directory'}))} />
+    <Fragment slot="rail"><DirectoryRail /></Fragment>
+  </Page>
+</Base>
+<style>
+  .dlist { border-top: 1px solid var(--ink); }
+  .empty { padding: 28px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .empty strong { font-size: var(--fs-lg); }
+  .empty p { margin: 0; max-width: 560px; font-size: var(--fs-sm); }
+</style>

@@ -1,0 +1,39 @@
+name: Deploy Sanity Studio
+
+# Deploys studio/ to https://racketwiki.sanity.studio.
+# Needs the repository secret SANITY_AUTH_TOKEN (a Sanity token with "Deploy Studio" permission).
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, claude/charming-keller-vb31t5]
+    paths: ['studio/**', '.github/workflows/studio.yml']
+
+concurrency: studio-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Check the token is set
+        id: token
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: |
+          if [ -z "$SANITY_AUTH_TOKEN" ]; then
+            echo "::warning::Skipped: add the SANITY_AUTH_TOKEN repository secret (Settings → Secrets and variables → Actions)."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Deploy
+        if: steps.token.outputs.ok == 'true'
+        working-directory: studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity deploy --yes

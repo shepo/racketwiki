@@ -1,0 +1,7 @@
+---
+import {TIERS} from '../lib/sections'
+/** Source tier in words, e.g. "Manufacturer or test lab (tier 3 of 5)", linking to the tier explanation. */
+const {tier, prefix = '', compact = false} = Astro.props as {tier?: number; prefix?: string; compact?: boolean}
+const t = TIERS.find((x) => x.tier === tier)
+---
+{t && <a class="tier hl" href={`/sources/#tier-${t.tier}`} title={`Tier ${t.tier} of 5: ${t.label}`}>{prefix}{t.short}{!compact && ` (tier ${t.tier} of 5)`}</a>}

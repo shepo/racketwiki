@@ -1,0 +1,91 @@
+[
+ {
+  "id": "gb-knltb",
+  "set": {
+   "founded": {
+    "_type": "sourcedFact",
+    "text": "5 June 1899 in Amsterdam, as the Nederlandsche Lawn Tennis Bond",
+    "source": {
+     "_type": "reference",
+     "_ref": "source-knltb-historie"
+    },
+    "citation": "Historie: Oprichting",
+    "tier": 2,
+    "verifiedOn": "2026-10-25",
+    "unverified": false
+   },
+   "headquarters": {
+    "_type": "sourcedFact",
+    "text": "Nationaal Tennis Centrum, Bovenkerkerweg 81, Amstelveen, Netherlands",
+    "source": {
+     "_type": "reference",
+     "_ref": "source-knltb-contact"
+    },
+    "citation": "Contactgegevens",
+    "tier": 2,
+    "verifiedOn": "2026-10-25",
+    "unverified": false
+   },
+   "sports": [
+    {
+     "_type": "reference",
+     "_ref": "sport-tennis",
+     "_key": "s1"
+    },
+    {
+     "_type": "reference",
+     "_ref": "sport-padel",
+     "_key": "s2"
+    },
+    {
+     "_type": "reference",
+     "_ref": "sport-pickleball",
+     "_key": "s3"
+    },
+    {
+     "_type": "reference",
+     "_ref": "sport-beach-tennis",
+     "_key": "s4"
+    }
+   ],
+   "website": {
+    "_type": "webLink",
+    "url": "https://www.knltb.nl/",
+    "status": "researched"
+   },
+   "summary": "The Netherlands' national tennis federation, which also governs padel, pickleball and beach tennis. Founded in Amsterdam in 1899, it has represented padel since 2016 and took over all padel activity when the Nederlandse Padelbond merged into it on 1 July 2020.",
+   "formerNames": [
+    "Nederlandsche Lawn Tennis Bond"
+   ],
+   "nameChange": {
+    "_type": "sourcedFact",
+    "unverified": true,
+    "editorNote": "Not verified on 2026-10-25: the history page gives the founding name but not the date the royal title (Koninklijke) was granted."
+   },
+   "alsoKnownAs": [
+    "Royal Dutch Lawn Tennis Association",
+    "NLPadel"
+   ],
+   "importance": 3,
+   "acronym": "KNLTB",
+   "name": "Koninklijke Nederlandse Lawn Tennis Bond"
+  }
+ },
+ {
+  "id": "gb-fip",
+  "set": {
+   "members": {
+    "_type": "sourcedFact",
+    "text": "115 member national federations",
+    "source": {
+     "_type": "reference",
+     "_ref": "source-fip-general-assembly-2026"
+    },
+    "citation": "General Assembly news, October 2026: 15 new federations admitted",
+    "tier": 1,
+    "verifiedOn": "2026-10-25",
+    "unverified": false
+   }
+  }
+ }
+]

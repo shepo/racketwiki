@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import SubmissionForm from '../../components/SubmissionForm.astro'
+import DirectoryRail from '../../components/DirectoryRail.astro'
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory/'}, {name: 'List your business', path: '/directory/submit/'}]
+---
+<Base title="List your business" description="Submit a club, venue, coach, retailer, brand or app to the RacketWiki directory. Every listing is checked by an editor." section="directory" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-directory c-sec">Directory</div>
+      <h1 class="h-display">List your business</h1>
+      <p class="dek">Listings are free. An editor checks each one against an official source before it appears, and paid placement never changes the order.</p>
+    </header>
+    <SubmissionForm kind="listing" />
+    <Fragment slot="rail"><DirectoryRail /></Fragment>
+  </Page>
+</Base>

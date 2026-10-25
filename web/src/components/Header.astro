@@ -1,0 +1,33 @@
+---
+import {SECTIONS, ROOT_NAV} from '../lib/sections'
+import SearchForm from './SearchForm.astro'
+const {active, showSearch = true} = Astro.props as {active?: string; showSearch?: boolean}
+---
+<header class="wrap hdr">
+  <div class="top">
+    <a href="/" class="logo" aria-label="RacketWiki home">RacketWiki</a>
+    {showSearch && <div class="hs"><SearchForm size="compact" chips={false} /></div>}
+    <nav aria-label="Main" class="nav">
+      {ROOT_NAV.map((k) => (
+        <a href={SECTIONS[k].path} class={`sec-${k}`} aria-current={active === k ? 'page' : undefined}>{SECTIONS[k].label}</a>
+      ))}
+    </nav>
+  </div>
+  <div class="rule"></div>
+</header>
+<style>
+  .hdr { padding-top: 16px; }
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-bottom: 12px; }
+  .logo { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); line-height: 1; letter-spacing: -0.03em; }
+  .hs { flex: 1 1 260px; max-width: 440px; min-width: 0; }
+  .nav { display: flex; flex-wrap: wrap; gap: 4px 6px; font-size: var(--fs-sm); }
+  .nav a { padding: 8px 10px; border-bottom: 3px solid var(--sec); }
+  .nav a[aria-current='page'] { background: color-mix(in srgb, var(--sec) 12%, transparent); font-weight: 600; }
+  .nav a:hover { color: var(--sec); }
+  .rule { border-top: 3px solid var(--ink); }
+  /* Phones: the five sections stay on one line, sharing the width. */
+  @media (max-width: 640px) {
+    .nav { width: 100%; flex-wrap: nowrap; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+    .nav a { flex: 1 0 auto; padding: 8px 4px; text-align: center; }
+  }
+</style>

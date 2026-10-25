@@ -1,0 +1,86 @@
+---
+import {DIRECTORY_TYPES} from '../lib/sections'
+import {SITE} from '../site.config'
+/**
+ * Posts to the submissions Worker (Cloudflare Worker + D1). Nothing is written to
+ * Sanity until an editor approves it. Works without JS (the Worker redirects back).
+ */
+type Kind = 'correction' | 'listing' | 'sponsor'
+const {kind} = Astro.props as {kind: Kind}
+const endpoint = SITE.submissionsUrl || undefined
+---
+<form class="sub stack" method="post" action={endpoint ? `${endpoint.replace(/\/$/, '')}/api/submit` : undefined} data-endpoint={endpoint ?? ''}>
+  <input type="hidden" name="kind" value={kind} />
+  <input type="hidden" name="return" value="" />
+  <div class="hp" aria-hidden="true"><label>Leave this empty <input name="website_url" tabindex="-1" autocomplete="off" /></label></div>
+  {kind === 'correction' && (
+    <>
+      <div class="field"><label for="f-type">What kind of correction?</label><select id="f-type" name="issueType" required>
+        <option value="wrong">A fact is wrong</option>
+        <option value="newer-edition">There is a newer rulebook or edition</option>
+        <option value="missing">Something is missing</option>
+        <option value="renamed">An organisation, sport or competition has been renamed</option>
+        <option value="other">Something else</option>
+      </select></div>
+      <div class="field"><label for="f-page">Page</label><input id="f-page" name="pageUrl" required placeholder="/sports/padel/courts/" /></div>
+      <div class="field"><label for="f-msg">What should it say?</label><textarea id="f-msg" name="message" rows="5" required maxlength="4000"></textarea></div>
+      <div class="field"><label for="f-src">Source that shows the correct fact (optional)</label><input id="f-src" name="suggestedSource" placeholder="Link to the rulebook or official page" maxlength="500" /></div>
+    </>
+  )}
+  {kind === 'listing' && (
+    <>
+      <div class="field"><label for="f-name">Business or organisation name</label><input id="f-name" name="name" required maxlength="200" /></div>
+      <div class="field"><label for="f-type">Type</label><select id="f-type" name="listingType" required>{DIRECTORY_TYPES.map((t) => <option value={t.value}>{t.label}</option>)}</select></div>
+      <div class="field"><label for="f-sports">Sports</label><input id="f-sports" name="sports" placeholder="e.g. Padel, tennis" maxlength="300" /></div>
+      <div class="field"><label for="f-region">Country or region</label><input id="f-region" name="region" maxlength="200" /></div>
+      <div class="field"><label for="f-url">Website</label><input id="f-url" name="websiteUrl" type="url" placeholder="https://" maxlength="500" /></div>
+      <div class="field"><label for="f-desc">Short description</label><textarea id="f-desc" name="message" rows="4" maxlength="1000"></textarea></div>
+    </>
+  )}
+  {kind === 'sponsor' && (
+    <>
+      <div class="field"><label for="f-org">Organisation</label><input id="f-org" name="name" required maxlength="200" /></div>
+      <div class="field"><label for="f-page2">Page or section you would like to sponsor</label><input id="f-page2" name="pageUrl" maxlength="300" /></div>
+      <div class="field"><label for="f-msg2">Tell us about your campaign</label><textarea id="f-msg2" name="message" rows="4" maxlength="2000"></textarea></div>
+    </>
+  )}
+  <div class="field"><label for="f-email">Your email{kind === 'correction' ? ' (optional, so we can follow up)' : ''}</label><input id="f-email" name="email" type="email" required={kind !== 'correction'} maxlength="200" /></div>
+  <p class="small muted">We use your details only to handle this submission. See our <a class="hl" href="/editorial-standards/">editorial standards</a>.</p>
+  {endpoint ? <button class="btn" type="submit">Send</button> : <p class="note">Submissions open soon. The form will go live when the submissions service is deployed.</p>}
+  <p class="status" role="status" aria-live="polite"></p>
+</form>
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('form.sub')) {
+    const params = new URLSearchParams(location.search)
+    const page = form.querySelector<HTMLInputElement>('[name=pageUrl]')
+    if (page && params.get('page')) page.value = params.get('page')!
+    const issue = form.querySelector<HTMLSelectElement>('[name=issueType]')
+    if (issue && params.get('issue')) issue.value = params.get('issue')!
+    const msg = form.querySelector<HTMLTextAreaElement>('[name=message]')
+    if (msg && params.get('source') && !msg.value) msg.value = `About the source "${params.get('source')}": `
+    const type = form.querySelector<HTMLSelectElement>('[name=listingType]')
+    if (type && params.get('type')) type.value = params.get('type')!
+    const ret = form.querySelector<HTMLInputElement>('[name=return]')
+    if (ret) ret.value = location.href
+    const status = form.querySelector<HTMLElement>('.status')!
+    if (params.get('sent') === '1') status.textContent = 'Thank you. An editor will review your submission.'
+    form.addEventListener('submit', async (e) => {
+      if (!form.dataset.endpoint) return e.preventDefault()
+      e.preventDefault()
+      status.textContent = 'Sending…'
+      try {
+        const res = await fetch(form.action, {method: 'POST', body: new FormData(form), headers: {accept: 'application/json'}})
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new Error(data.error ?? 'Something went wrong')
+        form.reset()
+        status.textContent = 'Thank you. An editor will review your submission.'
+      } catch (err) {
+        status.textContent = `Sorry, that did not send: ${(err as Error).message}`
+      }
+    })
+  }
+</script>
+<style>
+  .sub { max-width: 620px; }
+  .status { font-weight: 600; }
+</style>

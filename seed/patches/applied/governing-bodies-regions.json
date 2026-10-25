@@ -1,0 +1,554 @@
+[
+  {
+    "id": "gb-badminton-england",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-scotland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-wales",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-ireland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-usa-badminton",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-badminton-canada",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-badminton-danmark",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-bai",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-chinese-badminton-association",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-bam",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-pbsi",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-baj",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-badminton-korea-association",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-badminton-australia",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-badminton-new-zealand",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-ffbad",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-nederland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-europe",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-badminton-asia",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-badminton-pan-am",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-bca",
+    "set": {
+      "region": "africa"
+    }
+  },
+  {
+    "id": "gb-badminton-oceania",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-spanish-padel-federation",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-asociacion-padel-argentino",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-svenska-padelforbundet",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-federacao-portuguesa-de-padel",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-femepa",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-padel-belgium",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-qatar-padel-federation",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-usa-padel",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-asociacion-de-padel-del-uruguay",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-cobrapa",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-deutscher-padel-verband",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-dansk-padel-forbund",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-suomen-padelliitto",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-padel-europe",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-padel-america",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-padel-asia",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-pickleball-england",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-pickleball-scotland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-pickleball-wales",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-pickleball-ireland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-pickleball-canada",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-pickleball-australia",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-aipa",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-indian-pickleball-association",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-aep",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-dpb",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-dpv",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-knltb",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-epf",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-afp",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-us-squash",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-squash-australia",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-egyptian-squash-federation",
+    "set": {
+      "region": "africa"
+    }
+  },
+  {
+    "id": "gb-scottish-squash",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-squash-wales",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-squash-canada",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-squash-new-zealand",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-sram",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-srfi",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-ff-squash",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-dsqv",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-squash-hong-kong",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-european-squash-federation",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-asian-squash-federation",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-panam-squash",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-oceania-squash-federation",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-squash-federation-of-africa",
+    "set": {
+      "region": "africa"
+    }
+  },
+  {
+    "id": "gb-usta",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-lta",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-fft",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-dtb",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-rfet",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-jta",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-tennis-canada",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-fitp",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-tennis-australia",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-tennis-ireland",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-tennis-europe",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-atf",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-cat",
+    "set": {
+      "region": "africa"
+    }
+  },
+  {
+    "id": "gb-otf",
+    "set": {
+      "region": "oceania"
+    }
+  },
+  {
+    "id": "gb-cosat",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-cotecc",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-aita",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-cbt",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-usa-pickleball",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-tra",
+    "set": {
+      "region": "europe"
+    }
+  },
+  {
+    "id": "gb-apta",
+    "set": {
+      "region": "americas"
+    }
+  },
+  {
+    "id": "gb-bbfi",
+    "set": {
+      "region": "asia"
+    }
+  },
+  {
+    "id": "gb-england-squash",
+    "set": {
+      "region": "europe"
+    }
+  }
+]

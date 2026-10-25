@@ -1,0 +1,23 @@
+---
+/**
+ * Renders a sourcedFact. Unverified or unsourced facts are never shown as fact:
+ * they render a "Being verified" placeholder instead.
+ */
+import type {Fact} from '../lib/content'
+import {getStore} from '../lib/content'
+import {factText, factSource, isShown} from '../lib/facts'
+type Props = {fact?: Fact | null; showSource?: boolean; placeholder?: string}
+const {fact, showSource = false, placeholder = 'Being verified'} = Astro.props as Props
+const store = await getStore()
+const text = factText(fact)
+const src = factSource(store, fact)
+---
+{isShown(fact) && text ? (
+  <span class="fact">{text}{showSource && src && <span class="src">Source: <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation ? `, ${fact!.citation}` : ''}{fact!.tier && <>{' '}· <a class="hl" href={`/sources/#tier-${fact!.tier}`} title="Source tiers: 1 is the official rulebook or governing body">tier {fact!.tier}</a></>}</span>}</span>
+) : (
+  <span class="pending" title="We have not verified this yet">{placeholder}</span>
+)}
+<style>
+  /* The source sits on its own line under the fact. */
+  .src { display: block; margin-top: 2px; font-size: var(--fs-xs); color: var(--muted); }
+</style>

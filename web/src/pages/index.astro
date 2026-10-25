@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro'
+import SearchForm from '../components/SearchForm.astro'
+import SponsorCard from '../components/SponsorCard.astro'
+import {getStore, byImportance, type Doc} from '../lib/content'
+import Rackets from '../components/Rackets.astro'
+import {urlFor} from '../lib/routes'
+import {courtGeometry, overlaySvg} from '../lib/court'
+import {factText, publicDomain, formatDate, latestVerified, collectSources} from '../lib/facts'
+import {formatDimensions} from '../lib/units.mjs'
+import {SECTIONS, DIRECTORY_TYPES} from '../lib/sections'
+import {pickPlacement} from '../lib/sponsors'
+import {bodyLabel} from '../lib/entities'
+
+const store = await getStore()
+const stories = store.ofType('story').sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+const lead = stories.find((s) => s.isLead) ?? stories[0]
+const others = stories.filter((s) => s !== lead).slice(0, 4)
+const sports = store.ofType('sport')
+const card = pickPlacement(store, 'card', {path: '/'})
+
+const OVERLAY_STYLES = [
+  {color: 'var(--ink)'},
+  {color: 'var(--sec-sports)', dash: '10 5'},
+  {color: 'var(--sec-equipment)'},
+  {color: 'var(--sec-rules)', dash: '3 4'},
+  {color: 'var(--sec-courts)', dash: '6 3'},
+]
+const overlayCourts = (lead?.courts ? store.derefAll(lead.courts) : [])
+  .map((c) => ({c, g: courtGeometry(c), sport: store.deref(c.sport)}))
+  .filter((x) => x.g)
+const overlayItems = overlayCourts.map((x, i) => ({name: x.sport?.name ?? x.c.name, g: x.g!, ...OVERLAY_STYLES[i % OVERLAY_STYLES.length]}))
+const overlay = lead?.visual === 'court-overlay' && overlayItems.length >= 2 ? overlaySvg(overlayItems) : ''
+const overlaySources = collectSources(store, overlayCourts.map((x) => [x.c.length, x.c.width]))
+const overlayVerified = latestVerified(overlayCourts.map((x) => [x.c.length, x.c.width]))
+
+const ranked = [...sports].sort(byImportance)
+const featured = ranked.slice(0, 8)
+const tail = ranked.filter((s) => (s.importance ?? 0) <= 3).slice(0, 6)
+const bodies = store.ofType('governingBody').filter((g) => g.scope === 'international').slice(0, 8)
+const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
+---
+<Base title="RacketWiki: rules, courts and equipment for every racket sport" description="The sourced reference for every racket sport: rules, court sizes, equipment limits, brands, players, competitions and governing bodies, from tennis and padel to real tennis." headerSearch={false}>
+  <section class="wrap hero" aria-label="Search">
+    <SearchForm size="large" />
+  </section>
+
+  <div class="wrap front">
+    <div class="main">
+      {lead && (
+        <article class="lead">
+          <div class="kicker sec-courts c-sec">{lead.kicker}</div>
+          <h1 class="h-lead"><a class="hl" href={urlFor(store, lead)}>{lead.title}</a></h1>
+          {lead.dek && <p class="dek">{lead.dek}</p>}
+          {overlay && (
+            <figure>
+              <Fragment set:html={overlay} />
+              <figcaption>
+                <ul class="legend">
+                  {overlayItems.map((it, i) => {
+                    const d = formatDimensions(overlayCourts[i].c.length.measurement, overlayCourts[i].c.width.measurement)
+                    return <li><svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" style={`stroke:${it.color};stroke-width:3${it.dash ? `;stroke-dasharray:${it.dash}` : ''}`} /></svg><span class="lg-name">{it.name}</span> <span class="muted">{d?.text}</span></li>
+                  })}
+                </ul>
+                Outlines centred and drawn to one scale. Sources: {overlaySources.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a></>)}.
+              </figcaption>
+            </figure>
+          )}
+          <div class="byline"><strong>RacketWiki Editors</strong>{overlayVerified && <span>Verified {formatDate(overlayVerified)}</span>}{overlaySources.length > 0 && <span>{overlaySources.length} sources</span>}</div>
+        </article>
+      )}
+      {tail.length > 0 && (
+        <section class="band sec-sports">
+          <div class="band-head"><h2 class="h-band">Beyond the big six</h2><a class="hl c-sec" href="/sports/">Explore the long tail</a></div>
+          <div class="grid-cards">
+            {tail.map((s) => <a class="card-link" href={urlFor(store, s)}><div class="kicker c-sec">{(s.family ?? 'sport').replace(/-/g, ' ')}</div><div class="t">{s.name}</div><div class="d">{firstSentence(s.summary)}</div></a>)}
+          </div>
+        </section>
+      )}
+
+      {bodies.length > 0 && (
+        <section class="band sec-governing-bodies">
+          <div class="band-head"><h2 class="h-band">Who governs what</h2><a class="hl" href="/sources/" style="color: var(--sec-sources)">See all sources</a></div>
+          <p class="dek">Every rule, court size and equipment limit on RacketWiki traces back to the body that sets it.</p>
+          <div class="table-scroll"><table class="spec">
+            <thead data-pagefind-ignore><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
+            <tbody>
+              {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{bodyLabel(g)}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
+            </tbody>
+          </table></div>
+        </section>
+      )}
+
+      <section class="band sec-directory">
+        <div class="band-head"><h2 class="h-band">The directory</h2><a class="hl c-sec" href="/directory/submit/">List your business</a></div>
+        <div class="grid-cards">
+          {DIRECTORY_TYPES.map((t) => <a class="card-link" href={`/directory/${t.value}/`}><div class="t">{t.label}</div><div class="d">{t.blurb}</div></a>)}
+        </div>
+      </section>
+    </div>
+    <aside class="side">
+      <section class="stories" aria-label="More stories">
+        {others.map((s) => (
+          <article class={`story sec-${s.section}`}>
+            <div class="kicker c-sec">{s.kicker}</div>
+            <h2 class="h-story"><a class="hl" href={urlFor(store, s)}>{s.title}</a></h2>
+            {s.dek && <p class="sdek">{s.dek}</p>}
+          </article>
+        ))}
+      </section>
+      <SponsorCard placement={card} pagePath="/" />
+      <section class="rail-box sec-sports" aria-label="Sports index">
+        <h2>By sport</h2>
+        <ul class="idx">
+          {featured.map((s) => <li><a class="hl" href={urlFor(store, s)}><span>{s.name}</span><Rackets value={s.importance} size={16} /></a></li>)}
+        </ul>
+        <a class="hl c-sec more" href="/sports/">All {sports.length} sports</a>
+      </section>
+    </aside>
+  </div>
+
+</Base>
+<style>
+  .hero { padding-top: 32px; }
+  /* Lead takes three of four columns; stories, sponsor and the sports index share the fourth. */
+  .front { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; padding-top: 32px; }
+  /* The main column holds the lead and every band below it, so nothing leaves a gap beside a long rail.
+     The rail (stories, sponsor/ad slots, sports index) runs the full height of the page. */
+  .main { min-width: 0; display: flex; flex-direction: column; }
+  .lead { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .side { min-width: 0; display: flex; flex-direction: column; gap: 32px; }
+  @media (min-width: 960px) {
+    .front { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+    .main { grid-column: span 3; padding-right: 40px; border-right: 1px solid var(--rule); }
+  }
+  .story { padding: 20px 0; border-top: 1px solid var(--rule); }
+  .story:first-child { border-top: 0; padding-top: 0; }
+  .story .h-story { font-size: var(--fs-lg); }
+  .sdek { margin: 0; font-family: var(--font-head); font-size: var(--fs-sm); line-height: 1.45; color: var(--ink-2); }
+  .legend { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--fs-xs); color: var(--ink); }
+  .legend li { display: flex; align-items: center; gap: 6px; }
+  .idx { list-style: none; margin: 0; padding: 0; }
+  .idx li { border-bottom: 1px solid var(--rule-soft); }
+  .idx a { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; font-size: var(--fs-sm); }
+  .more { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); }
+  .band { margin-top: 56px; }
+  .front { padding-bottom: 16px; }
+  .band-head { border-top: 3px solid var(--sec); padding-top: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 16px; }
+  .band-head a { font-size: var(--fs-sm); }
+  .h-band { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); letter-spacing: -0.01em; }
+  .band .dek { margin-bottom: 16px; }
+</style>

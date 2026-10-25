@@ -1,0 +1,20 @@
+[
+  {
+    "id": "player-daniil-medvedev",
+    "set": {
+      "nationality": {
+        "_type": "sourcedFact",
+        "unverified": false,
+        "text": "Neutral athlete (born in Moscow)",
+        "source": {
+          "_type": "reference",
+          "_ref": "source-rg-player-profiles"
+        },
+        "citation": "Player profile, rolandgarros.com/en-us/players/28836-d.medvedev (no country shown; birthplace Moscow, Russia)",
+        "tier": 2,
+        "verifiedOn": "2026-10-25",
+        "editorNote": "Plays as a neutral athlete: official ATP and Grand Slam lists show no country. Shown this way at the editor's decision (2026-10-25)."
+      }
+    }
+  }
+]

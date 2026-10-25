@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro'
+import Page from '../components/Page.astro'
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Cookies', path: '/cookies/'}]
+---
+<Base title="Cookies" description="The cookies and browser storage RacketWiki uses, and how to change your choice." section="sources" crumbs={crumbs}>
+  <Page>
+    <header class="stack">
+      <div class="kicker">About this site</div>
+      <h1 class="h-display">Cookies</h1>
+      <p class="dek">RacketWiki works without any cookies. We only set analytics cookies if you choose Accept on the cookie banner.</p>
+    </header>
+    <p><button type="button" class="btn" data-cookie-settings>Change cookie settings</button></p>
+    <div class="prose">
+      <h2>Strictly necessary</h2>
+      <table>
+        <thead data-pagefind-ignore><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
+        <tbody>
+          <tr><td><code>rw_consent</code></td><td>Browser storage</td><td>Remembers whether you accepted or rejected analytics, so we don't ask again on every page.</td><td>Until you clear your browser data</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Analytics (only if you accept)</h2>
+      <table>
+        <thead data-pagefind-ignore><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
+        <tbody>
+          <tr><td><code>ph_…_posthog</code></td><td>Cookie and browser storage, set by PostHog</td><td>A random ID that lets us count visits and see how readers move from page to page. It is not linked to your name or email.</td><td>1 year</td></tr>
+          <tr><td><code>ph_…_window_id</code>, <code>ph_…_primary_window_exists</code></td><td>Browser storage, set by PostHog</td><td>Keep page views in one browser tab together.</td><td>Until the tab closes</td></tr>
+        </tbody>
+      </table>
+      <p>These are first-party: they are set on racketwiki.org, and the data goes to PostHog's servers in the European Union. Read more in our <a href="/privacy/">privacy notice</a>.</p>
+
+      <h2>Changing your mind</h2>
+      <p>Use <strong>Change cookie settings</strong> above, or <strong>Cookie settings</strong> at the foot of any page. If you reject after accepting, tracking stops and the analytics cookies are removed. You can also block or delete cookies in your browser settings; the site works the same either way.</p>
+
+      <h2>Sponsors and other sites</h2>
+      <p>Sponsored placements on RacketWiki are plain links. They set no cookies and load nothing from the sponsor until you click through to their site.</p>
+    </div>
+  </Page>
+</Base>
+<style>
+  .btn { font: inherit; font-size: var(--fs-sm); font-weight: 600; padding: 9px 18px; border: 1.5px solid var(--ink); background: var(--bg); color: var(--ink); cursor: pointer; }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .prose table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: var(--fs-sm); margin: 0.6em 0 1em; }
+  .prose th, .prose td { text-align: left; vertical-align: top; padding: 8px 10px 8px 0; border-top: 1px solid var(--rule); }
+  .prose th { font-weight: 600; color: var(--ink); }
+</style>

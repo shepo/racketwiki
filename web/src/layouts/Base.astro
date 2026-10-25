@@ -1,0 +1,96 @@
+---
+import '@fontsource-variable/newsreader'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/radio-canada-big'
+import '../styles/global.css'
+import newsreaderLatin from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url'
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import SponsorStrip from '../components/SponsorStrip.astro'
+import JsonLd from '../components/JsonLd.astro'
+import Analytics from '../components/Analytics.astro'
+import {getStore} from '../lib/content'
+import {pickPlacement} from '../lib/sponsors'
+import {siteJsonLd, breadcrumbJsonLd, abs, type Crumb} from '../lib/seo'
+import {SECTIONS, type SectionKey} from '../lib/sections'
+
+type Props = {
+  title: string
+  description: string
+  section?: SectionKey
+  /** Section shown in the main nav as current. */
+  navActive?: string
+  crumbs?: Crumb[]
+  jsonLd?: unknown[]
+  sportId?: string
+  canonical?: string
+  noindex?: boolean
+  headerSearch?: boolean
+  /** Text used as the search index title. */
+  searchTitle?: string
+}
+const p = Astro.props as Props
+const store = await getStore()
+const path = Astro.url.pathname
+const strip = pickPlacement(store, 'strip', {path, section: p.section, sportId: p.sportId})
+const fullTitle = path === '/' ? p.title : `${p.title} | RacketWiki`
+const canonical = p.canonical ?? abs(path)
+const crumbs = p.crumbs ?? []
+const ld = [...siteJsonLd(), ...(crumbs.length > 1 ? [breadcrumbJsonLd(crumbs)] : []), ...(p.jsonLd ?? [])]
+const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={p.description} />
+    <link rel="canonical" href={canonical} />
+    {p.noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RacketWiki" />
+    <meta property="og:title" content={p.title} />
+    <meta property="og:description" content={p.description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={newsreaderLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    {ld.map((d) => <JsonLd data={d} />)}
+  </head>
+  <body data-section={p.section}>
+    <a class="skip" href="#content">Skip to content</a>
+    <SponsorStrip placement={strip} />
+    <Header active={p.navActive ?? p.section} showSearch={p.headerSearch !== false} />
+    <div id="content" data-pagefind-body={p.noindex ? undefined : ''}>
+      <span data-pagefind-filter="section" hidden>{sectionLabel}</span>
+      {p.searchTitle && <span data-pagefind-meta="title" hidden>{p.searchTitle}</span>}
+      <slot />
+    </div>
+    {!p.noindex && (
+      <aside class="wrap" aria-label="Report a correction" data-pagefind-ignore>
+        <div class="mistake">
+          <div>
+            <strong>Spotted a mistake, or is there a newer rulebook?</strong>
+            <p>Every fact on this page links to its source. If a figure is wrong, out of date or missing, tell us and an editor will check it against the source.</p>
+          </div>
+          <a class="btn-out" href={`/corrections/?page=${encodeURIComponent(path)}`}>Report a correction</a>
+        </div>
+      </aside>
+    )}
+    <Footer />
+    <Analytics />
+  </body>
+</html>
+<style>
+  .mistake { margin-top: 32px; padding: 18px 20px; border: 1.5px solid var(--sec-sources); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+  .mistake strong { font-size: var(--fs-sm); }
+  .mistake p { margin: 4px 0 0; font-size: var(--fs-sm); color: var(--ink-2); max-width: 640px; }
+  .btn-out { padding: 9px 16px; border: 1.5px solid var(--sec-sources); color: var(--sec-sources); font-weight: 600; font-size: var(--fs-sm); white-space: nowrap; }
+  .btn-out:hover { background: var(--sec-sources); color: var(--bg); }
+</style>

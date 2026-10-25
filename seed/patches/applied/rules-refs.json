@@ -1,0 +1,74 @@
+[
+ {
+  "id": "sport-squash",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-squash"
+   }
+  }
+ },
+ {
+  "id": "sport-badminton",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-badminton"
+   }
+  }
+ },
+ {
+  "id": "sport-table-tennis",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-table-tennis"
+   }
+  }
+ },
+ {
+  "id": "sport-pickleball",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-pickleball"
+   }
+  }
+ },
+ {
+  "id": "sport-racquetball",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-racquetball"
+   }
+  }
+ },
+ {
+  "id": "sport-platform-tennis",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-platform-tennis"
+   }
+  }
+ },
+ {
+  "id": "sport-soft-tennis",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-soft-tennis"
+   }
+  }
+ },
+ {
+  "id": "sport-beach-tennis",
+  "set": {
+   "ruleSet": {
+    "_type": "reference",
+    "_ref": "rules-beach-tennis"
+   }
+  }
+ }
+]

@@ -1,0 +1,124 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import SourceCell from '../../components/SourceCell.astro'
+import SourceList from '../../components/SourceList.astro'
+import JumpLinks from '../../components/JumpLinks.astro'
+import {getStore, byImportance} from '../../lib/content'
+import {urlFor} from '../../lib/routes'
+import {courtGeometry} from '../../lib/court'
+import {collectSources} from '../../lib/facts'
+import {formatDimensions} from '../../lib/units.mjs'
+
+const store = await getStore()
+const courts = store.ofType('court').map((c) => ({c, g: courtGeometry(c), sport: store.deref(c.sport)}))
+const drawn = courts.filter((x) => x.g).sort((a, b) => b.g!.length - a.g!.length)
+const nonStandard = courts.filter((x) => x.c.standard === false)
+const pending = courts.filter((x) => !x.g && x.c.standard !== false)
+const venues = store.ofType('venue').sort(byImportance).slice(0, 12)
+const maxL = Math.max(1, ...drawn.map((x) => x.g!.length))
+const sources = collectSources(store, drawn.map((x) => [x.c.length, x.c.width]))
+const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
+---
+<Base title="Racket sport court sizes compared, to scale" description="Official court dimensions for every racket sport, drawn to one scale in metric and imperial: tennis, padel, pickleball, badminton, squash and more." section="courts" crumbs={crumbs}>
+  <Page sponsorCard section="courts">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-courts c-sec">Courts</div>
+      <h1 class="h-display">Every court, to scale</h1>
+      <p class="dek">{drawn.length > 0 ? `The largest court here is ${drawn[0].sport?.name.toLowerCase()} at ${formatDimensions(drawn[0].c.length.measurement, drawn[0].c.width.measurement)?.text}. ` : ''}Official playing areas from each sport's rulebook, drawn on one scale, in metric and imperial.</p>
+    </header>
+
+    {drawn.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Side by side</h2>
+        <div class="table-scroll">
+          <div class="rows">
+            <div class="row head"><span class="n">Sport</span><span class="viz">Court, drawn to scale</span><span class="sz">Size</span></div>
+            {drawn.map(({c, g, sport}) => {
+              const d = formatDimensions(c.length.measurement, c.width.measurement)!
+              // Width is a share of the longest court; the viewBox is in metres, so the height keeps the true proportions.
+              const w = (g!.length / maxL) * 100
+              const L = g!.length, W = g!.width
+              return (
+                <div class="row">
+                  <div class="n"><a class="hl t" href={urlFor(store, c)}>{sport?.name ?? c.name}</a><div class="small muted">{c.name}</div></div>
+                  <div class="viz"><svg viewBox={`0 0 ${L} ${W}`} style={`width:${w}%`} role="img" aria-label={`${sport?.name} court, ${d.metric}`}>
+                    <rect x="0" y="0" width={L} height={W} class="bar" />
+                    {g!.lines.map((l) => <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} class="mk" />)}
+                    {g!.hasNet && <line x1={L / 2} y1="0" x2={L / 2} y2={W} class="netl" />}
+                    <rect x="0" y="0" width={L} height={W} class="edge" />
+                  </svg></div>
+                  <div class="sz"><strong>{d.metric}</strong><div class="imperial">{d.imperial}</div></div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {drawn.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Dimensions and sources</h2>
+        <div class="table-scroll"><table class="spec">
+          <thead data-pagefind-ignore><tr><th>Sport</th><th>Length × width</th><th>Source</th></tr></thead>
+          <tbody>{drawn.map(({c, sport}) => <tr><td><a class="hl" href={urlFor(store, c)}>{sport?.name}</a></td><td>{formatDimensions(c.length.measurement, c.width.measurement)?.text}</td><td><SourceCell fact={c.length} /></td></tr>)}</tbody>
+        </table></div>
+      </section>
+    )}
+
+    <section class="stack sec-courts">
+      <h2 class="h-section">Courts that are not standard</h2>
+      <p class="dek">Some games are played in courts where every venue differs, so there is no single set of dimensions to draw.</p>
+      <div class="grid-cards">
+        {nonStandard.map(({c, sport}) => <a class="card-link" href={urlFor(store, c)}><div class="t">{sport?.name}</div><div class="d">{c.nonStandardNote}</div></a>)}
+      </div>
+    </section>
+
+    {venues.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Famous venues</h2>
+        <p class="dek">Where each sport’s biggest events are played.</p>
+        <div class="grid-cards">
+          {venues.map((x) => <a class="card-link" href={urlFor(store, x)}><div class="kicker c-sec">{store.derefAll(x.sports).map((s) => s.name).join(', ')}</div><div class="t">{x.name}</div>{x.summary && <div class="d">{x.summary}</div>}</a>)}
+        </div>
+        <JumpLinks links={[{label: 'All famous venues', href: '/venues/', section: 'courts'}]} />
+      </section>
+    )}
+
+    {pending.length > 0 && (
+      <section class="stack sec-courts">
+        <h2 class="h-section">Being verified</h2>
+        <p class="muted">We are confirming these courts against their rulebooks before drawing them.</p>
+        <p>{pending.map(({sport}, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, sport)}>{sport?.name}</a></>)}</p>
+      </section>
+    )}
+
+    <JumpLinks links={[{label: 'Equipment limits', href: '/equipment/', section: 'equipment'}, {label: 'Rules of every sport', href: '/rules/', section: 'rules'}, {label: 'Find a venue', href: '/directory/clubs-and-venues/', section: 'directory'}]} />
+    <SourceList sources={sources} />
+
+    <Fragment slot="rail">
+      <section class="rail-box sec-directory">
+        <h2>Find a court</h2>
+        <p class="small">Clubs and venues are in the directory.</p>
+        <a class="hl c-sec" href="/directory/clubs-and-venues/">Search the directory</a>
+      </section>
+    </Fragment>
+  </Page>
+</Base>
+<style>
+  .rows { min-width: 600px; display: flex; flex-direction: column; }
+  .row { display: flex; align-items: center; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); }
+  .row.head { font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding: 10px 0; }
+  .n { width: 180px; flex-shrink: 0; }
+  .n .t { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); }
+  .viz { flex: 1; min-width: 0; }
+  .viz svg { display: block; height: auto; overflow: visible; }
+  .bar { fill: var(--court-fill); }
+  .edge { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .mk { stroke: var(--sec-courts); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .netl { stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .sz { width: 200px; flex-shrink: 0; font-size: var(--fs-sm); }
+</style>

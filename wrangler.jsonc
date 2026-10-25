@@ -1,0 +1,12 @@
+// Static site on Cloudflare Workers (assets only, no Worker script).
+// The submissions Worker has its own config in worker/wrangler.toml.
+{
+  "name": "racketwiki",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./web/dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "preview_urls": true
+}

@@ -1,0 +1,68 @@
+---
+import {SECTIONS, SEARCH_CHIPS, SEARCH_MORE} from '../lib/sections'
+type Props = {size?: 'large' | 'compact'; chips?: boolean; q?: string; current?: string}
+const {size = 'large', chips = true, q = '', current = ''} = Astro.props as Props
+const id = `s-${size}`
+---
+<form role="search" action="/search/" method="get" class:list={['sf', size]}>
+  <div class="row">
+    <label for={id} class="sr-only">Search RacketWiki</label>
+    <input id={id} type="search" name="q" value={q} placeholder={size === 'large' ? 'Search sports, rules, players and more' : 'Search RacketWiki'} autocomplete="off" />
+    <button type="submit">Search</button>
+  </div>
+  {chips && (
+    <fieldset class="chips">
+      <legend class="kicker">Search in</legend>
+      <div class="chip-row">
+        <label class="pill-radio"><input type="radio" name="in" value="" checked={!current} /><span class="pill">Everything</span></label>
+        {SEARCH_CHIPS.map((k) => (
+          <label class={`pill-radio sec-${k}`}><input type="radio" name="in" value={k} checked={current === k} /><span class="pill">{SECTIONS[k].label}</span></label>
+        ))}
+        <details class="more">
+          <summary class="pill">More</summary>
+          <div class="menu">
+            {SEARCH_MORE.map((k) => (
+              <label class={`pill-radio sec-${k}`}><input type="radio" name="in" value={k} checked={current === k} /><span class="pill">{SECTIONS[k].label}</span></label>
+            ))}
+          </div>
+        </details>
+      </div>
+    </fieldset>
+  )}
+</form>
+<style>
+  .sf { max-width: 640px; width: 100%; }
+  .row { display: flex; }
+  input[type='search'] { flex: 1 1 auto; min-width: 0; width: 100%; padding: 11px 14px; font: inherit; font-size: var(--fs-sm); border: 1.5px solid var(--ink); border-right: 0; border-radius: 0; background: var(--bg); color: var(--ink); }
+  button { padding: 11px 20px; font: inherit; font-weight: 600; font-size: var(--fs-sm); background: var(--ink); color: var(--bg); border: 1.5px solid var(--ink); border-radius: 0; cursor: pointer; }
+  /* Large (home page): box and chips share one line; chips drop underneath only on narrow screens. */
+  .large { max-width: none; display: flex; flex-wrap: nowrap; align-items: center; gap: 24px; }
+  .large .row { flex: 1 1 280px; max-width: 520px; min-width: 0; }
+  .large .chips { flex-shrink: 0; }
+  /* Mid widths: drop the visible "Search in" label so every chip, including More, fits on the line. */
+  @media (min-width: 900px) and (max-width: 1199px) { .large .chips legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+  .large .chips { margin: 0; flex: 0 1 auto; }
+  @media (min-width: 900px) { .large .menu { right: 0; } }
+  @media (max-width: 899px) {
+    .large { flex-direction: column; align-items: stretch; gap: 14px; }
+    .large .row { max-width: none; flex: none; }
+  }
+  .compact { max-width: 440px; }
+  .compact input[type='search'] { padding: 8px 12px; font-size: var(--fs-sm); }
+  .compact button { padding: 8px 14px; font-size: var(--fs-sm); }
+  .chips { border: 0; margin: 14px 0 0; padding: 0; min-width: 0; }
+  .chips legend { float: left; margin: 7px 10px 0 0; padding: 0; color: var(--muted); }
+  /* Chips never wrap: on narrow screens the row scrolls sideways instead. */
+  .chip-row { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .pill-radio { position: relative; flex-shrink: 0; }
+  .pill-radio input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .pill-radio input:checked + .pill { background: var(--sec, var(--ink)); color: var(--bg); }
+  .pill-radio input:focus-visible + .pill { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .more { flex-shrink: 0; }
+  .more summary { list-style: none; }
+  .more summary::-webkit-details-marker { display: none; }
+  .more[open] { position: static; }
+  .menu { position: absolute; margin-top: 6px; z-index: 10; background: var(--bg); border: 1px solid var(--ink); padding: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 200px; }
+  .sf:has(.more[open]) { position: relative; }
+</style>

@@ -1,0 +1,34 @@
+---
+import type {SportView} from '../lib/sport'
+import type {SportTabKey} from '../lib/routes'
+import Breadcrumbs from './Breadcrumbs.astro'
+import type {Crumb} from '../lib/seo'
+import {formatDate} from '../lib/facts'
+import Rackets from './Rackets.astro'
+type Props = {view: SportView; tab: SportTabKey; crumbs: Crumb[]; lead: string; heading?: string; verified?: string; sourceCount: number}
+const {view, tab, crumbs, lead, heading, verified, sourceCount} = Astro.props as Props
+const current = view.tabs.find((t) => t.key === tab)!
+---
+<header class="sh">
+  <Breadcrumbs crumbs={crumbs} />
+  <div class={`kicker sec-${current.section} c-sec`}>{tab === 'overview' ? 'Sport guide' : current.label}</div>
+  <h1 class="h-display">{heading ?? view.sport.name}</h1>
+  <p class="dek">{lead}</p>
+  {view.sport.importance && <div class="imp"><Rackets value={view.sport.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#importance">Importance rating</a></div>}
+  <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sourceCount} {sourceCount === 1 ? 'source' : 'sources'}</span></div>
+  {view.tabs.length > 1 && (
+    <nav aria-label={`Sections of ${view.sport.name}`} class="tabs" data-pagefind-ignore>
+      {view.tabs.map((t) => (
+        <a href={t.href} class={`sec-${t.section}`} aria-current={t.key === tab ? 'page' : undefined}>{t.label}</a>
+      ))}
+    </nav>
+  )}
+</header>
+<style>
+  .sh { display: flex; flex-direction: column; gap: 14px; }
+  .imp { display: flex; align-items: center; gap: 10px; }
+  .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 0; border-bottom: 1px solid var(--rule); margin-top: 6px; scrollbar-width: thin; }
+  .tabs a { flex-shrink: 0; padding: 10px 14px; font-size: var(--fs-sm); border-bottom: 3px solid transparent; color: var(--ink-2); white-space: nowrap; }
+  .tabs a:hover { color: var(--sec); border-bottom-color: color-mix(in srgb, var(--sec) 40%, transparent); }
+  .tabs a[aria-current='page'] { color: var(--sec); border-bottom-color: var(--sec); font-weight: 600; }
+</style>

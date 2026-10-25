@@ -1,0 +1,40 @@
+---
+import {SECTIONS} from '../lib/sections'
+---
+<footer class="ftr">
+  <div class="wrap in">
+    <div class="brand">
+      <span class="logo">RacketWiki</span>
+      <span class="note-s">Sponsored by Rallio. Sponsorship never affects what we publish.</span>
+    </div>
+    <nav aria-label="Footer" class="links">
+      <a href="/about/">About</a>
+      <a href="/sources/">Sources</a>
+      <a href="/editorial-standards/">Editorial standards</a>
+      <a href="/corrections/">Corrections</a>
+      <a href="/sponsor/">Advertise</a>
+      <a href="/directory/submit/">List your business</a>
+      <a href="/site-map/">All pages</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/cookies/">Cookies</a>
+      <a href="/cookies/" data-cookie-settings>Cookie settings</a>
+    </nav>
+  </div>
+  <div class="wrap secs">
+    <nav aria-label="All sections">
+      {Object.entries(SECTIONS).map(([k, v]) => <a href={v.path}>{v.label}</a>)}
+    </nav>
+  </div>
+</footer>
+<style>
+  .ftr { margin-top: 64px; background: #141414; color: #fff; }
+  .in { padding-top: 36px; padding-bottom: 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; }
+  .brand { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+  .logo { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-xl); letter-spacing: -0.02em; }
+  .note-s { font-size: var(--fs-xs); color: #cfcfc8; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: var(--fs-sm); font-weight: 400; }
+  .links a:hover { text-decoration: underline; }
+  .secs { padding-bottom: 28px; }
+  .secs nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--fs-xs); color: #cfcfc8; border-top: 1px solid #333; padding-top: 16px; }
+  .secs a:hover { color: #fff; text-decoration: underline; }
+</style>

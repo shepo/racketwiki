@@ -1,0 +1,182 @@
+[
+  {
+    "id": "sport-airbadminton",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-badminton",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-ball-badminton",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-beach-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-crossminton",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-frescobol",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-frontenis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-jokari",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-longue-paume",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-matkot",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-paddle-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-paddleball",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-padel",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-pelota-paleta",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-pickleball",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-platform-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-racketlon",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-rackets",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-racquetball",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-real-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-soft-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-spec-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-squash",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-squash-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-squash57",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-table-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-tamburello",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-tennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-touchtennis",
+    "unset": [
+      "depth"
+    ]
+  },
+  {
+    "id": "sport-xare",
+    "unset": [
+      "depth"
+    ]
+  }
+]
