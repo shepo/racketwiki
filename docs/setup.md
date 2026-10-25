@@ -38,6 +38,27 @@ For audience figures on the sponsor page, add one **build** variable to the `rac
 
 Figures refresh on each build and appear once 100 readers have been counted in the last 30 days.
 
+## Rebuild on publish (Deploy Hook + Sanity webhook)
+
+The site is static: it reads Sanity when it builds. A Cloudflare Deploy Hook plus a Sanity webhook
+rebuild it whenever a document is published, unpublished or deleted (about two minutes end to end).
+
+1. **Cloudflare:** Workers & Pages → `racketwiki` → Settings → Builds → Deploy Hooks → Create.
+   Name it `Sanity publish` and choose the **production branch** (today `claude/charming-keller-vb31t5`;
+   `main` after launch, when the hook must be recreated for `main`). Copy the URL. Treat it as a
+   secret: anyone with it can start builds. Do not commit it or paste it into chat.
+2. **Sanity:** sanity.io/manage → RacketWiki → API → Webhooks → Create webhook:
+   - Name: `Rebuild racketwiki.org`; URL: the Deploy Hook URL; Dataset: `production`
+   - Trigger on: Create, Update, Delete
+   - Filter: `_type != "correction"` (correction reports are Studio-only)
+   - Leave Projection empty, Drafts unticked (only published changes rebuild), Status enabled
+   - HTTP method: POST; leave secret and headers empty
+3. Publish any small edit and check the build appears under the Worker's Deployments
+   (its source shows the Deploy Hook name).
+
+Cloudflare skips duplicate builds when several publishes arrive before a build starts, and allows
+10 builds a minute per Worker.
+
 ## 3. Submissions Worker
 
 Live as the Worker **`racketwiki-submission`** at `https://racketwiki-submission.jake-02f.workers.dev`, connected to the repo through Workers Builds:
