@@ -22,6 +22,7 @@ export function commonFields(section: SectionValue, slugSource = 'name') {
       name: 'slug',
       type: 'slug',
       options: {source: slugSource, maxLength: 96},
+      description: 'The last part of the page address, e.g. "padel" in /sports/padel/. Changing it moves the page: put the old slug in Previous slugs (where offered) so old links redirect.',
       validation: (r) => r.required(),
       group: 'meta',
     }),
@@ -30,6 +31,7 @@ export function commonFields(section: SectionValue, slugSource = 'name') {
       type: 'string',
       options: {list: SECTIONS.map(({title, value}) => ({title, value}))},
       initialValue: section,
+      description: 'Which of the ten sections this belongs to. Sets its colour and the search filter it appears under.',
       readOnly: true,
       group: 'meta',
     }),
@@ -37,10 +39,15 @@ export function commonFields(section: SectionValue, slugSource = 'name') {
       name: 'updatedAt',
       title: 'Content last updated',
       type: 'datetime',
-      description: 'Shown on the page. Set when facts change, not for typo fixes.',
+      description: 'Set when facts change, not for typo fixes. Not shown on pages yet; guides send it to Google as the modified date. Pages show "Verified <date>" from the newest Verified on date among their facts instead.',
       group: 'meta',
     }),
-    defineField({name: 'seo', type: 'seo', group: 'meta'}),
+    defineField({
+      name: 'seo',
+      type: 'seo',
+      description: 'Optional. Overrides the title and description Google shows. Used on brand, player, competition, governing body and guide pages; other pages write their own.',
+      group: 'meta',
+    }),
   ]
 }
 
@@ -59,14 +66,34 @@ export const ref = (...types: string[]) => ({type: 'reference' as const, to: typ
  */
 export function nameFields() {
   return [
-    defineField({name: 'alsoKnownAs', title: 'Also known as', type: 'array', of: [{type: 'string'}], group: 'content'}),
-    defineField({name: 'formerNames', title: 'Former names', type: 'array', of: [{type: 'string'}], group: 'content'}),
-    defineField({name: 'nameChange', title: 'Name change (sourced)', type: 'sourcedFact', description: 'Source for a rename, e.g. "Rebranded as World Tennis".', group: 'content'}),
+    defineField({
+      name: 'alsoKnownAs',
+      title: 'Also known as',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'Other current names and abbreviations. Shown under the page heading ("Also known as …") and in the at-a-glance box on sport pages. Searchable.',
+      group: 'content',
+    }),
+    defineField({
+      name: 'formerNames',
+      title: 'Former names',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'Old names. Shown as "Formerly …" under the heading, and the first one is added to the name in lists, e.g. "World Tennis (formerly the International Tennis Federation)".',
+      group: 'content',
+    }),
+    defineField({
+      name: 'nameChange',
+      title: 'Name change (sourced)',
+      type: 'sourcedFact',
+      description: 'Source for a rename, e.g. "Rebranded as World Tennis". Shown as the "Name" row in the key facts table on governing body pages.',
+      group: 'content',
+    }),
     defineField({
       name: 'previousSlugs',
       type: 'array',
       of: [{type: 'string'}],
-      description: 'Old URL slugs. The site redirects them here, so links keep working after a rename.',
+      description: 'Old URL slugs. The site redirects them here, so links keep working after a rename. Works for sports, governing bodies, brands, competitions and players.',
       group: 'meta',
     }),
   ]
@@ -79,7 +106,7 @@ export function importanceField() {
     title: 'Importance (1–5 rackets)',
     type: 'number',
     options: {list: [1, 2, 3, 4, 5], layout: 'radio', direction: 'horizontal'},
-    description: 'Editorial judgement of how significant this is across racket sports. 5 = major, 1 = niche. Shown as rackets and used to order lists.',
+    description: 'Editorial judgement of how significant this is across racket sports. 5 = major, 1 = niche. Shown as rackets beside the name on its page and in lists. Higher numbers come first in lists; for sports, the eight highest make the By sport list on the front page, and the top six rated 3 or less fill "Beyond the big six".',
     validation: (r) => r.min(1).max(5).integer(),
     group: 'content',
   })
