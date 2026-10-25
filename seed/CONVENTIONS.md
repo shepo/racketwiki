@@ -90,7 +90,7 @@ Every document has `slug`, `section`, and optional `updatedAt` (ISO datetime) an
 
 ## Patches (changes to documents already in Sanity)
 
-`seed/patches/*.json` holds `[{"id": "<doc id>", "set": {"<field or path>": <value>}}]`. The Sync seed to
+`seed/patches/*.json` holds `[{"id": "<doc id>", "set": {"<field or path>": <value>}}]`, or `"unset": ["<field>"]` to remove a field. The Sync seed to
 Sanity workflow in `patches` mode applies every file directly in `seed/patches/`. Once a file has been
 applied, move it to `seed/patches/applied/` (kept as a record, never run again), so a later run cannot
 overwrite edits made in the Studio since.

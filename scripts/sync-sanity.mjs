@@ -4,7 +4,7 @@
  *
  *   node scripts/sync-sanity.mjs                 # create-missing: add seed docs that are not in Sanity yet (safe default)
  *   node scripts/sync-sanity.mjs --mode=replace  # overwrite every seed doc and discard its draft (first switch-over only)
- *   node scripts/sync-sanity.mjs --mode=patches  # apply seed/patches/*.json ([{id, set}]) to published documents — files in seed/patches/applied/ are ignored
+ *   node scripts/sync-sanity.mjs --mode=patches  # apply seed/patches/*.json ([{id, set?, unset?}]) to published documents — files in seed/patches/applied/ are ignored
  *   node scripts/sync-sanity.mjs --dry-run       # print what would change, write nothing
  *
  * Needs SANITY_WRITE_TOKEN (a Sanity token with Editor access). Runs from .github/workflows/sanity-sync.yml.
@@ -38,12 +38,12 @@ const patchDir = path.join(seedDir, 'patches')
 const patches = mode === 'patches' && fs.existsSync(patchDir)
   ? fs.readdirSync(patchDir).filter((f) => f.endsWith('.json')).sort().flatMap((f) => JSON.parse(fs.readFileSync(path.join(patchDir, f), 'utf8')))
   : []
-for (const p of patches) if (!p.id || !p.set || p.id.startsWith('drafts.')) throw new Error(`Bad patch: ${JSON.stringify(p).slice(0, 120)}`)
+for (const p of patches) if (!p.id || !(p.set || p.unset) || p.id.startsWith('drafts.')) throw new Error(`Bad patch: ${JSON.stringify(p).slice(0, 120)}`)
 
 const mutations = mode === 'replace'
   ? [...docs.map((d) => ({createOrReplace: d})), ...docs.map((d) => ({delete: {id: `drafts.${d._id}`}}))]
   : mode === 'patches'
-    ? patches.map((p) => ({patch: {id: p.id, set: p.set}}))
+    ? patches.map((p) => ({patch: {id: p.id, ...(p.set ? {set: p.set} : {}), ...(p.unset ? {unset: p.unset} : {})}}))
     : docs.map((d) => ({createIfNotExists: d}))
 
 console.log(`${mode === 'patches' ? `${patches.length} patches` : `${docs.length} seed documents`}, mode ${mode}${dryRun ? ' (dry run)' : ''}`)

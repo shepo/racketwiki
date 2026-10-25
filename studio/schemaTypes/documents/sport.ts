@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {commonFields, groups, nameFields, importanceField, ref} from '../common'
+import {SportPreview} from '../../components/SportPreview'
 
 export const sport = defineType({
   name: 'sport',
@@ -17,14 +18,6 @@ export const sport = defineType({
       type: 'string',
       description: 'Which group the sport sits in on /sports/ (Net games, Wall and enclosed-court games …). Also the small label on its card in "Beyond the big six" on the front page.',
       options: {list: ['net', 'wall', 'heritage', 'beach-and-outdoor', 'table', 'other']},
-      group: 'content',
-    }),
-    defineField({
-      name: 'depth',
-      type: 'string',
-      options: {list: [{title: 'Full reference page', value: 'full'}, {title: 'Shallow (summary only)', value: 'shallow'}]},
-      initialValue: 'shallow',
-      description: 'Editor note only, not used by the site: tabs appear on their own as content is added.',
       group: 'content',
     }),
     defineField({
@@ -110,5 +103,10 @@ export const sport = defineType({
     }),
     ...commonFields('sports'),
   ],
-  preview: {select: {title: 'name', subtitle: 'depth'}},
+  // List subtitle "Net game · 6 of 8 tabs" (components/SportPreview.tsx); description carries family|id for it.
+  preview: {
+    select: {title: 'name', family: 'family', id: '_id'},
+    prepare: ({title, family, id}) => ({title, description: `${family ?? ''}|${id}`}),
+  },
+  components: {preview: SportPreview},
 })
