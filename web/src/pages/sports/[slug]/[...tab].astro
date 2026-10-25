@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro'
 import Page from '../../../components/Page.astro'
 import SportHeader from '../../../components/SportHeader.astro'
 import Fact from '../../../components/Fact.astro'
+import Photo from '../../../components/Photo.astro'
 import SpecTable from '../../../components/SpecTable.astro'
 import CourtFigure from '../../../components/CourtFigure.astro'
 import SourceList from '../../../components/SourceList.astro'
@@ -93,6 +94,7 @@ const lengthIn = (f: any) => factText(f)
 
     {tab === 'overview' && (
       <>
+        <Photo photo={sport.photo} priority ratio="16 / 9" />
         <section class="stack sec-sports" aria-labelledby="facts">
           <h2 id="facts" class="h-section">At a glance</h2>
           <dl class="glance">
@@ -188,6 +190,7 @@ const lengthIn = (f: any) => factText(f)
           <section class="stack sec-equipment">
             <h2 class="h-section">{e.name}</h2>
             {e.summary && <p class="dek">{e.summary}</p>}
+            <div class="eq-photo"><Photo photo={e.photo} sizes="(min-width: 960px) 360px, 100vw" ratio="3 / 2" /></div>
             <SpecTable rows={e.specs} caption={e.name} />
           </section>
         ))}
@@ -291,6 +294,8 @@ const lengthIn = (f: any) => factText(f)
   </Page>
 </Base>
 <style>
+  .eq-photo { max-width: 360px; }
+  .eq-photo:empty { display: none; }
   /* Related sports: a plain list (name + why), so it reads differently from the coloured jump links. */
   .related { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: 32px; }
   .related li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0; border-top: 1px solid var(--rule-soft); font-size: var(--fs-sm); }

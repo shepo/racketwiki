@@ -10,6 +10,7 @@ export const sport = defineType({
     defineField({name: 'name', type: 'string', validation: (r) => r.required(), group: 'content'}),
     ...nameFields(),
     importanceField(),
+    defineField({name: 'photo', title: 'Hero photo', type: 'photo', group: 'content'}),
     defineField({
       name: 'family',
       type: 'string',

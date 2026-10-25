@@ -4,6 +4,7 @@
  *
  *   node scripts/sync-sanity.mjs                 # create-missing: add seed docs that are not in Sanity yet (safe default)
  *   node scripts/sync-sanity.mjs --mode=replace  # overwrite every seed doc and discard its draft (first switch-over only)
+ *   node scripts/sync-sanity.mjs --mode=patches  # apply seed/patches/*.json ([{id, set}]) to published documents
  *   node scripts/sync-sanity.mjs --dry-run       # print what would change, write nothing
  *
  * Needs SANITY_WRITE_TOKEN (a Sanity token with Editor access). Runs from .github/workflows/sanity-sync.yml.
@@ -19,7 +20,7 @@ const TOKEN = process.env.SANITY_WRITE_TOKEN || process.env.SANITY_AUTH_TOKEN
 const args = process.argv.slice(2)
 const mode = (args.find((a) => a.startsWith('--mode=')) ?? '--mode=create-missing').split('=')[1]
 const dryRun = args.includes('--dry-run')
-if (!['create-missing', 'replace'].includes(mode)) throw new Error(`Unknown mode ${mode}`)
+if (!['create-missing', 'replace', 'patches'].includes(mode)) throw new Error(`Unknown mode ${mode}`)
 
 const seedDir = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'seed')
 const docs = fs.readdirSync(seedDir).filter((f) => f.endsWith('.ndjson')).sort()
@@ -32,11 +33,20 @@ for (const d of docs) {
   ids.add(d._id)
 }
 
+// Patches: small field updates (e.g. photos) for documents that already exist, so Studio edits elsewhere survive.
+const patchDir = path.join(seedDir, 'patches')
+const patches = mode === 'patches' && fs.existsSync(patchDir)
+  ? fs.readdirSync(patchDir).filter((f) => f.endsWith('.json')).sort().flatMap((f) => JSON.parse(fs.readFileSync(path.join(patchDir, f), 'utf8')))
+  : []
+for (const p of patches) if (!p.id || !p.set || p.id.startsWith('drafts.')) throw new Error(`Bad patch: ${JSON.stringify(p).slice(0, 120)}`)
+
 const mutations = mode === 'replace'
   ? [...docs.map((d) => ({createOrReplace: d})), ...docs.map((d) => ({delete: {id: `drafts.${d._id}`}}))]
-  : docs.map((d) => ({createIfNotExists: d}))
+  : mode === 'patches'
+    ? patches.map((p) => ({patch: {id: p.id, set: p.set}}))
+    : docs.map((d) => ({createIfNotExists: d}))
 
-console.log(`${docs.length} seed documents, mode ${mode}${dryRun ? ' (dry run)' : ''}`)
+console.log(`${mode === 'patches' ? `${patches.length} patches` : `${docs.length} seed documents`}, mode ${mode}${dryRun ? ' (dry run)' : ''}`)
 if (dryRun) process.exit(0)
 if (!TOKEN) throw new Error('SANITY_WRITE_TOKEN is not set (a Sanity token with Editor access)')
 

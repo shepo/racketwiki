@@ -6,6 +6,7 @@ const specFields = (section: 'equipment') => [
   defineField({name: 'sport', type: 'reference', to: [{type: 'sport'}], validation: (r) => r.required(), group: 'links'}),
   defineField({name: 'summary', type: 'text', rows: 3, description: 'Answer-first one-liner.', group: 'content'}),
   defineField({name: 'specs', type: 'array', of: [{type: 'specRow'}], group: 'content'}),
+  defineField({name: 'photo', type: 'photo', group: 'content'}),
   ...commonFields(section),
 ]
 

@@ -5,6 +5,7 @@ import {specRow} from './objects/specRow'
 import {courtMarking} from './objects/courtMarking'
 import {webLink} from './objects/webLink'
 import {richText} from './objects/portableText'
+import {photo} from './objects/photo'
 import {source} from './documents/source'
 import {sport} from './documents/sport'
 import {ruleSet} from './documents/ruleSet'
@@ -22,7 +23,7 @@ import {correction} from './documents/correction'
 
 export const schemaTypes = [
   // objects
-  sourcedFact, measurement, seo, specRow, courtMarking, webLink, richText,
+  sourcedFact, measurement, seo, specRow, courtMarking, webLink, richText, photo,
   // documents
   sport, ruleSet, equipmentSpec, ball, net, court, brand, player, competition,
   governingBody, directoryListing, source, sponsorPlacement, page, story, correction,
