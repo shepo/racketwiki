@@ -23,7 +23,7 @@ The site is a Worker named `racketwiki` that serves `web/dist` as static assets 
   | Non-production branches | `npm run build` | `npx wrangler versions upload` |
 
   Root directory `/`. Node comes from `.node-version` (22).
-- Each branch gets a stable preview address, e.g. `https://claude-charming-keller-vb31t5-racketwiki.jake-02f.workers.dev`. Before launch every address, racketwiki.org included, sends `X-Robots-Tag: noindex, nofollow` (`web/public/_headers`). At launch, narrow that rule to the workers.dev addresses as the file explains.
+- Each branch gets a stable preview address, e.g. `https://claude-charming-keller-vb31t5-racketwiki.jake-02f.workers.dev`. Only the workers.dev addresses send `X-Robots-Tag: noindex` (`web/public/_headers`); racketwiki.org is indexed (since launch, 2026-10-25).
 - Environment variables (once content comes from Sanity): `SANITY_PROJECT_ID`, `SANITY_DATASET=production`, `PUBLIC_SUBMISSIONS_URL` (the submissions Worker URL). Without `SANITY_PROJECT_ID` the site builds from `seed/`.
 - Custom domain: `racketwiki.org` (already on Cloudflare) once Jake approves going live.
 - **Rebuild on publish:** in the Worker's Settings → Build, create a deploy hook. In Sanity → API → Webhooks, add it as a webhook on create/update/delete of published documents (filter `!(_id in path("drafts.**"))`). Every publish then rebuilds the site.
