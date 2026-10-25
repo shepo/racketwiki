@@ -33,7 +33,7 @@ test('mass', () => {
 
 test('ranges', () => {
   assert.equal(formatMeasurement({value: 56, valueTo: 59.4, unit: 'g'}, 'range').text, '56–59.4 g (1.98–2.1 oz)')
-  assert.equal(formatMeasurement({value: 6.54, valueTo: 6.86, unit: 'cm'}, 'range').imperial, '2.6–2.7 in')
+  assert.equal(formatMeasurement({value: 6.54, valueTo: 6.86, unit: 'cm'}, 'range').imperial, '2.57–2.7 in')
 })
 
 test('approx and min', () => {

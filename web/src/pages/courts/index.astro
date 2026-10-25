@@ -63,7 +63,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
       <section class="stack sec-courts">
         <h2 class="h-section">Dimensions and sources</h2>
         <div class="table-scroll"><table class="spec">
-          <thead><tr><th>Sport</th><th>Length × width</th><th>Source</th></tr></thead>
+          <thead data-pagefind-ignore><tr><th>Sport</th><th>Length × width</th><th>Source</th></tr></thead>
           <tbody>{drawn.map(({c, sport}) => <tr><td><a class="hl" href={urlFor(store, c)}>{sport?.name}</a></td><td>{formatDimensions(c.length.measurement, c.width.measurement)?.text}</td><td><SourceCell fact={c.length} /></td></tr>)}</tbody>
         </table></div>
       </section>

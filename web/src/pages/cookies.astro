@@ -14,7 +14,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Cookies', path: '/cookies/'}]
     <div class="prose">
       <h2>Strictly necessary</h2>
       <table>
-        <thead><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
+        <thead data-pagefind-ignore><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
         <tbody>
           <tr><td><code>rw_consent</code></td><td>Browser storage</td><td>Remembers whether you accepted or rejected analytics, so we don't ask again on every page.</td><td>Until you clear your browser data</td></tr>
         </tbody>
@@ -22,7 +22,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Cookies', path: '/cookies/'}]
 
       <h2>Analytics (only if you accept)</h2>
       <table>
-        <thead><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
+        <thead data-pagefind-ignore><tr><th>Name</th><th>Type</th><th>What it does</th><th>Kept for</th></tr></thead>
         <tbody>
           <tr><td><code>ph_…_posthog</code></td><td>Cookie and browser storage, set by PostHog</td><td>A random ID that lets us count visits and see how readers move from page to page. It is not linked to your name or email.</td><td>1 year</td></tr>
           <tr><td><code>ph_…_window_id</code>, <code>ph_…_primary_window_exists</code></td><td>Browser storage, set by PostHog</td><td>Keep page views in one browser tab together.</td><td>Until the tab closes</td></tr>

@@ -83,7 +83,7 @@ const firstSentence = (t = '') => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim()
           <div class="band-head"><h2 class="h-band">Who governs what</h2><a class="hl" href="/sources/" style="color: var(--sec-sources)">See all sources</a></div>
           <p class="dek">Every rule, court size and equipment limit on RacketWiki traces back to the body that sets it.</p>
           <div class="table-scroll"><table class="spec">
-            <thead><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
+            <thead data-pagefind-ignore><tr><th>Sport</th><th>Governing body</th><th>Website</th></tr></thead>
             <tbody>
               {bodies.map((g) => <tr><td>{store.derefAll(g.sports).map((s) => s.name).join(', ')}</td><td><a class="hl" href={urlFor(store, g)}>{bodyLabel(g)}</a></td><td>{publicDomain(g.website) ? <a class="hl c-sec" href={g.website.url} rel="noopener">{publicDomain(g.website)}</a> : <span class="muted small">Verify domain</span>}</td></tr>)}
             </tbody>

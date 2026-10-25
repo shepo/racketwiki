@@ -6,6 +6,7 @@ import SearchForm from '../../components/SearchForm.astro'
   <div class="wrap srch">
     <h1 class="h-display">Search</h1>
     <SearchForm size="large" />
+    <div id="answers" class="answers" aria-live="polite"></div>
     <p id="sum" class="muted" aria-live="polite"></p>
     <ol id="results" class="results"></ol>
   </div>
@@ -25,13 +26,78 @@ import SearchForm from '../../components/SearchForm.astro'
   const sum = document.getElementById('sum')!
   const list = document.getElementById('results')!
   const label = section && section in SECTIONS ? SECTIONS[section as keyof typeof SECTIONS].label : ''
+  const answersBox = document.getElementById('answers')!
+
+  // Pagefind only returns pages containing every word, so question words ("what size is a")
+  // must go, or they rule out the page with the answer. Measurement words go too: pages say
+  // "diameter" or "length", rarely "size".
+  const STOP = new Set('a an the is are was were be of in on at to for and or with what whats which who whom how why when where does do did can could should would will much many big large small long wide tall high heavy size sizes dimension dimensions measure measurements official regulation standard me tell about there their its it vs versus'.split(' '))
+  const words = q.toLowerCase().replace(/[’']/g, '').replace(/[^\p{L}\p{N}\s-]/gu, ' ').split(/\s+/).filter(Boolean)
+  const terms = words.filter((w) => !STOP.has(w))
+  const query = (terms.length ? terms : words).join(' ')
+
+  /** Sourced figures for "<sport> <item>" questions, from /answers.json (built with the site). */
+  const KIND_WORDS: [string, string[]][] = [
+    ['ball', ['ball', 'balls', 'shuttle', 'shuttles', 'shuttlecock', 'shuttlecocks', 'birdie']],
+    ['net', ['net', 'nets']],
+    ['racket', ['racket', 'rackets', 'racquet', 'racquets', 'paddle', 'paddles', 'bat', 'bats']],
+    ['court', ['court', 'courts', 'pitch', 'field']],
+    ['body', ['governs', 'governing', 'federation', 'association', 'body', 'organisation', 'organization']],
+  ]
+  async function answers() {
+    try {
+      const data = await (await fetch('/answers.json')).json()
+      const text = ` ${words.join(' ')} `
+      // Longest name first, so "table tennis" wins over "tennis".
+      const named = data.flatMap((s: any) => s.names.map((n: string) => ({s, n}))).sort((a: any, b: any) => b.n.length - a.n.length)
+      const hit = named.find((x: any) => text.includes(` ${x.n} `))
+      if (!hit) return
+      const kinds = KIND_WORDS.filter(([, ws]) => ws.some((w) => words.includes(w))).map(([k]) => k)
+      // A bare size question about a sport ("how big is a padel court", "squash dimensions") is about the court.
+      const sizeQ = words.some((w) => ['size', 'big', 'dimensions', 'long', 'wide', 'large'].includes(w))
+      const want = kinds.length ? kinds : sizeQ ? ['court'] : []
+      const found = hit.s.answers.filter((a: any) => want.includes(a.kind))
+      if (!found.length) return
+      answersBox.replaceChildren(...found.slice(0, 3).map((a: any) => {
+        const card = document.createElement('a')
+        card.className = 'ans'
+        card.href = a.url
+        const k = document.createElement('div')
+        k.className = 'kicker'
+        k.textContent = 'Quick answer'
+        const t = document.createElement('div')
+        t.className = 't'
+        t.textContent = a.title
+        const dl = document.createElement('dl')
+        for (const r of a.rows.slice(0, 4)) {
+          const dt = document.createElement('dt')
+          dt.textContent = r.label
+          const dd = document.createElement('dd')
+          dd.textContent = r.text
+          dl.append(dt, dd)
+        }
+        const more = document.createElement('div')
+        more.className = 'more'
+        more.textContent = 'Sources and full details'
+        card.append(k, t, dl, more)
+        return card
+      }))
+    } catch {}
+  }
+
   async function run() {
     if (!q) return
     sum.textContent = 'Searching…'
+    answers()
     try {
       const url = '/pagefind/pagefind.js'
       const pf = await import(/* @vite-ignore */ url)
-      const res = await pf.search(q, label ? {filters: {section: label}} : {})
+      const opts = label ? {filters: {section: label}} : {}
+      let res = await pf.search(query, opts)
+      // Nothing with every word: drop one word at a time and take the best set of results.
+      if (!res.results.length && terms.length > 1) {
+        for (let i = terms.length - 1; i >= 0 && !res.results.length; i--) res = await pf.search(terms.filter((_, j) => j !== i).join(' '), opts)
+      }
       track('search', {query: q.toLowerCase().slice(0, 100), scope: section || 'everything', results: res.results.length})
       const data = await Promise.all(res.results.slice(0, 30).map((r: any) => r.data()))
       sum.textContent = `${res.results.length} ${res.results.length === 1 ? 'result' : 'results'} for "${q}"${label ? ` in ${label}` : ''}`
@@ -59,6 +125,17 @@ import SearchForm from '../../components/SearchForm.astro'
 </script>
 <style>
   .srch { padding-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .answers { display: flex; flex-direction: column; gap: 12px; max-width: 640px; }
+  .answers:empty { display: none; }
+  .answers :global(.ans) { display: block; padding: 16px 18px; border: 1px solid var(--rule); border-top: 3px solid var(--sec-equipment); background: var(--panel); color: inherit; text-decoration: none; }
+  .answers :global(.ans:hover .t) { text-decoration: underline; }
+  .answers :global(.kicker) { color: var(--sec-equipment); }
+  .answers :global(.t) { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); margin: 2px 0 8px; }
+  .answers :global(dl) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 20px; margin: 0; }
+  .answers :global(dt) { color: var(--muted); font-size: var(--fs-sm); }
+  .answers :global(dd) { margin: 0; font-weight: 600; }
+  @media (max-width: 560px) { .answers :global(dl) { grid-template-columns: 1fr; gap: 0; } .answers :global(dd) { margin-bottom: 8px; } }
+  .answers :global(.more) { margin-top: 10px; font-size: var(--fs-xs); color: var(--muted); }
   .results { list-style: none; margin: 0; padding: 0; max-width: 760px; }
   .results :global(li) { padding: 16px 0; border-top: 1px solid var(--rule); }
   .results :global(.t) { font-family: var(--font-head); font-weight: 700; font-size: var(--fs-lg); }

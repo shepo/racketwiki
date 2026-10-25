@@ -24,7 +24,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Rules', path: '/rules/'}]
       <section class="stack sec-rules">
         <h2 class="h-section">The serve, sport by sport</h2>
         <div class="table-scroll"><table class="spec">
-          <thead><tr><th>Sport</th><th>How the serve works</th></tr></thead>
+          <thead data-pagefind-ignore><tr><th>Sport</th><th>How the serve works</th></tr></thead>
           <tbody>{serves.map((s) => <tr><td><a class="hl" href={urlFor(store, s.sport)}>{s.sport!.name}</a></td><td><Fact fact={s.point} showSource /></td></tr>)}</tbody>
         </table></div>
       </section>

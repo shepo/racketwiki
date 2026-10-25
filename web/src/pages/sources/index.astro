@@ -32,7 +32,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Sources', path: '/sources/'}]
         <p class="muted">{t.use}</p>
         {t.rows.length ? (
           <div class="table-scroll"><table class="spec">
-            <thead><tr><th>Source</th><th>Domain</th><th>What we use it for</th><th>Status</th><th><span class="sr-only">Report</span></th></tr></thead>
+            <thead data-pagefind-ignore><tr><th>Source</th><th>Domain</th><th>What we use it for</th><th>Status</th><th><span class="sr-only">Report</span></th></tr></thead>
             <tbody>
               {t.rows.map((s) => {
                 const d = publicDomain(s)

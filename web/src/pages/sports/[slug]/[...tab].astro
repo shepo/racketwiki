@@ -277,7 +277,7 @@ const lengthIn = (f: any) => factText(f)
             <div class="stack">
               <h3 class="h-sub">{label}</h3>
               <div class="table-scroll"><table class="spec">
-                <thead><tr><th>Player</th><th>Nationality</th><th>Honours</th></tr></thead>
+                <thead data-pagefind-ignore><tr><th>Player</th><th>Nationality</th><th>Honours</th></tr></thead>
                 <tbody>{ps.map((p) => <tr><td><a class="hl" href={href(p)}>{p.name}</a></td><td><Fact fact={p.nationality} /></td><td>{(p.highlights ?? []).filter((h: any) => isShown(h)).length || '–'}</td></tr>)}</tbody>
               </table></div>
             </div>
@@ -291,7 +291,7 @@ const lengthIn = (f: any) => factText(f)
       <section class="stack sec-competitions">
         <h2 class="h-section">Competitions</h2>
         <div class="table-scroll"><table class="spec">
-          <thead><tr><th>Competition</th><th>Level</th><th>Run by</th></tr></thead>
+          <thead data-pagefind-ignore><tr><th>Competition</th><th>Level</th><th>Run by</th></tr></thead>
           <tbody>{v.competitions.map((c) => {
             const org = store.deref(c.organiser)
             return <tr><td><a class="hl" href={href(c)}>{c.name}</a></td><td>{(c.level ?? '').replace(/-/g, ' ')}</td><td>{org ? <a class="hl" href={href(org)}>{org.name}</a> : <Fact fact={c.organiserFact} />}</td></tr>

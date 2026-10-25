@@ -16,7 +16,8 @@ export function num(n, dp = 2) {
 export function imperialLength(mm) {
   const inches = mm / MM_PER_IN
   if (mm < 1000) {
-    const dp = inches < 1 ? 2 : 1
+    // Two decimals under 10 in, so close figures stay distinct: a squash ball is 1.56–1.59 in, not 1.6–1.6 in.
+    const dp = inches < 10 ? 2 : 1
     return `${num(inches, dp)} in`
   }
   let ft = Math.floor(inches / 12)

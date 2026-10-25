@@ -52,7 +52,7 @@ const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players
     <section class={`stack sec-${def.section}`}>
       <h2 class="h-section">Key facts</h2>
       <div class="table-scroll"><table class="spec">
-        <thead><tr><th>Item</th><th>Detail</th><th>Source</th></tr></thead>
+        <thead data-pagefind-ignore><tr><th>Item</th><th>Detail</th><th>Source</th></tr></thead>
         <tbody>
           {sports.length > 0 && <tr><td>{sports.length > 1 ? 'Sports' : 'Sport'}</td><td>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td><td></td></tr>}
           {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td><td></td></tr>}
