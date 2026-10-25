@@ -23,7 +23,7 @@ const site = photo?.site ? SITE_NAMES[photo.site] ?? photo.site : null
     {photo.photographer && (
       <figcaption>
         Photo: {photo.photographerUrl ? <a href={photo.photographerUrl} rel="nofollow noopener">{photo.photographer}</a> : photo.photographer}
-        {site && <> on {photo.sourceUrl ? <a href={photo.sourceUrl} rel="nofollow noopener">{site}</a> : site}</>}
+        {site && <>{' '}on {photo.sourceUrl ? <a href={photo.sourceUrl} rel="nofollow noopener">{site}</a> : site}</>}
       </figcaption>
     )}
   </figure>

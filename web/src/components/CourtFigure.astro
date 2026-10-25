@@ -11,7 +11,7 @@ const src = factSource(store, court?.length)
 {g ? (
   <figure>
     <Fragment set:html={courtSvg(g, court!.name ?? 'Court', {width: compact ? 560 : 700})} />
-    <figcaption>{court!.name}, drawn to scale.{src && <> Source: <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{court!.length.citation ? `, ${court!.length.citation}` : ''}.</>}</figcaption>
+    <figcaption>{court!.name}, drawn to scale.{src && <>{' '}Source: <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{court!.length.citation ? `, ${court!.length.citation}` : ''}.</>}</figcaption>
   </figure>
 ) : court?.standard === false ? (
   <p class="note">{court.nonStandardNote ?? 'This court is not standard: every venue differs.'}</p>

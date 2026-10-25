@@ -13,7 +13,7 @@ const text = factText(fact)
 const src = factSource(store, fact)
 ---
 {isShown(fact) && text ? (
-  <span class="fact">{text}{showSource && src && <span class="src">Source: <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation ? `, ${fact!.citation}` : ''}{fact!.tier && <> · <a class="hl" href={`/sources/#tier-${fact!.tier}`} title="Source tiers: 1 is the official rulebook or governing body">tier {fact!.tier}</a></>}</span>}</span>
+  <span class="fact">{text}{showSource && src && <span class="src">Source: <a class="hl" href={`/sources/#${src.slug?.current}`}>{src.name}</a>{fact!.citation ? `, ${fact!.citation}` : ''}{fact!.tier && <>{' '}· <a class="hl" href={`/sources/#tier-${fact!.tier}`} title="Source tiers: 1 is the official rulebook or governing body">tier {fact!.tier}</a></>}</span>}</span>
 ) : (
   <span class="pending" title="We have not verified this yet">{placeholder}</span>
 )}

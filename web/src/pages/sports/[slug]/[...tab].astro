@@ -122,7 +122,7 @@ const lengthIn = (f: any) => factText(f)
             <h2 id="formats" class="h-section">Formats</h2>
             <ul class="formats">
               {formats.map((f: any) => (
-                <li><strong>{f.name}</strong>{f.description && <> {f.description}</>}</li>
+                <li><strong>{f.name}</strong>{f.description && <>{' '}{f.description}</>}</li>
               ))}
             </ul>
             <JumpLinks links={[...(v.has.rules ? [{label: `${name} rules`, href: `/sports/${slugOf(sport)}/rules/`, section: 'rules'}] : []), ...(v.has.competitions ? [{label: `Where formats are played: ${lname} competitions`, href: `/sports/${slugOf(sport)}/competitions/`, section: 'competitions'}] : [])]} />
