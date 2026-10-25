@@ -5,6 +5,8 @@ const {photo, sizes = '(min-width: 960px) 760px, 100vw', priority = false, ratio
 const a = photoAsset(photo)
 const widths = a ? [480, 800, 1200, 1600].filter((w) => w <= a.width) : []
 const site = photo?.site ? SITE_NAMES[photo.site] ?? photo.site : null
+// Creative Commons (and similar) licences require the licence in the credit; Unsplash/Pexels/Pixabay do not.
+const ccLicence = photo?.licence && /^(CC|Public domain)/i.test(photo.licence) ? photo.licence : null
 ---
 {a && photo && (
   <figure class="photo">
@@ -23,7 +25,8 @@ const site = photo?.site ? SITE_NAMES[photo.site] ?? photo.site : null
     {photo.photographer && (
       <figcaption>
         Photo: {photo.photographerUrl ? <a href={photo.photographerUrl} rel="nofollow noopener">{photo.photographer}</a> : photo.photographer}
-        {site && <>{' '}on {photo.sourceUrl ? <a href={photo.sourceUrl} rel="nofollow noopener">{site}</a> : site}</>}
+        {ccLicence && `, ${ccLicence}`}
+        {site && <>{' '}{photo.site === 'wikimedia' ? 'via' : 'on'} {photo.sourceUrl ? <a href={photo.sourceUrl} rel="nofollow noopener">{site}</a> : site}</>}
       </figcaption>
     )}
   </figure>

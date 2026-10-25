@@ -12,4 +12,4 @@ export function photoAsset(p?: PhotoDoc | null) {
   return {width: Number(w), height: Number(h), url: (width: number) => `${base}?w=${width}&auto=format&fit=max&q=75`}
 }
 
-export const SITE_NAMES: Record<string, string> = {unsplash: 'Unsplash', pexels: 'Pexels', pixabay: 'Pixabay'}
+export const SITE_NAMES: Record<string, string> = {unsplash: 'Unsplash', pexels: 'Pexels', pixabay: 'Pixabay', wikimedia: 'Wikimedia Commons'}
