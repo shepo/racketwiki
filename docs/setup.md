@@ -32,6 +32,8 @@ The site is a Worker named `racketwiki` that serves `web/dist` as static assets 
 
 The site sends analytics to the PostHog project **RacketWiki** (EU) only after a reader accepts the cookie banner. The project key is public and lives in `web/src/site.config.ts`.
 
+Events go through PostHog's managed reverse proxy at `https://p.racketwiki.org` (set up in PostHog → Settings → Reverse proxy, with the DNS record on Cloudflare), so ad blockers don't drop them. Override with the `PUBLIC_POSTHOG_HOST` build variable if needed.
+
 For audience figures on the sponsor page, add one **build** variable to the `racketwiki` Worker (Settings → Build → Variables and secrets):
 
 - `POSTHOG_PERSONAL_API_KEY`: a PostHog personal API key (posthog.com → Settings → Personal API keys) limited to the RacketWiki project with **Query: read** only. Mark it as a secret.

@@ -43,6 +43,9 @@ async function start(key: string, host: string) {
   const {default: posthog} = await import('posthog-js')
   posthog.init(key, {
     api_host: host,
+    // Behind the proxy, links in the toolbar and elsewhere still need to point at PostHog itself.
+    ui_host: 'https://eu.posthog.com',
+    defaults: '2026-05-30',
     person_profiles: 'identified_only',
     persistence: 'localStorage+cookie',
     capture_pageview: true,
