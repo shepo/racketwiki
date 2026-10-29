@@ -10,7 +10,8 @@ export const SITE = {
   sanityDataset: env('SANITY_DATASET', 'production'),
   /** PostHog project RacketWiki (EU). The project key is public by design. Empty turns analytics off. */
   posthogKey: env('PUBLIC_POSTHOG_KEY', 'phc_vLQT5j4J7GMF3CVoV4myKGowU4pQ9kLAagkPne2mecZ7'),
-  posthogHost: env('PUBLIC_POSTHOG_HOST', 'https://eu.i.posthog.com'),
+  /** PostHog managed reverse proxy on our own domain, so ad blockers don't drop events. */
+  posthogHost: env('PUBLIC_POSTHOG_HOST', 'https://p.racketwiki.org'),
   /** Submissions Worker. Empty = forms show "opening soon". */
   submissionsUrl: env('PUBLIC_SUBMISSIONS_URL', 'https://racketwiki-submission.jake-02f.workers.dev'),
 }
