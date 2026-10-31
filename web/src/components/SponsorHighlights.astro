@@ -45,7 +45,6 @@ const date = (iso: string) => new Date(iso).toLocaleDateString('en-GB', {day: 'n
   <dl class="stats">
     {content.map((c) => <div><dt>{c.l}</dt><dd>{n(c.v)}</dd></div>)}
   </dl>
-  {!show && <p class="note">Audience figures (readers, pages read and the most-read sports) will appear here once the site has launched.</p>}
   <ul class="why">
     <li>Readers are players, coaches and club organisers, reading about the sport they play.</li>
     <li>Sponsor a single page, one sport, or a whole section such as Courts or Equipment.</li>

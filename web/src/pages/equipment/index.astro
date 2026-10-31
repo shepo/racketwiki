@@ -32,7 +32,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Equipment', path: '/equipment
             <thead data-pagefind-ignore><tr><th>Sport</th>{def.columns.map((c) => <th>{c.label}</th>)}</tr></thead>
             <tbody>{rows.map((r) => <tr><td><a class="hl" href={urlFor(store, r.doc)}>{r.sport!.name}</a></td>{r.cells.map((f) => <td>{f ? <Fact fact={f} /> : <span class="muted small">Not specified</span>}</td>)}</tr>)}</tbody>
           </table></div>
-        ) : <p class="note">Being researched.</p>}
+        ) : null}
         <JumpLinks links={[{label: `${def.title} in full`, href: `/equipment/${k}/`, section: 'equipment'}]} />
       </section>
     ))}
