@@ -58,7 +58,7 @@ const tabFor: Record<string, any> = {ratings: 'players', venues: 'courts', brand
           {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td></tr>)}
           {organiser && kind === 'ratings' && <tr><td>Governing body</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td></tr>}
           {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td></tr>}
-          {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td></tr>}
+          {d.website && <tr><td>Website</td><td>{domain ? (kind === 'brands' ? <span>{domain}</span> : <a class="hl" href={d.website.url} rel="noopener">{domain}</a>) : <span class="pending">Domain being verified</span>}</td></tr>}
         </tbody>
       </table></div>
     </section>
