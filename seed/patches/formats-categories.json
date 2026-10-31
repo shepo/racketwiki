@@ -1,0 +1,1628 @@
+[
+ {
+  "id": "sport-airbadminton",
+  "set": {
+   "formats": [
+    {
+     "_key": "k588",
+     "_type": "format",
+     "description": "Three players a side.",
+     "kind": "team",
+     "name": "Triples",
+     "category": "game"
+    },
+    {
+     "_key": "k589",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k590",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-badminton",
+  "set": {
+   "formats": [
+    {
+     "_key": "k52",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k53",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k54",
+     "_type": "format",
+     "kind": "mixed",
+     "name": "Mixed doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f001",
+     "_type": "format",
+     "name": "No Strings Badminton",
+     "kind": "other",
+     "category": "social",
+     "description": "Pay-and-play social sessions at leisure centres where players turn up without a regular commitment and are mixed into games."
+    },
+    {
+     "_key": "f002",
+     "_type": "format",
+     "name": "BWF World Tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The professional circuit of graded international tournaments, topped by the Super 1000 events such as the All England Open.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "BWF World Tour",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-all-england-past-winners"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f003",
+     "_type": "format",
+     "name": "Thomas Cup and Uber Cup",
+     "kind": "team",
+     "category": "competitive",
+     "description": "International team championships between nations, the Thomas Cup for men and the Uber Cup for women."
+    },
+    {
+     "_key": "f004",
+     "_type": "format",
+     "name": "Sudirman Cup",
+     "kind": "team",
+     "category": "competitive",
+     "description": "The mixed team championship between nations, the only international event where all five disciplines are played."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-ball-badminton",
+  "set": {
+   "formats": [
+    {
+     "_key": "k544",
+     "_type": "format",
+     "kind": "team",
+     "name": "Team (five a side)",
+     "category": "game"
+    },
+    {
+     "_key": "k545",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k546",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f005",
+     "_type": "format",
+     "name": "National championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "State and institutional teams contest the Senior National Ball Badminton Championship in India."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-beach-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k518",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k519",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k520",
+     "_type": "format",
+     "kind": "mixed",
+     "name": "Mixed doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f006",
+     "_type": "format",
+     "name": "Beach Tennis World Tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The world governing body's circuit of graded beach tennis tournaments.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Beach Tennis World Tour",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-bjkcup-world-tennis"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f007",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The ITF Beach Tennis World Championships, held in Italy since 2013."
+    },
+    {
+     "_key": "f008",
+     "_type": "format",
+     "name": "Italian beach play",
+     "kind": "other",
+     "category": "cultural",
+     "description": "The game grew up on the seaside beaches of Emilia-Romagna in Italy, which the world governing body calls its birthplace."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-crossminton",
+  "set": {
+   "formats": [
+    {
+     "_key": "k513",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k514",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f009",
+     "_type": "format",
+     "name": "Recreational play",
+     "kind": "other",
+     "category": "social",
+     "description": "Most people play informally outdoors, in parks and gardens, without a marked court.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Recreational play",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-ico-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f010",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The world governing body's championships, held regularly since the first world event in Berlin in 2011.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-ico-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f011",
+     "_type": "format",
+     "name": "Nations Cup",
+     "kind": "team",
+     "category": "competitive",
+     "description": "An annual team competition between nations in which each clash is four singles and two doubles matches."
+    },
+    {
+     "_key": "f012",
+     "_type": "format",
+     "name": "Snowminton",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Tournaments played outdoors on snow under the normal rules, first staged internationally in Oberstdorf, Germany, in 2013."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-frescobol",
+  "set": {
+   "formats": [
+    {
+     "_key": "k537",
+     "_type": "format",
+     "description": "Two players rallying co-operatively.",
+     "kind": "other",
+     "name": "Pairs",
+     "category": "game"
+    },
+    {
+     "_key": "f014",
+     "_type": "format",
+     "name": "Competitive circuits",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Since 1994 Brazil has run a national circuit in which pairs are scored on their rallies, with radar used to measure the speed of attacking shots."
+    },
+    {
+     "_key": "f013",
+     "_type": "format",
+     "name": "Beach play",
+     "kind": "other",
+     "category": "cultural",
+     "description": "Born on Copacabana beach in Rio de Janeiro, frescobol is mostly played as a co-operative pastime in which both players try to keep the rally going and nobody wins or loses."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-frontenis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k553",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k554",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f015",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Frontenis played with a racquetball ball is the official version at the FIPV world championships, where Mexico has long been strongest.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipv-frontenis"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-jokari",
+  "set": {
+   "formats": [
+    {
+     "_key": "k549",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k550",
+     "_type": "format",
+     "kind": "other",
+     "name": "Pairs",
+     "category": "game"
+    },
+    {
+     "_key": "f016",
+     "_type": "format",
+     "name": "Traditional leisure game",
+     "kind": "other",
+     "category": "cultural",
+     "description": "A French pastime invented in Bayonne in 1938 as a cousin of Basque pelota, played casually alone or in pairs."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-longue-paume",
+  "set": {
+   "formats": [
+    {
+     "_key": "k615",
+     "_type": "format",
+     "kind": "team",
+     "name": "Team",
+     "category": "game"
+    },
+    {
+     "_key": "f017",
+     "_type": "format",
+     "name": "Village game",
+     "kind": "team",
+     "category": "cultural",
+     "description": "A traditional game of the Picardy countryside, played six against six on open flat ground by village clubs."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-matkot",
+  "set": {
+   "formats": [
+    {
+     "_key": "k541",
+     "_type": "format",
+     "description": "Two players rallying together.",
+     "kind": "other",
+     "name": "Pairs",
+     "category": "game"
+    },
+    {
+     "_key": "f018",
+     "_type": "format",
+     "name": "Beach play",
+     "kind": "other",
+     "category": "cultural",
+     "description": "Played on beaches all along the Israeli coast and seen as an unofficial national sport, especially on Independence Day."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-paddle-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k527",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k528",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-paddleball",
+  "set": {
+   "formats": [
+    {
+     "_key": "k533",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k534",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f019",
+     "_type": "format",
+     "name": "Tournaments and national championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The National Paddleball Association runs four-wall tournaments and annual national championships."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-padel",
+  "set": {
+   "formats": [
+    {
+     "_key": "c1812",
+     "_type": "format",
+     "description": "Two pairs, the standard form of the game in club play and on the professional tours.",
+     "fact": {
+      "_type": "sourcedFact",
+      "citation": "Rule 3.1",
+      "source": {
+       "_ref": "source-fip-rules",
+       "_type": "reference"
+      },
+      "text": "The official game is played as doubles",
+      "tier": 1,
+      "unverified": false,
+      "verifiedOn": "2026-10-24"
+     },
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "c1813",
+     "_type": "format",
+     "description": "One against one, played informally at some clubs, often on a narrower court.",
+     "fact": {
+      "_type": "sourcedFact",
+      "editorNote": "Checked FIP Rules of Padel (2026 revision) on 2026-10-24: it contains no singles rules or singles court.",
+      "source": {
+       "_ref": "source-fip-rules",
+       "_type": "reference"
+      },
+      "unverified": true
+     },
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f020",
+     "_type": "format",
+     "name": "Americano",
+     "kind": "round-robin",
+     "category": "social",
+     "description": "A social doubles event in which partners and opponents change every round and each player keeps their own points total, so a single individual wins."
+    },
+    {
+     "_key": "f021",
+     "_type": "format",
+     "name": "Mexicano",
+     "kind": "round-robin",
+     "category": "social",
+     "description": "Like an Americano, but after a random first round partners and opponents are set by the live points table, so games get closer as the event goes on."
+    },
+    {
+     "_key": "f022",
+     "_type": "format",
+     "name": "King of the Court",
+     "kind": "other",
+     "category": "social",
+     "description": "Courts are ranked as a ladder: winners move up a court and losers move down after each round."
+    },
+    {
+     "_key": "c1814",
+     "_type": "format",
+     "description": "A club ranking in which pairs or players challenge those placed near them to move up.",
+     "kind": "ladder",
+     "name": "Ladder",
+     "category": "competitive"
+    },
+    {
+     "_key": "c1815",
+     "_type": "format",
+     "description": "Players or pairs are split into small groups that each play a round of matches over a set period, with movement between groups at the end.",
+     "kind": "box-league",
+     "name": "Box league",
+     "category": "competitive"
+    },
+    {
+     "_key": "f023",
+     "_type": "format",
+     "name": "Tournaments",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Graded knockout and round-robin events, often with a consolation or compass draw so every pair plays more than once."
+    },
+    {
+     "_key": "f024",
+     "_type": "format",
+     "name": "Premier Padel",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The professional tour of ranking tournaments for the world's leading men and women players.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Premier Padel",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-premier-padel"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f025",
+     "_type": "format",
+     "name": "World Padel Championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "The FIP's championship in which national squads compete for the world team title.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Padel Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fip-wpc-2024-squads"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-pelota-paleta",
+  "set": {
+   "formats": [
+    {
+     "_key": "k559",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k560",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f026",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Paleta goma is one of the FIPV disciplines contested at the Basque pelota world championships, led by players from Argentina and Uruguay.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipv-paleta-goma"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-pickleball",
+  "set": {
+   "formats": [
+    {
+     "_key": "k20",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k21",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k22",
+     "_type": "format",
+     "kind": "mixed",
+     "name": "Mixed doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f027",
+     "_type": "format",
+     "name": "Open play",
+     "kind": "other",
+     "category": "social",
+     "description": "Drop-in sessions where players queue by placing paddles in a rack and rotate onto the next free court, usually changing partners each game."
+    },
+    {
+     "_key": "f028",
+     "_type": "format",
+     "name": "Regional and club leagues",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Club teams compete in regional divisions that feed a national league, as in the England Pickleball League."
+    },
+    {
+     "_key": "f029",
+     "_type": "format",
+     "name": "Professional tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The PPA Tour runs ranking tournaments for professional singles, doubles and mixed doubles players.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Professional tour",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-ppa-tour"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f030",
+     "_type": "format",
+     "name": "Major League Pickleball",
+     "kind": "team",
+     "category": "competitive",
+     "description": "A professional team league in which each team match is made up of women's doubles, men's doubles and two mixed doubles games.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Major League Pickleball",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-mlp-faq"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f031",
+     "_type": "format",
+     "name": "National championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "National bodies stage annual championship tournaments across age groups and skill levels.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "National championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-usa-pickleball-nationals"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-platform-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k500",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k501",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f032",
+     "_type": "format",
+     "name": "Leagues",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Around 50 volunteer-run leagues across the United States, the backbone of the sport's membership."
+    },
+    {
+     "_key": "f033",
+     "_type": "format",
+     "name": "APTA Tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "A season-long series of prize-money tournaments, including Grand Prix events, that award national ranking points."
+    },
+    {
+     "_key": "f034",
+     "_type": "format",
+     "name": "National Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The American Platform Tennis Association's annual national title events."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-racketlon",
+  "set": {
+   "formats": [
+    {
+     "_key": "k605",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k606",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k607",
+     "_type": "format",
+     "kind": "team",
+     "name": "Team",
+     "category": "game"
+    },
+    {
+     "_key": "f035",
+     "_type": "format",
+     "name": "FIR World Tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "A circuit of international racketlon tournaments, running since 2003.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "FIR World Tour",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fir-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f036",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The annual world individual championships, contested across all four racket sports.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fir-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f037",
+     "_type": "format",
+     "name": "Team World Championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "National teams compete for the world team title, first played at the 2002 World Championships in Gothenburg.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Team World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fir-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-rackets",
+  "set": {
+   "formats": [
+    {
+     "_key": "k570",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k571",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f038",
+     "_type": "format",
+     "name": "British Open",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The open singles and doubles championships for men and women, held at The Queen's Club in London."
+    },
+    {
+     "_key": "f039",
+     "_type": "format",
+     "name": "Amateur Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "National amateur singles and doubles championships for men and women."
+    },
+    {
+     "_key": "f040",
+     "_type": "format",
+     "name": "Schools championships",
+     "kind": "doubles",
+     "category": "competitive",
+     "description": "Schools with rackets courts send pairs to an annual national schools' doubles championship."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-racquetball",
+  "set": {
+   "formats": [
+    {
+     "_key": "k84",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k85",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k86",
+     "_type": "format",
+     "description": "Three players, each serving player against the other two.",
+     "kind": "other",
+     "name": "Cut-throat",
+     "category": "game"
+    },
+    {
+     "_key": "f041",
+     "_type": "format",
+     "name": "Challenge ladders",
+     "kind": "ladder",
+     "category": "competitive",
+     "description": "Players challenge those ranked above them on an online club or regional ladder to climb the standings."
+    },
+    {
+     "_key": "f042",
+     "_type": "format",
+     "name": "Leagues",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Local leagues organised at clubs and facilities, listed by the national body."
+    },
+    {
+     "_key": "f043",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The International Racquetball Federation's senior, junior and masters world championships between nations."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-real-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "c2326",
+     "_type": "format",
+     "description": "One against one, the most common form of the game.",
+     "fact": {
+      "_type": "sourcedFact",
+      "citation": "What Is Real Tennis? And How Do You Play?",
+      "source": {
+       "_ref": "source-tra-website",
+       "_type": "reference"
+      },
+      "text": "Played as singles",
+      "tier": 1,
+      "unverified": false,
+      "verifiedOn": "2026-10-24"
+     },
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "c2327",
+     "_type": "format",
+     "description": "Two against two on the same court.",
+     "fact": {
+      "_type": "sourcedFact",
+      "citation": "What Is Real Tennis? And How Do You Play?",
+      "source": {
+       "_ref": "source-tra-website",
+       "_type": "reference"
+      },
+      "text": "Played as doubles, including mixed doubles",
+      "tier": 1,
+      "unverified": false,
+      "verifiedOn": "2026-10-24"
+     },
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f044",
+     "_type": "format",
+     "name": "Handicap matches",
+     "kind": "other",
+     "category": "social",
+     "description": "Everyday games are played off each player's official handicap, so people of very different standards can have a close match."
+    },
+    {
+     "_key": "f045",
+     "_type": "format",
+     "name": "Handicap tournaments",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Club and national events played off handicap, in singles and doubles and across age groups."
+    },
+    {
+     "_key": "f046",
+     "_type": "format",
+     "name": "British Open",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The open singles and doubles championships for men and women, played at The Queen's Club in London."
+    },
+    {
+     "_key": "f047",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "World championship events between the best players, including a ladies' world championship due in Melbourne in 2027."
+    },
+    {
+     "_key": "f048",
+     "_type": "format",
+     "name": "Historic royal courts",
+     "kind": "other",
+     "category": "cultural",
+     "description": "The game is still played on centuries-old courts such as Hampton Court Palace, first built for Cardinal Wolsey and rebuilt by Henry VIII.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Historic royal courts",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-tra-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-soft-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k508",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k509",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "f049",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The world governing body's championships, first held in 1975, with a separate junior world championship.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-istf-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f050",
+     "_type": "format",
+     "name": "Asian Games",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Soft tennis has been an Asian Games medal sport since 1994, after a demonstration appearance in 1990.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Asian Games",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-istf-history"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-spec-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k600",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k601",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-squash",
+  "set": {
+   "formats": [
+    {
+     "_key": "k36",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k37",
+     "_type": "format",
+     "description": "Played on a wider doubles court in international competition.",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f051",
+     "_type": "format",
+     "name": "Box leagues",
+     "kind": "box-league",
+     "category": "competitive",
+     "description": "A club staple: players are placed in small groups by standard, play everyone in their box, and move up or down at the end of each period."
+    },
+    {
+     "_key": "f052",
+     "_type": "format",
+     "name": "Ladders",
+     "kind": "ladder",
+     "category": "competitive",
+     "description": "A club ranking in which players challenge those just above them to climb the list."
+    },
+    {
+     "_key": "f053",
+     "_type": "format",
+     "name": "Inter-club leagues",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Club teams of several players meet other clubs home and away through the season, as in the Squash Wales leagues."
+    },
+    {
+     "_key": "f054",
+     "_type": "format",
+     "name": "PSA Squash Tour",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The professional tour for men and women, from Challenger events up to the World Championships.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "PSA Squash Tour",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-psa-about"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f055",
+     "_type": "format",
+     "name": "World Team Championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "A biennial World Squash Federation championship in which national teams compete for the world title."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-squash-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k594",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-squash57",
+  "set": {
+   "formats": [
+    {
+     "_key": "k576",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k577",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-table-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k70",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k71",
+     "_type": "format",
+     "description": "Partners must hit the ball alternately.",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k72",
+     "_type": "format",
+     "kind": "mixed",
+     "name": "Mixed doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k73",
+     "_type": "format",
+     "kind": "team",
+     "name": "Team",
+     "category": "game"
+    },
+    {
+     "_key": "f056",
+     "_type": "format",
+     "name": "Round the table",
+     "kind": "other",
+     "category": "social",
+     "description": "A group game in which players queue at each end, hit the ball once and run round the table to join the other queue until only one is left."
+    },
+    {
+     "_key": "f057",
+     "_type": "format",
+     "name": "Ping!",
+     "kind": "other",
+     "category": "social",
+     "description": "Free tables in parks, shopping centres and community venues where anyone can pick up a bat and play."
+    },
+    {
+     "_key": "f058",
+     "_type": "format",
+     "name": "Bat & Chat",
+     "kind": "other",
+     "category": "social",
+     "description": "Organised social sessions for people over 50 mixing free play, light games and time to socialise."
+    },
+    {
+     "_key": "f059",
+     "_type": "format",
+     "name": "Local leagues",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Club teams play weekly matches in local leagues, the core of club competition, including a shorter two-a-side fast format."
+    },
+    {
+     "_key": "f060",
+     "_type": "format",
+     "name": "World Table Tennis",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The professional series of international events run under the world governing body.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "World Table Tennis",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-wtt"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f061",
+     "_type": "format",
+     "name": "World Team Championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "The world governing body's championship for national teams, with London hosting the 2026 edition in the spring."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-tamburello",
+  "set": {
+   "formats": [
+    {
+     "_key": "k612",
+     "_type": "format",
+     "kind": "team",
+     "name": "Team",
+     "category": "game"
+    },
+    {
+     "_key": "f062",
+     "_type": "format",
+     "name": "National championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Italian clubs compete in national leagues from Serie A downwards, with a Coppa Italia and a Supercoppa, outdoors and indoors.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "National championships",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipt-history"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f063",
+     "_type": "format",
+     "name": "Indoor World Championship",
+     "kind": "team",
+     "category": "competitive",
+     "description": "An international indoor championship between national teams, held in Italy in 2026.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Indoor World Championship",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipt-history"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f064",
+     "_type": "format",
+     "name": "Open",
+     "kind": "team",
+     "category": "cultural",
+     "description": "The traditional form, first played in streets and town squares and later in purpose-built grounds called sferisteri.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Open",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipt-history"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f065",
+     "_type": "format",
+     "name": "Tambeach",
+     "kind": "other",
+     "category": "cultural",
+     "description": "A beach version that began more than 30 years ago at Cava d'Aliga in the province of Ragusa, Sicily.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Tambeach",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-fipt-history"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-tennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k1",
+     "_type": "format",
+     "description": "One player a side, using the singles sidelines.",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k2",
+     "_type": "format",
+     "description": "Two players a side, using the full width of the court.",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "k3",
+     "_type": "format",
+     "description": "A man and a woman on each side.",
+     "kind": "mixed",
+     "name": "Mixed doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f066",
+     "_type": "format",
+     "name": "Barclays Free Park Tennis",
+     "kind": "other",
+     "category": "social",
+     "description": "Free, hour-long weekly sessions on British park courts, open to all ages and abilities, with rackets and balls provided."
+    },
+    {
+     "_key": "f067",
+     "_type": "format",
+     "name": "Cardio Tennis",
+     "kind": "other",
+     "category": "social",
+     "description": "A sociable group fitness class built around tennis drills and games, open to all ages and abilities."
+    },
+    {
+     "_key": "f068",
+     "_type": "format",
+     "name": "Local tennis leagues",
+     "kind": "box-league",
+     "category": "competitive",
+     "description": "Players are grouped with others of a similar rating and play their group matches at public courts over a set number of weeks."
+    },
+    {
+     "_key": "f069",
+     "_type": "format",
+     "name": "County and district leagues",
+     "kind": "team",
+     "category": "competitive",
+     "description": "Club teams play singles and doubles fixtures against other clubs in their area through the season."
+    },
+    {
+     "_key": "f070",
+     "_type": "format",
+     "name": "Professional tours",
+     "kind": "other",
+     "category": "competitive",
+     "description": "The ATP and WTA tours run the year-round circuits of ranking tournaments for professional men and women.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Professional tours",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-wta-tour"
+      },
+      "tier": 2,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f071",
+     "_type": "format",
+     "name": "Davis Cup",
+     "kind": "team",
+     "category": "competitive",
+     "description": "The international men's team competition between nations, played in tiers with promotion and relegation and a final eight-nation event.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Davis Cup",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-daviscup-format"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    },
+    {
+     "_key": "f072",
+     "_type": "format",
+     "name": "Billie Jean King Cup",
+     "kind": "team",
+     "category": "competitive",
+     "description": "The international women's team competition between nations, run by the world governing body.",
+     "fact": {
+      "_type": "sourcedFact",
+      "text": "Billie Jean King Cup",
+      "source": {
+       "_type": "reference",
+       "_ref": "source-bjkcup-world-tennis"
+      },
+      "tier": 1,
+      "verifiedOn": "2026-10-31",
+      "unverified": false
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-touchtennis",
+  "set": {
+   "formats": [
+    {
+     "_key": "k596",
+     "_type": "format",
+     "kind": "singles",
+     "name": "Singles",
+     "category": "game"
+    },
+    {
+     "_key": "k597",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f073",
+     "_type": "format",
+     "name": "Tour and rankings",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Ranking tournaments, including grand slam events, feed a world ranking."
+    },
+    {
+     "_key": "f074",
+     "_type": "format",
+     "name": "World Team Championships",
+     "kind": "team",
+     "category": "competitive",
+     "description": "An international team championship between nations."
+    }
+   ]
+  }
+ },
+ {
+  "id": "sport-xare",
+  "set": {
+   "formats": [
+    {
+     "_key": "k565",
+     "_type": "format",
+     "kind": "doubles",
+     "name": "Doubles",
+     "category": "game"
+    },
+    {
+     "_key": "f075",
+     "_type": "format",
+     "name": "World Championships",
+     "kind": "other",
+     "category": "competitive",
+     "description": "Xare is contested at the FIPV's trinquete world championships, including the under-23 event."
+    },
+    {
+     "_key": "f076",
+     "_type": "format",
+     "name": "Balda and Del Río Cups",
+     "kind": "team",
+     "category": "competitive",
+     "description": "International club competitions in xare, started in Argentina in the 1970s and now under the FIPV."
+    }
+   ]
+  }
+ }
+]

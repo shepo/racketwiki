@@ -2,7 +2,6 @@
 import Base from '../../layouts/Base.astro'
 import Page from '../../components/Page.astro'
 import Breadcrumbs from '../../components/Breadcrumbs.astro'
-import SourceCell from '../../components/SourceCell.astro'
 import SourceList from '../../components/SourceList.astro'
 import JumpLinks from '../../components/JumpLinks.astro'
 import {getStore, byImportance} from '../../lib/content'
@@ -61,10 +60,10 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Courts', path: '/courts/'}]
 
     {drawn.length > 0 && (
       <section class="stack sec-courts">
-        <h2 class="h-section">Dimensions and sources</h2>
+        <h2 class="h-section">Dimensions</h2>
         <div class="table-scroll"><table class="spec">
-          <thead data-pagefind-ignore><tr><th>Sport</th><th>Length × width</th><th>Source</th></tr></thead>
-          <tbody>{drawn.map(({c, sport}) => <tr><td><a class="hl" href={urlFor(store, c)}>{sport?.name}</a></td><td>{formatDimensions(c.length.measurement, c.width.measurement)?.text}</td><td><SourceCell fact={c.length} /></td></tr>)}</tbody>
+          <thead data-pagefind-ignore><tr><th>Sport</th><th>Length × width</th></tr></thead>
+          <tbody>{drawn.map(({c, sport}) => <tr><td><a class="hl" href={urlFor(store, c)}>{sport?.name}</a></td><td>{formatDimensions(c.length.measurement, c.width.measurement)?.text}</td></tr>)}</tbody>
         </table></div>
       </section>
     )}

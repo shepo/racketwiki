@@ -14,7 +14,7 @@ const current = view.tabs.find((t) => t.key === tab)!
   <div class={`kicker sec-${current.section} c-sec`}>{tab === 'overview' ? 'Sport guide' : current.label}</div>
   <h1 class="h-display">{heading ?? view.sport.name}</h1>
   <p class="dek">{lead}</p>
-  {view.sport.importance && <div class="imp"><Rackets value={view.sport.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#importance">Importance rating</a></div>}
+  {view.sport.importance && <div class="imp"><Rackets value={view.sport.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#influence">Influence rating</a></div>}
   <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sourceCount} {sourceCount === 1 ? 'source' : 'sources'}</span></div>
   {view.tabs.length > 1 && (
     <nav aria-label={`Sections of ${view.sport.name}`} class="tabs" data-pagefind-ignore>

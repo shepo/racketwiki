@@ -28,7 +28,7 @@ Build the site **statically** (Astro preferred; justify if you choose otherwise)
 ## 3. Content principles (non-negotiable)
 
 1. **Source of truth.** Every fact that could be wrong carries: `source` (reference to a Source document), `tier` (1 to 5), and `verifiedOn` (date). No fact without a source. Where we do not know yet, store it as `unverified: true` with the placeholder visible in the Studio and **never rendered as fact on the public site**. Do not invent figures, names, dates or domains.
-2. **Source tiers.** Tier 1 governing bodies and official rulebooks; Tier 2 national bodies and major tournament/tour organisations; Tier 3 manufacturers and recognised testing labs; Tier 4 stats and records bodies; Tier 5 reputable press and community. Higher tier wins a conflict. Tier is shown beside the source on the page. The Sources page lists each source with status "Researched" or "Verify domain". Show a domain only when Researched.
+2. **Source tiers.** Tier 1 governing bodies and official rulebooks; Tier 2 national bodies and major tournament/tour organisations; Tier 3 manufacturers and recognised testing labs; Tier 4 stats and records bodies; Tier 5 reputable press and community. Higher tier wins a conflict. Sources are not cited beside each fact: each page lists its sources once, at the foot (one entry per distinct link), with the tier shown there (Jake, 2026-10-31). The Sources page lists each source with status "Researched" or "Verify domain". Show a domain only when Researched.
 3. **Units.** Store metric canonically (millimetres, grams, metres). Derive imperial at build. Show both everywhere: `20 m × 10 m (65 ft 7 in × 32 ft 10 in)`. Never store both by hand.
 4. **Corrections.** Every page has "Spotted a mistake" which feeds the submissions queue.
 5. **Terminology.** Say "competitions" and "box leagues". Never "comps". British English.
@@ -50,11 +50,11 @@ Ten colour-coded sections. Colour is always paired with a text label (accessibil
 | Directory | `#7a6200` |
 | Sources | `#475569` |
 
-Root-level nav shows five items: Sports, Equipment, Courts, Directory, Sources. The other sections (Rules, Brands, Players, Competitions, Governing bodies) are **sub-sections of a sport page but also root-level searchable**: each has its own index route and appears as a search filter.
+Root-level nav shows four items: Sports, Equipment, Courts, Directory. Sources is linked from the footer only (Jake, 2026-10-31). The other sections (Rules, Brands, Players, Competitions, Governing bodies) are **sub-sections of a sport page but also root-level searchable**: each has its own index route and appears as a search filter.
 
 **Sport page** is a tabbed hub: Overview, Rules, Equipment, Courts, Brands, Players, Competitions, Organisations. Each section on the page has a coloured rule and ends with colour-coded jump links to the other sections. Content needs many jumping-off points between sections; add cross-links generously. Include Related sports.
 
-**Formats** (e.g. singles, doubles, mixed, ladders, box leagues) are a section on each sport page, because Rallio's community runs them.
+**Formats** are a section on each sport page, grouped by `category`: game (singles, doubles, mixed), social (e.g. Americano, club mixers, open play), competitive (tournaments, leagues, ladders, box leagues) and cultural (traditional, beach or festival play). Rallio's community runs many of them.
 
 **Directory** types: Governing bodies, Brands, Equipment labs, Stats and records, Software and apps, Clubs and venues, Coaches, Retailers. Clubs, coaches and retailers launch as empty states with a "List your business" prompt.
 
@@ -70,7 +70,7 @@ Root-level nav shows five items: Sports, Equipment, Courts, Directory, Sources. 
 
 ## 6. Rallio sponsorship
 
-- A "Sponsored by Rallio" strip at the top of every page, and a Rallio sponsor card in the sidebar of sport, equipment and courts pages.
+- A Rallio sponsor card in the sidebar of sport, equipment and courts pages. There is no sponsor strip at the top of the page (removed 2026-10-31; the `strip` placement value is kept but not rendered).
 - Rallio card uses Rallio's own look (olive `#37372e`, background `#fafaf7`, ink `#2b2b24`, sage `#ddddce`; Radio Canada Big). Copy: "Mixers, ladders, competitions and box leagues, all in one app." Button: "Try Rallio". Underneath: a "Sponsor this page" link to an advertising page.
 - Sponsor placements are **data in Sanity** (`sponsorPlacement`: sponsor, scope = site / section / sport / page, creative, start, end), not hard-coded, so sections can be sold later.
 - All paid and Rallio links carry `rel="sponsored"`, and are labelled "Sponsored". Rallio listings in the Directory are labelled Sponsored.

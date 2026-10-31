@@ -1,10 +1,8 @@
 ---
-import Tier from './Tier.astro'
 import Base from '../layouts/Base.astro'
 import Page from './Page.astro'
 import Breadcrumbs from './Breadcrumbs.astro'
 import Fact from './Fact.astro'
-import SourceCell from './SourceCell.astro'
 import SourceList from './SourceList.astro'
 import JumpLinks from './JumpLinks.astro'
 import Rackets from './Rackets.astro'
@@ -42,7 +40,7 @@ const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players
       {(d.formerNames?.length || d.alsoKnownAs?.length) && (
         <p class="aka">{d.formerNames?.length ? <>Formerly <strong>{d.formerNames.join(', ')}</strong></> : null}{d.formerNames?.length && d.alsoKnownAs?.length ? ' · ' : ''}{d.alsoKnownAs?.length ? <>Also known as <strong>{d.alsoKnownAs.join(', ')}</strong></> : null}</p>
       )}
-      {d.importance && <div class="imp"><Rackets value={d.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#importance">Importance rating</a></div>}
+      {d.importance && <div class="imp"><Rackets value={d.importance} size={24} /><a class="hl small muted" href="/editorial-standards/#influence">Influence rating</a></div>}
       <p class="dek">{lead}</p>
       <div class="byline"><strong>RacketWiki Editors</strong>{verified && <span>Verified {formatDate(verified)}</span>}<span>{sources.length} {sources.length === 1 ? 'source' : 'sources'}</span></div>
     </header>
@@ -52,14 +50,14 @@ const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players
     <section class={`stack sec-${def.section}`}>
       <h2 class="h-section">Key facts</h2>
       <div class="table-scroll"><table class="spec">
-        <thead data-pagefind-ignore><tr><th>Item</th><th>Detail</th><th>Source</th></tr></thead>
+        <thead data-pagefind-ignore><tr><th>Item</th><th>Detail</th></tr></thead>
         <tbody>
-          {sports.length > 0 && <tr><td>{sports.length > 1 ? 'Sports' : 'Sport'}</td><td>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td><td></td></tr>}
-          {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td><td></td></tr>}
-          {organiser && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td><td></td></tr>}
-          {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td><td><SourceCell fact={r.fact} /></td></tr>)}
-          {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td><td><Tier tier={rulebook.tier} /></td></tr>}
-          {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td><td></td></tr>}
+          {sports.length > 0 && <tr><td>{sports.length > 1 ? 'Sports' : 'Sport'}</td><td>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td></tr>}
+          {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td></tr>}
+          {organiser && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td></tr>}
+          {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td></tr>)}
+          {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td></tr>}
+          {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td></tr>}
         </tbody>
       </table></div>
     </section>

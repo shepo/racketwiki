@@ -99,14 +99,14 @@ export function nameFields() {
   ]
 }
 
-/** Editorial importance, 1 to 5 rackets. Orders lists and the front page. Not a fact, so no source. */
+/** Influence rating, 1 to 5 rackets (stored as `importance`). Orders lists and the front page. Not a fact, so no source. */
 export function importanceField() {
   return defineField({
     name: 'importance',
-    title: 'Importance (1–5 rackets)',
+    title: 'Influence rating (1–5 rackets)',
     type: 'number',
     options: {list: [1, 2, 3, 4, 5], layout: 'radio', direction: 'horizontal'},
-    description: 'Editorial judgement of how significant this is across racket sports. 5 = major, 1 = niche. Shown as rackets beside the name on its page and in lists. Higher numbers come first in lists; for sports, the eight highest make the By sport list on the front page, and the top six rated 3 or less fill "Beyond the big six".',
+    description: 'How widely this is played, followed and organised across racket sports. 5 = major, 1 = niche. Shown as rackets beside the name on its page and in lists. Higher numbers come first in lists; for sports, the eight highest make the By sport list on the front page, and the top six rated 3 or less fill "Beyond the big six".',
     validation: (r) => r.min(1).max(5).integer(),
     group: 'content',
   })

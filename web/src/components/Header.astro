@@ -25,7 +25,7 @@ const {active, showSearch = true} = Astro.props as {active?: string; showSearch?
   .nav a[aria-current='page'] { background: color-mix(in srgb, var(--sec) 12%, transparent); font-weight: 600; }
   .nav a:hover { color: var(--sec); }
   .rule { border-top: 3px solid var(--ink); }
-  /* Phones: the five sections stay on one line, sharing the width. */
+  /* Phones: the sections stay on one line, sharing the width. */
   @media (max-width: 640px) {
     .nav { width: 100%; flex-wrap: nowrap; gap: 4px; overflow-x: auto; scrollbar-width: none; }
     .nav a { flex: 1 0 auto; padding: 8px 4px; text-align: center; }
