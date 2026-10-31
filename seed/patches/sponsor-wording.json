@@ -1,0 +1,14 @@
+[
+ {
+  "id": "page-about",
+  "set": {
+   "body[_key==\"b5\"].children[0].text": "RacketWiki is sponsored by Rallio, a club app for mixers, ladders, competitions and box leagues. Sponsored placements are labelled."
+  }
+ },
+ {
+  "id": "page-editorial-standards",
+  "set": {
+   "body[_key==\"b15\"].children[0].text": "Sponsored placements and sponsored directory listings are labelled \"Sponsored\" and their links are marked as sponsored."
+  }
+ }
+]
