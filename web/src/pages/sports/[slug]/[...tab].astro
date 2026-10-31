@@ -91,6 +91,9 @@ const topBodies = (() => {
 })()
 const gbLine = topBodies[0]?.name ?? factText(sport.governingBodyFact)
 const formats = sport.formats ?? []
+const FORMAT_GROUPS = [['game', 'How a match is played'], ['social', 'Social play'], ['competitive', 'Competitive play'], ['cultural', 'Cultural and traditional play']] as const
+const formatGroups = FORMAT_GROUPS.map(([k, label]) => ({label, items: formats.filter((f: any) => (f.category ?? 'game') === k)})).filter((g) => g.items.length)
+const gameFormats = formats.filter((f: any) => (f.category ?? 'game') === 'game')
 // "Explore" contents box on the Overview: one line per other tab, saying what is there.
 // Counts and headings only, so it never singles out a player, brand or competition.
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`
@@ -128,7 +131,7 @@ const lengthIn = (f: any) => factText(f)
             {sport.formerNames?.length > 0 && (<><dt>Formerly</dt><dd>{sport.formerNames.join(', ')}</dd></>)}
             <dt>Court</dt><dd>{dims ? dims.text : v.mainCourt?.standard === false ? 'Not standard: every venue differs' : <span class="pending">Being verified</span>}</dd>
             {sport.implement && (<><dt>Played with</dt><dd>{sport.implement === 'mixed' ? 'Rackets or paddles' : `A ${sport.implement}`} and a {sport.projectile ?? 'ball'}</dd></>)}
-            <dt>Formats</dt><dd>{formats.length ? formats.map((f: any) => f.name).join(', ') : <span class="pending">Being verified</span>}</dd>
+            <dt>Formats</dt><dd>{gameFormats.length ? gameFormats.map((f: any) => f.name).join(', ') : <span class="pending">Being verified</span>}</dd>
             <dt>Governing body</dt><dd>{topBodies.length ? topBodies.map((g, i) => <>{i > 0 && ', '}<a class="hl" href={href(g)}>{bodyLabel(g)}</a></>) : gbLine ?? <span class="pending">Being verified</span>}</dd>
             <dt>Origin</dt><dd><Fact fact={sport.origin} /></dd>
           </dl>
@@ -146,11 +149,16 @@ const lengthIn = (f: any) => factText(f)
         {formats.length > 0 && (
           <section class="stack sec-sports" aria-labelledby="formats">
             <h2 id="formats" class="h-section">Formats</h2>
-            <ul class="formats">
-              {formats.map((f: any) => (
-                <li><strong>{f.name}</strong>{f.description && <>{' '}{f.description}</>}</li>
-              ))}
-            </ul>
+            {formatGroups.map((g) => (
+              <>
+                {formatGroups.length > 1 && <h3 class="h-sub">{g.label}</h3>}
+                <ul class="formats">
+                  {g.items.map((f: any) => (
+                    <li><strong>{f.name}</strong>{f.description && <>{' '}{f.description}</>}</li>
+                  ))}
+                </ul>
+              </>
+            ))}
             <JumpLinks links={[...(v.has.rules ? [{label: `${name} rules`, href: `/sports/${slugOf(sport)}/rules/`, section: 'rules'}] : []), ...(v.has.competitions ? [{label: `Where formats are played: ${lname} competitions`, href: `/sports/${slugOf(sport)}/competitions/`, section: 'competitions'}] : [])]} />
           </section>
         )}

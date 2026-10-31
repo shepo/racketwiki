@@ -34,7 +34,7 @@ export const sport = defineType({
     defineField({
       name: 'formats',
       type: 'array',
-      description: 'Ways the sport is played (singles, doubles, box leagues …). The names make the Formats row in At a glance; each name and description is listed in the Formats section of the Overview tab.',
+      description: 'Ways the sport is played, each with a category: game (singles, doubles), social (Americano, club mixers), competitive (tournaments, leagues, box leagues) or cultural (traditional, beach or festival play). Game formats make the Formats row in At a glance; all of them are listed by category in the Formats section of the Overview tab.',
       group: 'content',
       of: [
         defineArrayMember({
@@ -42,11 +42,12 @@ export const sport = defineType({
           name: 'format',
           fields: [
             defineField({name: 'name', type: 'string', description: 'Shown in bold, e.g. "Doubles".', validation: (r) => r.required()}),
+            defineField({name: 'category', type: 'string', options: {list: [{title: 'Game (how a match is played)', value: 'game'}, {title: 'Social', value: 'social'}, {title: 'Competitive', value: 'competitive'}, {title: 'Cultural or traditional', value: 'cultural'}], layout: 'radio', direction: 'horizontal'}, initialValue: 'game', description: 'The heading it is listed under in the Formats section. Empty reads as Game.'}),
             defineField({name: 'kind', type: 'string', options: {list: ['singles', 'doubles', 'mixed', 'ladder', 'box-league', 'round-robin', 'team', 'other']}, description: 'For sorting and future filters. Not shown.'}),
             defineField({name: 'description', type: 'text', rows: 2, description: 'One sentence after the name, our own words.'}),
             defineField({name: 'fact', type: 'sourcedFact', description: 'Optional: source for an official format. Kept for editors; not shown yet.'}),
           ],
-          preview: {select: {title: 'name', subtitle: 'kind'}},
+          preview: {select: {title: 'name', subtitle: 'category'}},
         }),
       ],
     }),
