@@ -95,6 +95,7 @@ async function submit(req: Request, env: Env, ctx: ExecutionContext) {
     if (v.length > max) return json({error: `${field} is too long`}, 400, headers)
     if (v) payload[field] = v
   }
+  if (body.privacyAccepted !== 'yes') return json({error: 'Please confirm you have read the privacy policy'}, 400, headers)
   for (const f of REQUIRED[kind]) if (!payload[f]) return json({error: `Please fill in ${f}`}, 400, headers)
   if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) return json({error: 'Please check your email address'}, 400, headers)
   if (kind === 'correction' && payload.issueType && !ISSUE_TYPES.includes(payload.issueType)) return json({error: 'Unknown correction type'}, 400, headers)
