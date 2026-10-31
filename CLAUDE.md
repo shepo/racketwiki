@@ -156,6 +156,6 @@ Report back concisely: what was built, what is unverified, what needs Jake's dec
 - Ratings and levels: `ratingSystem` documents (Players section) at `/ratings/<slug>/`, compared on `/ratings/` and listed on each sport's Players tab. No outbound website link; rating providers' and brands' own sites are sources with `noLink: true` (shown as plain text). The Rallio note on `/ratings/*` is the `sp-rallio-ratings` sponsor placement (page paths ending `*` match a prefix).
 - Famous venues: `venue` documents (Courts section) at `/venues/<slug>/`, listed on each sport's Courts tab, on `/courts/` and on competition pages.
 - `studio/` Sanity Studio (TypeScript) and schema in `studio/schemaTypes/`. The "Needs verification" filter in `studio/structure.ts` lists every sourcedFact path: add new ones there.
-- `worker/` submissions Worker + D1 (`/api/submit`, `/admin`).
+- `worker/` submissions Worker + D1 (`/api/submit`, `/admin`). Each stored submission also sends a server-side PostHog event `submission_received` (`kind`, `listing_type` / `issue_type`, `page`; never name, email or message), which a PostHog alert uses to tell Jake there is something to review.
 - `seed/` NDJSON seed content: read `seed/CONVENTIONS.md`; `npm run validate:seed` checks it.
 - `docs/` setup and deploy notes.

@@ -33,8 +33,8 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory
       {listings.map((d) => <Listing d={d} />)}
       <div id="dempty" class="note" hidden>
         <strong class="serif" style="font-size: var(--fs-lg)">Nothing listed here yet</strong>
-        <p>Run one? Listings are free.</p>
-        <a class="btn" href="/directory/submit/">List your business</a>
+        <p>Run one? Request a listing and we will review it.</p>
+        <a class="btn" href="/directory/submit/">Request a listing</a>
       </div>
     </section>
     <noscript><p class="small">Browse by type: {DIRECTORY_TYPES.map((t, i) => <>{i > 0 && ' · '}<a class="hl" href={`/directory/${t.value}/`}>{t.label}</a></>)}</p></noscript>

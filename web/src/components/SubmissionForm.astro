@@ -45,7 +45,8 @@ const endpoint = SITE.submissionsUrl || undefined
     </>
   )}
   <div class="field"><label for="f-email">Your email{kind === 'correction' ? ' (optional, so we can follow up)' : ''}</label><input id="f-email" name="email" type="email" required={kind !== 'correction'} maxlength="200" /></div>
-  <p class="small muted">We use your details only to handle this submission. See our <a class="hl" href="/editorial-standards/">editorial standards</a>.</p>
+  <label class="check"><input type="checkbox" name="privacyAccepted" value="yes" required /> <span>I have read the <a class="hl" href="/privacy/">privacy policy</a>. We use your details only to handle this submission.</span></label>
+  <label class="check" data-cookie-opt><input type="checkbox" name="cookieOptIn" value="yes" /> <span>Also allow analytics cookies, so we can see how RacketWiki is used (optional; change any time in <a class="hl" href="/cookies/">cookie settings</a>).</span></label>
   {endpoint ? <button class="btn" type="submit">Send</button> : <p class="note">Submissions open soon. The form will go live when the submissions service is deployed.</p>}
   <p class="status" role="status" aria-live="polite"></p>
 </form>
@@ -63,6 +64,13 @@ const endpoint = SITE.submissionsUrl || undefined
     const ret = form.querySelector<HTMLInputElement>('[name=return]')
     if (ret) ret.value = location.href
     const status = form.querySelector<HTMLElement>('.status')!
+    // The optional cookie box only shows to readers who have not already accepted analytics.
+    const cookieOpt = form.querySelector<HTMLElement>('[data-cookie-opt]')
+    try { if (cookieOpt && localStorage.getItem('rw_consent') === 'granted') cookieOpt.hidden = true } catch {}
+    const acceptCookies = () => {
+      const box = form.querySelector<HTMLInputElement>('[name=cookieOptIn]')
+      if (box?.checked) document.querySelector<HTMLButtonElement>('#cc [data-consent="granted"]')?.click()
+    }
     if (params.get('sent') === '1') status.textContent = 'Thank you. An editor will review your submission.'
     form.addEventListener('submit', async (e) => {
       if (!form.dataset.endpoint) return e.preventDefault()
@@ -72,6 +80,7 @@ const endpoint = SITE.submissionsUrl || undefined
         const res = await fetch(form.action, {method: 'POST', body: new FormData(form), headers: {accept: 'application/json'}})
         const data = await res.json().catch(() => ({}))
         if (!res.ok) throw new Error(data.error ?? 'Something went wrong')
+        acceptCookies()
         form.reset()
         status.textContent = 'Thank you. An editor will review your submission.'
       } catch (err) {
@@ -81,6 +90,9 @@ const endpoint = SITE.submissionsUrl || undefined
   }
 </script>
 <style>
+  .check { display: flex; gap: 10px; align-items: flex-start; font-size: var(--fs-sm); line-height: 1.45; }
+  .check input { margin-top: 3px; flex: none; }
+  .check[hidden] { display: none; }
   .sub { max-width: 620px; }
   .status { font-weight: 600; }
 </style>

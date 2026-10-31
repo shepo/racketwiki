@@ -30,8 +30,8 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory
     ) : (
       <div class="note empty">
         <strong class="serif">No {t.label.toLowerCase()} listed yet</strong>
-        <p>Run one? Listings are free.</p>
-        <a class="btn" href={`/directory/submit/?type=${type}`}>List your business</a>
+        <p>Run one? Request a listing and we will review it.</p>
+        <a class="btn" href={`/directory/submit/?type=${type}`}>Request a listing</a>
       </div>
     )}
     <JumpLinks links={DIRECTORY_TYPES.filter((x) => x.value !== type).map((x) => ({label: x.label, href: `/directory/${x.value}/`, section: 'directory'}))} />

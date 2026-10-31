@@ -74,6 +74,7 @@ Live as the Worker **`racketwiki-submission`** at `https://racketwiki-submission
 - Forms on the site post to `/api/submit` (corrections, directory listings, sponsor enquiries). Only origins in `ALLOWED_ORIGINS` are accepted; there is a honeypot and a 10-per-hour limit per visitor.
 - Editors review at `https://<worker>/admin` (basic auth). Approving a listing creates a **draft** `directoryListing` in Sanity; approving a correction creates a draft `correction` report. Nothing reaches the public dataset until an editor publishes it in the Studio.
 - Recommended before launch: put `/admin` behind Cloudflare Access as well as the password.
+- Alerts: every stored submission sends a PostHog event `submission_received` (properties `kind`, `listing_type`, `issue_type`, `page`; no name, email or message), using the public key in `worker/wrangler.toml`. A PostHog alert on that event emails the editor, so there is no mail code in the Worker.
 
 Local test: `npx wrangler d1 migrations apply racketwiki-submissions --local && npx wrangler dev`.
 
