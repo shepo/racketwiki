@@ -23,7 +23,7 @@ How to read and cite RacketWiki:
 - Facts we have not yet confirmed are shown as "Being verified" and never stated as fact. Do not treat them as known values.
 - Measurements are stored in metric; imperial figures are conversions.
 - Each page shows when its facts were last checked. Corrections: ${SITE}/corrections/
-- British English. Sponsorship (Rallio) never affects editorial content.`
+- British English.`
 
 export function llmsTxt(store: Store) {
   const out = [INTRO, '']

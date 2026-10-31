@@ -12,13 +12,13 @@ const listings = store.ofType('directoryListing')
 const count = (t: string) => listings.filter((l) => l.listingType === t).length
 const crumbs = [{name: 'Home', path: '/'}, {name: 'Directory', path: '/directory/'}]
 ---
-<Base title="Racket sports directory" description="Governing bodies, brands, equipment labs, stats sites, software and apps across every racket sport. Sponsored listings are labelled and never ranked first by payment." section="directory" crumbs={crumbs}>
+<Base title="Racket sports directory" description="Governing bodies, brands, equipment labs, stats sites, software and apps across every racket sport." section="directory" crumbs={crumbs}>
   <Page sponsorCard section="directory">
     <header class="stack">
       <Breadcrumbs crumbs={crumbs} />
       <div class="kicker sec-directory c-sec">Directory</div>
       <h1 class="h-display">Find anyone in racket sports</h1>
-      <p class="dek">Governing bodies, brands, equipment labs, software and apps, clubs and coaches, worldwide. Listings are never ranked by payment.</p>
+      <p class="dek">Governing bodies, brands, equipment labs, software and apps, clubs and coaches, worldwide.</p>
     </header>
     <section class="stack" aria-label="Filter the directory" data-pagefind-ignore>
       <label for="dq" class="sr-only">Filter the directory</label>
