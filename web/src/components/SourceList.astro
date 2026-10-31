@@ -13,7 +13,7 @@ const {sources, heading = 'Sources'} = Astro.props as {sources: Doc[]; heading?:
         return (
           <li>
             <span><a class="hl" href={`/sources/#${s.slug?.current}`}>{s.name}</a>{s.publisher && <span class="muted">, {s.publisher}</span>}{s.edition && <span class="muted">, {s.edition}</span>}</span>
-            {d && <a class="dom hl" href={s.url} rel="noopener">{d}</a>}
+            {d && (s.noLink ? <span class="dom">{d}</span> : <a class="dom hl" href={s.url} rel="noopener">{d}</a>)}
             <Tier tier={s.tier} />
           </li>
         )
