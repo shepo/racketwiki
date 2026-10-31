@@ -1,10 +1,10 @@
 ---
-/** Editorial importance, 1–5, drawn as rackets. Filled = counts, outline = remaining. */
+/** Influence rating, 1–5, drawn as rackets. Filled = counts, outline = remaining. */
 const {value, size = 16, label = true} = Astro.props as {value?: number; size?: number; label?: boolean}
 const n = Math.max(0, Math.min(5, Math.round(value ?? 0)))
 ---
 {n > 0 && (
-  <span class="rk" role="img" aria-label={`Importance ${n} out of 5`} title={`Importance: ${n} out of 5 (editorial rating)`}>
+  <span class="rk" role="img" aria-label={`Influence ${n} out of 5`} title={`Influence rating: ${n} out of 5`}>
     {[1, 2, 3, 4, 5].map((i) => (
       <svg width={Math.round(size * 0.6)} height={size} viewBox="0 0 12 20" aria-hidden="true" class:list={[i <= n ? 'on' : 'off']}>
         <ellipse class="head" cx="6" cy="6.2" rx="4.6" ry="5.4" />
@@ -13,7 +13,7 @@ const n = Math.max(0, Math.min(5, Math.round(value ?? 0)))
         <rect class="grip" x="5" y="13" width="2" height="6.4" rx="1" />
       </svg>
     ))}
-    {label && <span class="sr-only">Importance {n} out of 5</span>}
+    {label && <span class="sr-only">Influence {n} out of 5</span>}
   </span>
 )}
 <style>

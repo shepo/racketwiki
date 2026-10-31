@@ -7,7 +7,6 @@ import Photo from '../../../components/Photo.astro'
 import SpecTable from '../../../components/SpecTable.astro'
 import CourtFigure from '../../../components/CourtFigure.astro'
 import SourceList from '../../../components/SourceList.astro'
-import SourceCell from '../../../components/SourceCell.astro'
 import JumpLinks from '../../../components/JumpLinks.astro'
 import PortableText from '../../../components/PortableText.astro'
 import {getStore, slugOf, byImportance, type Doc} from '../../../lib/content'
@@ -198,7 +197,7 @@ const lengthIn = (f: any) => factText(f)
             <h2 class="h-section">{s.heading}</h2>
             <ul class="points">
               {(s.points ?? []).map((pt: any) => (
-                <li><Fact fact={pt} showSource /></li>
+                <li><Fact fact={pt} /></li>
               ))}
             </ul>
           </section>
@@ -304,7 +303,7 @@ const lengthIn = (f: any) => factText(f)
     {tab === 'organisations' && (
       <section class="stack sec-governing-bodies">
         <h2 class="h-section">Organisations</h2>
-        {v.governingBodies.length === 0 && sport.governingBodyFact && <p class="dek"><Fact fact={sport.governingBodyFact} showSource /></p>}
+        {v.governingBodies.length === 0 && sport.governingBodyFact && <p class="dek"><Fact fact={sport.governingBodyFact} /></p>}
         {groupByScope([...v.governingBodies].sort(byImportance)).map((grp) => (
           <div class="stack">
             <h3 class="h-sub">{grp.label}</h3>

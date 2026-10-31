@@ -7,11 +7,8 @@ import newsreaderLatin from '@fontsource-variable/newsreader/files/newsreader-la
 import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import SponsorStrip from '../components/SponsorStrip.astro'
 import JsonLd from '../components/JsonLd.astro'
 import Analytics from '../components/Analytics.astro'
-import {getStore} from '../lib/content'
-import {pickPlacement} from '../lib/sponsors'
 import {siteJsonLd, breadcrumbJsonLd, abs, type Crumb} from '../lib/seo'
 import {SECTIONS, type SectionKey} from '../lib/sections'
 
@@ -31,9 +28,7 @@ type Props = {
   searchTitle?: string
 }
 const p = Astro.props as Props
-const store = await getStore()
 const path = Astro.url.pathname
-const strip = pickPlacement(store, 'strip', {path, section: p.section, sportId: p.sportId})
 const fullTitle = path === '/' ? p.title : `${p.title} | RacketWiki`
 const canonical = p.canonical ?? abs(path)
 const crumbs = p.crumbs ?? []
@@ -65,7 +60,6 @@ const sectionLabel = p.section ? SECTIONS[p.section].label : 'Pages'
   </head>
   <body data-section={p.section}>
     <a class="skip" href="#content">Skip to content</a>
-    <SponsorStrip placement={strip} />
     <Header active={p.navActive ?? p.section} showSearch={p.headerSearch !== false} />
     <div id="content" data-pagefind-body={p.noindex ? undefined : ''}>
       <span data-pagefind-filter="section" hidden>{sectionLabel}</span>

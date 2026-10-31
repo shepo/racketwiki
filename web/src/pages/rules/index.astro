@@ -4,12 +4,15 @@ import Page from '../../components/Page.astro'
 import Breadcrumbs from '../../components/Breadcrumbs.astro'
 import Fact from '../../components/Fact.astro'
 import JumpLinks from '../../components/JumpLinks.astro'
+import SourceList from '../../components/SourceList.astro'
 import {getStore} from '../../lib/content'
 import {urlFor} from '../../lib/routes'
+import {collectSources} from '../../lib/facts'
 
 const store = await getStore()
 const ruleSets = store.ofType('ruleSet').map((r) => ({r, sport: store.deref(r.sport)})).filter((x) => x.sport)
 const serves = ruleSets.map(({r, sport}) => ({sport, point: (r.sections ?? []).find((s: any) => s.key === 'serve')?.points?.[0]})).filter((x) => x.point)
+const sources = collectSources(store, serves.map((s) => s.point))
 const crumbs = [{name: 'Home', path: '/'}, {name: 'Rules', path: '/rules/'}]
 ---
 <Base title="Rules of racket sports" description="Plain-English summaries of the rules of each racket sport, sourced to the official rulebooks: the serve, scoring, faults and doubles." section="rules" crumbs={crumbs}>
@@ -18,14 +21,14 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Rules', path: '/rules/'}]
       <Breadcrumbs crumbs={crumbs} />
       <div class="kicker sec-rules c-sec">Rules</div>
       <h1 class="h-display">The rules, sport by sport</h1>
-      <p class="dek">Summaries of each sport's official rules, written by our editors and checked against the governing body's rulebook. Each point links to the rule it comes from.</p>
+      <p class="dek">Summaries of each sport's official rules, written by our editors and checked against the governing body's rulebook. Sources are listed at the foot of each page.</p>
     </header>
     {serves.length > 0 && (
       <section class="stack sec-rules">
         <h2 class="h-section">The serve, sport by sport</h2>
         <div class="table-scroll"><table class="spec">
           <thead data-pagefind-ignore><tr><th>Sport</th><th>How the serve works</th></tr></thead>
-          <tbody>{serves.map((s) => <tr><td><a class="hl" href={urlFor(store, s.sport)}>{s.sport!.name}</a></td><td><Fact fact={s.point} showSource /></td></tr>)}</tbody>
+          <tbody>{serves.map((s) => <tr><td><a class="hl" href={urlFor(store, s.sport)}>{s.sport!.name}</a></td><td><Fact fact={s.point} /></td></tr>)}</tbody>
         </table></div>
       </section>
     )}
@@ -36,5 +39,6 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Rules', path: '/rules/'}]
       </div>
       <JumpLinks links={[{label: 'Equipment limits', href: '/equipment/', section: 'equipment'}, {label: 'Court sizes', href: '/courts/', section: 'courts'}, {label: 'Who writes the rules', href: '/governing-bodies/', section: 'governing-bodies'}]} />
     </section>
+    <SourceList sources={sources} />
   </Page>
 </Base>

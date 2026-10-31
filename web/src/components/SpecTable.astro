@@ -1,16 +1,15 @@
 ---
 import Fact from './Fact.astro'
-import SourceCell from './SourceCell.astro'
 const {rows = [], caption} = Astro.props as {rows?: any[]; caption?: string}
 ---
 {rows.length > 0 && (
   <div class="table-scroll">
     <table class="spec">
       {caption && <caption class="sr-only">{caption}</caption>}
-      <thead data-pagefind-ignore><tr><th scope="col">Item</th><th scope="col">Specification</th><th scope="col">Source</th></tr></thead>
+      <thead data-pagefind-ignore><tr><th scope="col">Item</th><th scope="col">Specification</th></tr></thead>
       <tbody>
         {rows.map((r) => (
-          <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td><td><SourceCell fact={r.fact} /></td></tr>
+          <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td></tr>
         ))}
       </tbody>
     </table>

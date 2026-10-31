@@ -21,8 +21,8 @@ export const sponsorPlacement = defineType({
     defineField({
       name: 'placement',
       type: 'string',
-      options: {list: [{title: 'Strip at top of page', value: 'strip'}, {title: 'Sidebar card', value: 'card'}]},
-      description: 'Strip: the thin "Sponsored by" bar at the top of the page. Sidebar card: the box in the right-hand column (only on pages that have one).',
+      options: {list: [{title: 'Strip at top of page (not shown on the site)', value: 'strip'}, {title: 'Sidebar card', value: 'card'}]},
+      description: 'Strip: not shown at the moment (the top bar was removed). Sidebar card: the box in the right-hand column (only on pages that have one).',
       validation: (r) => r.required(),
     }),
     defineField({

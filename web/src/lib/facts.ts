@@ -33,7 +33,16 @@ export function collectSources(store: Store, ...nodes: unknown[]): Doc[] {
     }
   }
   nodes.forEach(visit)
-  return [...ids].map((id) => store.get(id)).filter(Boolean).sort((a, b) => (a!.tier ?? 9) - (b!.tier ?? 9) || String(a!.name).localeCompare(String(b!.name))) as Doc[]
+  const docs = [...ids].map((id) => store.get(id)).filter(Boolean).sort((a, b) => (a!.tier ?? 9) - (b!.tier ?? 9) || String(a!.name).localeCompare(String(b!.name))) as Doc[]
+  // One entry per link: two source records pointing at the same page are listed once.
+  const seen = new Set<string>()
+  return docs.filter((d) => {
+    const url = String(d.url ?? '').trim().toLowerCase().replace(/^https?:\/\/(www\.)?/, '').replace(/[#?].*$/, '').replace(/\/$/, '')
+    if (!url) return true
+    if (seen.has(url)) return false
+    seen.add(url)
+    return true
+  })
 }
 
 export function latestVerified(...nodes: unknown[]): string | undefined {

@@ -1,0 +1,8 @@
+[
+  {"id": "page-editorial-standards", "set": {
+    "lead": "Every rule, measurement and ranking on RacketWiki comes from a source, listed at the foot of each page. Sources are ranked in five tiers, and a higher tier wins when two sources disagree.",
+    "body[_key==\"b10\"].children[0].text": "Each page lists its sources at the foot and shows when its facts were last checked. Facts we have not yet verified are marked as such and never presented as fact.",
+    "body[_key==\"imp0\"].children[0].text": "Influence",
+    "body[_key==\"imp1\"].children[0].text": "Sports, competitions, governing bodies and brands carry an influence rating from one to five rackets. It reflects how widely each one is played, followed and organised across racket sports. It is an editorial assessment rather than a sourced fact, and our editors review it. We use it to order lists, so the sports most people play come first."
+  }}
+]

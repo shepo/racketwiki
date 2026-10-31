@@ -13,7 +13,7 @@ export const SECTIONS = {
 
 export type SectionKey = keyof typeof SECTIONS
 
-export const ROOT_NAV: SectionKey[] = ['sports', 'equipment', 'courts', 'directory', 'sources']
+export const ROOT_NAV: SectionKey[] = ['sports', 'equipment', 'courts', 'directory']
 export const SEARCH_CHIPS: SectionKey[] = ['sports', 'rules', 'equipment', 'courts']
 export const SEARCH_MORE: SectionKey[] = ['brands', 'players', 'competitions', 'governing-bodies', 'directory']
 
