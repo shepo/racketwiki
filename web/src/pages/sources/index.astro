@@ -40,7 +40,7 @@ const crumbs = [{name: 'Home', path: '/'}, {name: 'Sources', path: '/sources/'}]
                 return (
                   <tr id={s.slug?.current}>
                     <td>{s.name}{s.publisher && <div class="small muted">{s.publisher}{s.edition && `, ${s.edition}`}</div>}{sports.length > 0 && <div class="small">{sports.map((sp, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, sp)}>{sp.name}</a></>)}</div>}</td>
-                    <td>{d ? <a class="hl c-sec" href={s.url} rel="noopener">{d}</a> : <span class="muted small">Not shown until verified</span>}</td>
+                    <td>{d ? (s.noLink ? <span>{d}</span> : <a class="hl c-sec" href={s.url} rel="noopener">{d}</a>) : <span class="muted small">Not shown until verified</span>}</td>
                     <td>{s.usedFor ?? ''}</td>
                     <td>{s.status === 'researched' ? <span>Researched{s.accessedOn && <div class="small muted">{formatDate(s.accessedOn)}</div>}</span> : <span class="pending">Verify domain</span>}</td>
                     <td><a class="hl small" href={`/corrections/?page=${encodeURIComponent(`/sources/#${s.slug?.current}`)}&issue=newer-edition&source=${encodeURIComponent(s.name)}`}>Newer edition?</a></td>

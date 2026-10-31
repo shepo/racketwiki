@@ -18,6 +18,7 @@ export function sportView(store: Store, sport: Doc) {
     .map((r: any) => ({...r, doc: store.deref(r.sport)}))
     .filter((r: any) => r.doc)
   const venues = store.referencing('venue', 'sports', id).sort((a, b) => (b.importance ?? 0) - (a.importance ?? 0) || String(a.name).localeCompare(String(b.name)))
+  const ratings = store.referencing('ratingSystem', 'sports', id).sort((a, b) => (b.importance ?? 0) - (a.importance ?? 0) || String(a.name).localeCompare(String(b.name)))
   const listings = store.referencing('directoryListing', 'sports', id)
   const has: Record<SportTabKey, boolean> = {
     overview: true,
@@ -25,13 +26,13 @@ export function sportView(store: Store, sport: Doc) {
     equipment: equipment.length + balls.length + nets.length > 0,
     courts: courts.length > 0 || venues.length > 0,
     brands: brands.length > 0,
-    players: players.length > 0,
+    players: players.length > 0 || ratings.length > 0,
     competitions: competitions.length > 0,
     organisations: governingBodies.length > 0 || !!sport.governingBodyFact,
   }
   const tabs = SPORT_TABS.filter((t) => has[t.key]).map((t) => ({...t, href: sportUrl(sport, t.key)}))
   const mainCourt = courts.find((c) => courtGeometry(c)) ?? courts[0]
-  return {sport, courts, mainCourt, ruleSet, equipment, balls, nets, brands, players, competitions, governingBodies, related, venues, listings, has, tabs}
+  return {sport, courts, mainCourt, ruleSet, equipment, balls, nets, brands, players, competitions, governingBodies, related, venues, ratings, listings, has, tabs}
 }
 
 export type SportView = ReturnType<typeof sportView>

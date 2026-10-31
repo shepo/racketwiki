@@ -29,6 +29,7 @@ export const source = defineType({
     defineField({name: 'kind', type: 'string', options: {list: ['rulebook', 'regulations', 'website', 'ranking', 'specification', 'article', 'book', 'database']}, description: 'For editors; not shown.', group: 'content'}),
     defineField({name: 'edition', type: 'string', description: 'e.g. "2024 edition", "v1.3". Shown after the publisher.', group: 'content'}),
     defineField({name: 'url', type: 'url', description: 'The exact page or document. Its domain is shown and linked on /sources/ once Status is Researched.', group: 'content'}),
+    defineField({name: 'noLink', title: 'Do not link', type: 'boolean', initialValue: false, description: 'On for a commercial provider’s own site (a rating app, a brand): its domain is shown as plain text in Sources lists and on /sources/, never as a link.', group: 'content'}),
     defineField({
       name: 'status',
       type: 'string',

@@ -22,6 +22,7 @@ export function sitePath(d?: Target | null): string | null {
     case 'ball':
     case 'net': return sport('equipment', '/equipment/')
     case 'venue': return s ? `/venues/${s}/` : null
+    case 'ratingSystem': return s ? `/ratings/${s}/` : null
     case 'brand': return s ? `/brands/${s}/` : null
     case 'player': return s ? `/players/${s}/` : null
     case 'competition': return s ? `/competitions/${s}/` : null

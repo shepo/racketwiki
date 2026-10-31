@@ -41,6 +41,8 @@ export function urlFor(store: Store, doc?: Doc): string | undefined {
     }
     case 'venue':
       return `/venues/${s}/`
+    case 'ratingSystem':
+      return `/ratings/${s}/`
     case 'brand':
       return `/brands/${s}/`
     case 'player':

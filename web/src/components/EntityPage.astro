@@ -22,17 +22,17 @@ const sources = collectSources(store, facts.map((r) => r.fact))
 const verified = latestVerified(facts.map((r) => r.fact))
 const crumbs = [{name: 'Home', path: '/'}, {name: def.plural, path: `/${def.route}/`}, {name: d.name, path: urlFor(store, d)!}]
 const domain = publicDomain(d.website)
-const organiser = store.deref(d.organiser)
+const organiser = store.deref(d.organiser) ?? store.deref(d.operator)
 const rulebook = store.deref(d.rulebook)
 const players = kind === 'brands' ? store.referencing('player', 'brands', id) : []
 const comps = kind === 'governing-bodies' ? store.referencing('competition', 'organiser', id) : kind === 'players' || kind === 'venues' ? store.derefAll(d.competitions) : []
 const venues = kind === 'competitions' ? store.referencing('venue', 'competitions', id) : []
 const listings = store.referencing('directoryListing', 'linkedDocument', id)
 const lead = d.summary ?? `${d.name}: ${def.label.toLowerCase()}${sports.length ? ` in ${sports.map((s) => s.name.toLowerCase()).join(', ')}` : ''}.`
-const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players: 'players', competitions: 'competitions', 'governing-bodies': 'organisations'}
+const tabFor: Record<string, any> = {ratings: 'players', venues: 'courts', brands: 'brands', players: 'players', competitions: 'competitions', 'governing-bodies': 'organisations'}
 ---
 <Base title={d.seo?.title ?? d.name} description={(d.seo?.description ?? lead).slice(0, 158)} section={def.section} crumbs={crumbs} jsonLd={def.jsonLd ? [def.jsonLd(d, store)] : []} sportId={sports[0]?._id}>
-  <Page>
+  <Page sponsorCard={kind === 'ratings'} section={def.section} sportId={sports[0]?._id}>
     <header class="stack">
       <Breadcrumbs crumbs={crumbs} />
       <div class={`kicker sec-${def.section} c-sec`}>{def.label}{d.gender ? ` · ${d.gender === 'men' ? 'Men' : 'Women'}` : ''}</div>
@@ -54,10 +54,11 @@ const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players
         <tbody>
           {sports.length > 0 && <tr><td>{sports.length > 1 ? 'Sports' : 'Sport'}</td><td>{sports.map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td></tr>}
           {d.scope && <tr><td>Scope</td><td>{d.scope[0].toUpperCase() + d.scope.slice(1)}</td></tr>}
-          {organiser && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td></tr>}
+          {organiser && kind !== 'ratings' && <tr><td>Run by</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td></tr>}
           {facts.map((r) => <tr><td>{r.label}</td><td><Fact fact={r.fact} /></td></tr>)}
+          {organiser && kind === 'ratings' && <tr><td>Governing body</td><td><a class="hl" href={urlFor(store, organiser)}>{organiser.name}</a></td></tr>}
           {rulebook && <tr><td>Rulebook</td><td><a class="hl" href={`/sources/#${rulebook.slug?.current}`}>{rulebook.name}</a>{rulebook.edition && `, ${rulebook.edition}`}</td></tr>}
-          {d.website && <tr><td>Website</td><td>{domain ? <a class="hl" href={d.website.url} rel="noopener">{domain}</a> : <span class="pending">Domain being verified</span>}</td></tr>}
+          {d.website && <tr><td>Website</td><td>{domain ? (kind === 'brands' ? <span>{domain}</span> : <a class="hl" href={d.website.url} rel="noopener">{domain}</a>) : <span class="pending">Domain being verified</span>}</td></tr>}
         </tbody>
       </table></div>
     </section>
@@ -82,7 +83,7 @@ const tabFor: Record<string, any> = {venues: 'courts', brands: 'brands', players
     )}
 
     <JumpLinks links={[
-      ...sports.map((s) => ({label: `${s.name}: ${tabFor[kind] === 'organisations' ? 'organisations' : def.plural.toLowerCase()}`, href: sportUrl(s, tabFor[kind]), section: def.section})),
+      ...sports.map((s) => ({label: `${s.name}: ${tabFor[kind] === 'organisations' ? 'organisations' : kind === 'ratings' ? 'players and ratings' : def.plural.toLowerCase()}`, href: sportUrl(s, tabFor[kind]), section: def.section})),
       ...sports.slice(0, 2).map((s) => ({label: `${s.name} overview`, href: urlFor(store, s)!, section: 'sports'})),
       ...listings.map((l) => ({label: 'In the directory', href: urlFor(store, l)!, section: 'directory'})),
       {label: `All ${def.plural.toLowerCase()}`, href: `/${def.route}/`, section: def.section},

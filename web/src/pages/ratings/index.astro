@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Page from '../../components/Page.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import Fact from '../../components/Fact.astro'
+import JumpLinks from '../../components/JumpLinks.astro'
+import Rackets from '../../components/Rackets.astro'
+import SourceList from '../../components/SourceList.astro'
+import {getStore, byImportance} from '../../lib/content'
+import {ENTITIES, shortText} from '../../lib/entities'
+import {urlFor} from '../../lib/routes'
+import {collectSources} from '../../lib/facts'
+
+const def = ENTITIES.ratings
+const store = await getStore()
+const docs = [...store.ofType(def.type)].sort(byImportance)
+const sportsOf = (d: any) => def.sportsOf(d, store)
+const sources = collectSources(store, docs.map((d) => [d.operatorFact, d.scale, d.basis]))
+const crumbs = [{name: 'Home', path: '/'}, {name: def.plural, path: '/ratings/'}]
+// Cards grouped by sport; a system that covers several sports appears under each.
+const bySport = new Map<string, any[]>()
+for (const d of docs) for (const s of sportsOf(d)) bySport.set(s.name, [...(bySport.get(s.name) ?? []), d])
+const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+---
+<Base title={def.title} description={def.lead} section="players" crumbs={crumbs}>
+  <Page sponsorCard section="players">
+    <header class="stack">
+      <Breadcrumbs crumbs={crumbs} />
+      <div class="kicker sec-players c-sec">{def.plural}</div>
+      <h1 class="h-display">Rating and level systems, compared</h1>
+      <p class="dek">{def.lead} A rating describes a player’s standard; it is not a world ranking.</p>
+    </header>
+    {docs.length > 0 && (
+      <section class="stack sec-players">
+        <h2 class="h-section">Every system side by side</h2>
+        <div class="table-scroll"><table class="spec">
+          <thead data-pagefind-ignore><tr><th>System</th><th>Sports</th><th>Scale</th><th>How it is set</th></tr></thead>
+          <tbody>{docs.map((d) => <tr><td><a class="hl" href={urlFor(store, d)}>{d.acronym ?? d.name}</a></td><td>{sportsOf(d).map((s, i) => <>{i > 0 && ', '}<a class="hl" href={urlFor(store, s)}>{s.name}</a></>)}</td><td><Fact fact={d.scale} /></td><td><Fact fact={d.basis} /></td></tr>)}</tbody>
+        </table></div>
+      </section>
+    )}
+    {groups.map(([sport, items]) => (
+      <section class="stack sec-players">
+        <h2 class="h-section">{sport}</h2>
+        <div class="grid-cards">
+          {items.map((d) => <a class="card-link" href={urlFor(store, d)}><div class="t">{d.name}</div><Rackets value={d.importance} size={16} /><div class="d">{shortText(d)}</div></a>)}
+        </div>
+      </section>
+    ))}
+    {docs.length === 0 && <p class="note">Being researched.</p>}
+    <JumpLinks links={[{label: 'Players', href: '/players/', section: 'players'}, {label: 'Competitions', href: '/competitions/', section: 'competitions'}, {label: 'All sports', href: '/sports/', section: 'sports'}]} />
+    <SourceList sources={sources} />
+  </Page>
+</Base>

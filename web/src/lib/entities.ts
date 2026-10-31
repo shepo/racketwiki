@@ -46,6 +46,12 @@ export const ENTITIES: Record<string, EntityDef> = {
     sportsOf: (d, s) => s.derefAll(d.sports),
     jsonLd: (d, s) => ({'@context': 'https://schema.org', '@type': d.isTour ? 'SportsOrganization' : 'SportsEvent', name: d.name, url: abs(urlFor(s, d)!), ...(s.derefAll(d.sports)[0] ? {sport: s.derefAll(d.sports)[0].name} : {})}),
   },
+  ratings: {
+    type: 'ratingSystem', section: 'players', route: 'ratings', label: 'Rating system', plural: 'Ratings and levels',
+    title: 'Racket sport rating and level systems', lead: 'The systems that give a player a number or level for their standard, sport by sport: who runs each one, its scale and how a rating is set.',
+    facts: (d) => [row('Run by', d.operatorFact), row('Scale', d.scale), row('How it is set', d.basis), row('Covers', d.formats), row('Launched', d.launched), row('Cost to players', d.cost)],
+    sportsOf: (d, s) => s.derefAll(d.sports),
+  },
   venues: {
     type: 'venue', section: 'courts', route: 'venues', label: 'Venue', plural: 'Famous venues',
     title: 'Famous racket sport venues', lead: 'The stadiums, clubs and courts where racket sports\u2019 biggest events are played.',

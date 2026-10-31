@@ -1,0 +1,56 @@
+[
+ {
+  "id": "source-aguirreycia-bullpadel",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-babolat-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-bullpadel-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-butterfly-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-butterfly-world-top-20",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-head-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-selkirk-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-yonex-website",
+  "set": {
+   "noLink": true
+  }
+ },
+ {
+  "id": "source-dupr",
+  "set": {
+   "noLink": true
+  }
+ }
+]
