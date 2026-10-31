@@ -17,7 +17,7 @@ export const sponsorPlacement = defineType({
     }),
     defineField({name: 'section', type: 'string', options: {list: SECTIONS.map(({title, value}) => ({title, value}))}, hidden: ({document}) => document?.scope !== 'section'}),
     defineField({name: 'sport', type: 'reference', to: [{type: 'sport'}], hidden: ({document}) => document?.scope !== 'sport'}),
-    defineField({name: 'pagePath', type: 'string', description: 'The exact page address, e.g. /sports/padel/courts/ (with both slashes).', hidden: ({document}) => document?.scope !== 'page'}),
+    defineField({name: 'pagePath', type: 'string', description: 'The exact page address, e.g. /sports/padel/courts/ (with both slashes). End it with * to cover every page under it, e.g. /ratings/*.', hidden: ({document}) => document?.scope !== 'page'}),
     defineField({
       name: 'placement',
       type: 'string',

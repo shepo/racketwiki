@@ -46,6 +46,7 @@ export function pageGroups(store: Store): PageGroup[] {
       section: 'equipment',
       links: Object.entries(EQUIPMENT_KINDS).map(([k, v]) => ({title: v.title, url: `/equipment/${k}/`})),
     },
+    {title: 'Ratings and levels', section: 'players', links: compact(store.ofType('ratingSystem').sort(byName).map((d) => link(store, d)))},
     {title: 'Famous venues', section: 'courts', links: compact(store.ofType('venue').sort(byName).map((d) => link(store, d)))},
     {title: 'Governing bodies', section: 'governing-bodies', links: compact(store.ofType('governingBody').sort(byName).map((d) => link(store, d, bodyLabel(d))))},
     {title: 'Brands', section: 'brands', links: compact(store.ofType('brand').sort(byName).map((d) => link(store, d)))},

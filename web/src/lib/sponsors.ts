@@ -18,7 +18,8 @@ export function pickPlacement(store: Store, placement: 'strip' | 'card', ctx: Sp
       case 'sport':
         return !!ctx.sportId && p.sport?._ref === ctx.sportId
       case 'page':
-        return p.pagePath === ctx.path
+        // A path ending in * matches every page under it, e.g. /ratings/*.
+        return typeof p.pagePath === 'string' && (p.pagePath.endsWith('*') ? ctx.path.startsWith(p.pagePath.slice(0, -1)) : p.pagePath === ctx.path)
     }
     return false
   })

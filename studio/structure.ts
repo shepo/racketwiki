@@ -28,6 +28,12 @@ export const UNVERIFIED_FILTER = [
   'opened.unverified',
   'capacity.unverified',
   'surface.unverified',
+  'operatorFact.unverified',
+  'scale.unverified',
+  'basis.unverified',
+  'formats.unverified',
+  'launched.unverified',
+  'cost.unverified',
 ]
   .map((p) => `${p} == true`)
   .concat([
@@ -50,6 +56,7 @@ const CONTENT_TYPES: [string, string][] = [
   ['venue', 'Famous venues'],
   ['brand', 'Brands'],
   ['player', 'Players'],
+  ['ratingSystem', 'Ratings and levels'],
   ['competition', 'Competitions'],
   ['governingBody', 'Governing bodies'],
   ['directoryListing', 'Directory'],

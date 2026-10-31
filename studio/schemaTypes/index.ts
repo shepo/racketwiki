@@ -21,11 +21,12 @@ import {page} from './documents/page'
 import {story} from './documents/story'
 import {correction} from './documents/correction'
 import {venue} from './documents/venue'
+import {ratingSystem} from './documents/ratingSystem'
 
 export const schemaTypes = [
   // objects
   sourcedFact, measurement, seo, specRow, courtMarking, webLink, richText, photo,
   // documents
-  sport, ruleSet, equipmentSpec, ball, net, court, venue, brand, player, competition,
+  sport, ruleSet, equipmentSpec, ball, net, court, venue, brand, player, ratingSystem, competition,
   governingBody, directoryListing, source, sponsorPlacement, page, story, correction,
 ]

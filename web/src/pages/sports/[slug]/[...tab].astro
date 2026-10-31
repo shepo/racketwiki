@@ -45,7 +45,7 @@ const tabDocs: Record<SportTabKey, unknown[]> = {
   equipment: [v.equipment, v.balls, v.nets],
   courts: [v.courts, v.venues],
   brands: [v.brands],
-  players: [v.players],
+  players: [v.players, v.ratings],
   competitions: [v.competitions],
   organisations: [v.governingBodies, sport.governingBodyFact],
 }
@@ -58,7 +58,7 @@ const titles: Record<SportTabKey, string> = {
   equipment: `${name} equipment: specifications and limits`,
   courts: `${name} court dimensions`,
   brands: `${name} brands`,
-  players: `Top ${lname} players`,
+  players: v.players.length ? (v.ratings.length ? `${name} players and ratings` : `Top ${lname} players`) : `${name} ratings and levels`,
   competitions: `${name} competitions and tours`,
   organisations: `${name} governing bodies and associations`,
 }
@@ -68,7 +68,7 @@ const leads: Record<SportTabKey, string> = {
   equipment: `The official limits on ${lname} equipment, with metric and imperial figures and the rule each comes from.`,
   courts: v.mainCourt?.summary ?? (dims ? `A ${lname} court measures ${dims.text}.` : `The size and markings of a ${lname} court.`),
   brands: `Makers of ${lname} equipment, with what they make and where they are based.`,
-  players: `Leading ${lname} players and the honours they have won, each sourced. We do not publish rankings.`,
+  players: [v.players.length ? `Leading ${lname} players and the honours they have won, each sourced. We do not publish rankings.` : '', v.ratings.length ? `How ${lname} players are rated, and who runs each system.` : ''].filter(Boolean).join(' '),
   competitions: `The main ${lname} competitions and tours, and who runs them.`,
   organisations: `Who sets the rules for ${lname}, internationally and nationally.`,
 }
@@ -109,7 +109,8 @@ const exploreNotes: Partial<Record<SportTabKey, string>> = {
   players: (() => {
     const men = v.players.filter((p) => p.gender === 'men').length
     const women = v.players.filter((p) => p.gender === 'women').length
-    return `${men && women ? `${plural(v.players.length, 'player')} on the men’s and women’s tours` : plural(v.players.length, 'player')}, with the titles they have won`
+    const ps = v.players.length ? `${men && women ? `${plural(v.players.length, 'player')} on the men’s and women’s tours` : plural(v.players.length, 'player')}, with the titles they have won` : ''
+    return [ps, v.ratings.length ? plural(v.ratings.length, 'rating system') : ''].filter(Boolean).join(' · ')
   })(),
   competitions: `${plural(v.competitions.length, 'competition')} and tours, and who runs them`,
   organisations: v.governingBodies.length ? `${plural(v.governingBodies.length, 'organisation')}${topBodies[0] ? `, from ${topBodies[0].name}` : ''} to national federations, by region` : 'Who governs the sport',
@@ -274,7 +275,7 @@ const lengthIn = (f: any) => factText(f)
       </section>
     )}
 
-    {tab === 'players' && (
+    {tab === 'players' && v.players.length > 0 && (
       <section class="stack sec-players">
         <h2 class="h-section">Players</h2>
         {/* Grouped by tour, alphabetical. RacketWiki lists honours, not rankings. */}
@@ -290,7 +291,19 @@ const lengthIn = (f: any) => factText(f)
             </div>
           )
         })}
-        <JumpLinks links={[{label: 'All players', href: '/players/', section: 'players'}, {label: 'Find a coach', href: '/directory/coaches/', section: 'directory'}, ...jumps]} />
+        {v.ratings.length === 0 && <JumpLinks links={[{label: 'All players', href: '/players/', section: 'players'}, {label: 'Find a coach', href: '/directory/coaches/', section: 'directory'}, ...jumps]} />}
+      </section>
+    )}
+
+    {tab === 'players' && v.ratings.length > 0 && (
+      <section class="stack sec-players" aria-labelledby="ratings">
+        <h2 id="ratings" class="h-section">Ratings and levels</h2>
+        <p class="dek">How {lname} players are rated: the systems that give each player a number or level for their standard.</p>
+        <div class="table-scroll"><table class="spec">
+          <thead data-pagefind-ignore><tr><th>System</th><th>Run by</th><th>Scale</th></tr></thead>
+          <tbody>{v.ratings.map((r) => <tr><td><a class="hl" href={href(r)}>{r.name}</a></td><td><Fact fact={r.operatorFact} /></td><td><Fact fact={r.scale} /></td></tr>)}</tbody>
+        </table></div>
+        <JumpLinks links={[{label: 'Compare every rating system', href: '/ratings/', section: 'players'}, ...(v.players.length ? [{label: 'All players', href: '/players/', section: 'players'}] : []), {label: 'Find a coach', href: '/directory/coaches/', section: 'directory'}, ...jumps]} />
       </section>
     )}
 
