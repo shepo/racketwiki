@@ -9,6 +9,9 @@ keep_vars = true
 ALLOWED_ORIGINS = "https://racketwiki.org,https://www.racketwiki.org,https://racketwiki.jake-02f.workers.dev,https://claude-charming-keller-vb31t5-racketwiki.jake-02f.workers.dev,http://localhost:4321"
 SANITY_PROJECT_ID = "gojst4dq"
 SANITY_DATASET = "production"
+# Public PostHog project key (the same one the site uses), for the submission_received event.
+POSTHOG_KEY = "phc_vLQT5j4J7GMF3CVoV4myKGowU4pQ9kLAagkPne2mecZ7"
+POSTHOG_HOST = "https://eu.i.posthog.com"
 
 # Created 2026-10-24 (WEUR); migration 0001 applied.
 [[d1_databases]]

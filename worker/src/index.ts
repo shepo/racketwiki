@@ -10,6 +10,9 @@ export interface Env {
   SANITY_PROJECT_ID?: string
   SANITY_DATASET?: string
   SANITY_WRITE_TOKEN?: string
+  /** Public PostHog project key and host: a "submission received" event, so the editor can be alerted. */
+  POSTHOG_KEY?: string
+  POSTHOG_HOST?: string
 }
 
 type Kind = 'correction' | 'listing' | 'sponsor'
@@ -25,12 +28,12 @@ const REQUIRED: Record<Kind, string[]> = {correction: ['pageUrl', 'message'], li
 const PER_HOUR = 10
 
 export default {
-  async fetch(req: Request, env: Env): Promise<Response> {
+  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url)
     try {
       if (url.pathname === '/api/submit') {
         if (req.method === 'OPTIONS') return new Response(null, {status: 204, headers: cors(req, env)})
-        if (req.method === 'POST') return await submit(req, env)
+        if (req.method === 'POST') return await submit(req, env, ctx)
       }
       if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) {
         const denied = checkAdmin(req, env)
@@ -75,7 +78,7 @@ async function readBody(req: Request): Promise<Record<string, string>> {
   return out
 }
 
-async function submit(req: Request, env: Env) {
+async function submit(req: Request, env: Env, ctx: ExecutionContext) {
   const headers = cors(req, env)
   const origin = req.headers.get('origin')
   if (origin && !('access-control-allow-origin' in headers)) return json({error: 'Origin not allowed'}, 403)
@@ -107,12 +110,36 @@ async function submit(req: Request, env: Env) {
   await env.DB.prepare('INSERT INTO submissions (id, kind, payload, email, ip_hash) VALUES (?, ?, ?, ?, ?)')
     .bind(crypto.randomUUID(), kind, JSON.stringify(payload), email, ipHash)
     .run()
+  ctx.waitUntil(notifySubmission(env, kind, payload))
   return done()
 
   function done() {
     if (wantsJson) return json({ok: true}, 200, headers)
     const back = safeReturn(body.return, env)
     return back ? Response.redirect(back, 303) : new Response('Thank you. An editor will review your submission.', {status: 200})
+  }
+}
+
+/**
+ * Records a "submission_received" event in PostHog (server side, so it arrives whether or
+ * not the sender accepted cookies). Only the kind of submission and which page or listing
+ * type it is about: never the sender's name, email or message. A PostHog alert on this
+ * event tells the editor there is something to review at /admin.
+ */
+async function notifySubmission(env: Env, kind: Kind, payload: Record<string, string>) {
+  if (!env.POSTHOG_KEY) return
+  const properties: Record<string, unknown> = {kind, $process_person_profile: false}
+  if (payload.listingType) properties.listing_type = payload.listingType
+  if (payload.issueType) properties.issue_type = payload.issueType
+  if (payload.pageUrl) properties.page = payload.pageUrl.slice(0, 300)
+  try {
+    await fetch(`${env.POSTHOG_HOST ?? 'https://eu.i.posthog.com'}/i/v0/e/`, {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({api_key: env.POSTHOG_KEY, event: 'submission_received', distinct_id: 'racketwiki-submissions', properties}),
+    })
+  } catch (e) {
+    console.error('PostHog event failed', e)
   }
 }
 
