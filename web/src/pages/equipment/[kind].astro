@@ -36,7 +36,6 @@ const others = (Object.keys(EQUIPMENT_KINDS) as EquipmentKind[]).filter((k) => k
         <SpecTable rows={r.doc.specs} caption={r.doc.name} />
       </section>
     ))}
-    {rows.length === 0 && <p class="note">Being researched.</p>}
     <JumpLinks links={[...others.map((k) => ({label: EQUIPMENT_KINDS[k].title, href: `/equipment/${k}/`, section: 'equipment'})), {label: 'Court sizes', href: '/courts/', section: 'courts'}]} />
     <SourceList sources={sources} />
   </Page>

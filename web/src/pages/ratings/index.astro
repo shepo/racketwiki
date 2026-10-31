@@ -47,7 +47,6 @@ const groups = [...bySport.entries()].sort((a, b) => a[0].localeCompare(b[0]))
         </div>
       </section>
     ))}
-    {docs.length === 0 && <p class="note">Being researched.</p>}
     <JumpLinks links={[{label: 'Players', href: '/players/', section: 'players'}, {label: 'Competitions', href: '/competitions/', section: 'competitions'}, {label: 'All sports', href: '/sports/', section: 'sports'}]} />
     <SourceList sources={sources} />
   </Page>
