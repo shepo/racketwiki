@@ -1,0 +1,8 @@
+---
+/**
+ * An editorial link to a rallio.io page (CLAUDE.md section 6). A plain link: not a sponsor
+ * placement, so no rel="sponsored" and no nofollow. Links are listed in lib/rallio.mjs.
+ */
+const {link} = Astro.props as {link: {before?: string; anchor: string; after?: string; url: string}}
+---
+{link.before}<a class="hl" href={link.url}>{link.anchor}</a>{link.after}

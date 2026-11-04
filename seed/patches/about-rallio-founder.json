@@ -1,0 +1,155 @@
+[
+ {
+  "id": "page-about",
+  "set": {
+   "body": [
+    {
+     "_key": "b0",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s0",
+       "_type": "span",
+       "marks": [],
+       "text": "We cover the well-known sports and the obscure ones in the same structure, so you can compare a padel court with a squash court, or a badminton racket with a table tennis bat, on one page."
+      }
+     ],
+     "markDefs": [],
+     "style": "normal"
+    },
+    {
+     "_key": "b1",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s1",
+       "_type": "span",
+       "marks": [],
+       "text": "How we work"
+      }
+     ],
+     "markDefs": [],
+     "style": "h2"
+    },
+    {
+     "_key": "b2",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s2",
+       "_type": "span",
+       "marks": [],
+       "text": "Every fact that could be wrong carries a source, the tier of that source and the date we last checked it. Where we do not know something yet, the page says so instead of guessing."
+      }
+     ],
+     "markDefs": [],
+     "style": "normal"
+    },
+    {
+     "_key": "b3",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s3",
+       "_type": "span",
+       "marks": [],
+       "text": "Our summaries are written by our editors from the primary sources, which we link to. We do not copy text from other websites."
+      }
+     ],
+     "markDefs": [],
+     "style": "normal"
+    },
+    {
+     "_key": "b4",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s4",
+       "_type": "span",
+       "marks": [],
+       "text": "Sponsorship"
+      }
+     ],
+     "markDefs": [],
+     "style": "h2"
+    },
+    {
+     "_key": "b5",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s5",
+       "_type": "span",
+       "marks": [],
+       "text": "RacketWiki is sponsored by Rallio, a club app for mixers, ladders, competitions and box leagues. Sponsored placements are labelled."
+      }
+     ],
+     "markDefs": [],
+     "style": "normal"
+    },
+    {
+     "_type": "block",
+     "_key": "b5r",
+     "style": "normal",
+     "markDefs": [
+      {
+       "_type": "link",
+       "_key": "lr",
+       "href": "https://rallio.io/"
+      }
+     ],
+     "children": [
+      {
+       "_type": "span",
+       "_key": "s5r0",
+       "text": "RacketWiki is run by the founder of ",
+       "marks": []
+      },
+      {
+       "_type": "span",
+       "_key": "s5r1",
+       "text": "Rallio",
+       "marks": [
+        "lr"
+       ]
+      },
+      {
+       "_type": "span",
+       "_key": "s5r2",
+       "text": ".",
+       "marks": []
+      }
+     ]
+    },
+    {
+     "_key": "b6",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s6",
+       "_type": "span",
+       "marks": [],
+       "text": "Get involved"
+      }
+     ],
+     "markDefs": [],
+     "style": "h2"
+    },
+    {
+     "_key": "b7",
+     "_type": "block",
+     "children": [
+      {
+       "_key": "s7",
+       "_type": "span",
+       "marks": [],
+       "text": "If you spot a mistake, every page has a link to tell us. Clubs, coaches, retailers and makers can submit a directory listing, which an editor checks before it appears."
+      }
+     ],
+     "markDefs": [],
+     "style": "normal"
+    }
+   ]
+  }
+ }
+]

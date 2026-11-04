@@ -14,6 +14,8 @@ import {sportView, jumpsFor, type SportView} from '../../../lib/sport'
 import {SPORT_TABS, urlFor, type SportTabKey} from '../../../lib/routes'
 import {collectSources, latestVerified, factText, isShown} from '../../../lib/facts'
 import {formatDimensions} from '../../../lib/units.mjs'
+import {formatLinksFor} from '../../../lib/rallio.mjs'
+import EditorialLink from '../../../components/EditorialLink.astro'
 import {bodyLabel, groupByScope, shortText} from '../../../lib/entities'
 
 export async function getStaticPaths() {
@@ -92,7 +94,8 @@ const topBodies = (() => {
 const gbLine = topBodies[0]?.name ?? factText(sport.governingBodyFact)
 const formats = sport.formats ?? []
 const FORMAT_GROUPS = [['game', 'How a match is played'], ['social', 'Social play'], ['competitive', 'Competitive play'], ['cultural', 'Cultural and traditional play']] as const
-const formatGroups = FORMAT_GROUPS.map(([k, label]) => ({label, items: formats.filter((f: any) => (f.category ?? 'game') === k)})).filter((g) => g.items.length)
+const formatGroups = FORMAT_GROUPS.map(([k, label]) => ({key: k, label, items: formats.filter((f: any) => (f.category ?? 'game') === k)})).filter((g) => g.items.length)
+const rallioLinks = formatLinksFor(slugOf(sport), formats)
 const gameFormats = formats.filter((f: any) => (f.category ?? 'game') === 'game')
 // "Explore" contents box on the Overview: one line per other tab, saying what is there.
 // Counts and headings only, so it never singles out a player, brand or competition.
@@ -155,9 +158,10 @@ const lengthIn = (f: any) => factText(f)
                 {formatGroups.length > 1 && <h3 class="h-sub">{g.label}</h3>}
                 <ul class="formats">
                   {g.items.map((f: any) => (
-                    <li><strong>{f.name}</strong>{f.description && <>{' '}{f.description}</>}</li>
+                    <li><strong>{f.name}</strong>{f.description && <>{' '}{f.description}</>}{(rallioLinks.byFormat.get(f.name) ?? []).map((l: any) => <>{' '}<EditorialLink link={l} /></>)}</li>
                   ))}
                 </ul>
+                {(rallioLinks.byGroup.get(g.key) ?? []).map((l: any) => <p class="ed-link"><EditorialLink link={l} /></p>)}
               </>
             ))}
             <JumpLinks links={[...(v.has.rules ? [{label: `${name} rules`, href: `/sports/${slugOf(sport)}/rules/`, section: 'rules'}] : []), ...(v.has.competitions ? [{label: `Where formats are played: ${lname} competitions`, href: `/sports/${slugOf(sport)}/competitions/`, section: 'competitions'}] : [])]} />
@@ -370,6 +374,7 @@ const lengthIn = (f: any) => factText(f)
   .glance dt { font-size: var(--fs-sm); color: var(--muted); }
   .glance dd { margin: 0; font-size: var(--fs-md); }
   @media (max-width: 560px) { .glance { grid-template-columns: 1fr; gap: 2px; } .glance dd { margin-bottom: 10px; } }
+  .ed-link { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }
   .formats, .points { margin: 0; padding-left: 22px; font-family: var(--font-head); font-size: var(--fs-md); line-height: 1.55; display: flex; flex-direction: column; gap: 8px; }
   .answer { margin: 0; font-family: var(--font-head); font-size: var(--fs-lg); }
   .qa h3 { margin: 0 0 4px; font-family: var(--font-head); font-size: var(--fs-lg); }
