@@ -73,7 +73,10 @@ Root-level nav shows four items: Sports, Equipment, Courts, Directory. Sources i
 - A Rallio sponsor card in the sidebar of sport, equipment and courts pages. There is no sponsor strip at the top of the page (removed 2026-10-31; the `strip` placement value is kept but not rendered).
 - Rallio card uses Rallio's own look (olive `#37372e`, background `#fafaf7`, ink `#2b2b24`, sage `#ddddce`; Radio Canada Big). Copy: "Mixers, ladders, competitions and box leagues, all in one app." Button: "Try Rallio". Underneath: a "Sponsor this page" link to an advertising page.
 - Sponsor placements are **data in Sanity** (`sponsorPlacement`: sponsor, scope = site / section / sport / page, creative, start, end), not hard-coded, so sections can be sold later.
-- All paid and Rallio links carry `rel="sponsored"`, and are labelled "Sponsored". Rallio listings in the Directory are labelled Sponsored.
+- Two kinds of Rallio link (Jake, 2026-11-04):
+  - **Sponsored placements**: the sponsor card, any sponsor placement and the Rallio Directory listing. Labelled "Sponsored", `rel="sponsored"`. Paid links always work this way.
+  - **Editorial links**: a plain `<a>` in the body of a page (no `rel="sponsored"`, no nofollow), used only where it helps the reader do what the paragraph is about, for example "how to run a squash box league" in a sport's Formats section. At most 2 per page, never in nav, footer, sidebar or anything repeated on every page. Anchor text describes the target page ("Rallio" only on the About page). Full URL with its trailing slash, no UTM tags, only pages in `ALLOWED` in `web/src/lib/rallio.mjs` (each checked for a 200), a sport only to its own Rallio page or a general one. Claim nothing about Rallio beyond what the target page says. The links live in `web/src/lib/rallio.mjs` (`FORMAT_LINKS`, `PAGE_LINKS`), rendered by `EditorialLink.astro`; `rallio.test.mjs` enforces the rules.
+- The About page says RacketWiki is run by the founder of Rallio, with a plain link to https://rallio.io/.
 
 ## 7. Sanity schema (create these)
 
