@@ -1,9 +1,13 @@
 ---
-/** Main column plus right rail. Puts the sponsor card in the rail when asked. */
+/**
+ * Main column plus right rail. Puts the sponsor card in the rail when asked.
+ * inlineCard: the page also renders the card in its body (SponsorInline), so the rail copy
+ * is hidden on narrow screens, where the rail drops below the content.
+ */
 import SponsorCard from './SponsorCard.astro'
 import {getStore} from '../lib/content'
 import {pickPlacement} from '../lib/sponsors'
-const {sponsorCard = false, section, sportId} = Astro.props as {sponsorCard?: boolean; section?: string; sportId?: string}
+const {sponsorCard = false, inlineCard = false, section, sportId} = Astro.props as {sponsorCard?: boolean; inlineCard?: boolean; section?: string; sportId?: string}
 const store = await getStore()
 const path = Astro.url.pathname
 const card = sponsorCard ? pickPlacement(store, 'card', {path, section, sportId}) : undefined
@@ -14,7 +18,10 @@ const hasRail = Astro.slots.has('rail') || !!card
   {hasRail && (
     <aside data-pagefind-ignore>
       <slot name="rail" />
-      <SponsorCard placement={card} pagePath={path} />
+      {card && <div class:list={{'rail-card': inlineCard}}><SponsorCard placement={card} pagePath={path} /></div>}
     </aside>
   )}
 </div>
+<style>
+  @media (max-width: 900px) { .rail-card { display: none; } }
+</style>
