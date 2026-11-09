@@ -97,7 +97,7 @@ Rules for the schema:
 - JSON-LD: `Organization` and `WebSite` (with SearchAction) sitewide; `BreadcrumbList` on all pages; `SportsOrganization` for governing bodies; `Person` for players; `FAQPage` only where real Q&A exists; `Article` for guides.
 - Answer-first copy: lead each page with the plain-language answer (for example the court size) so it can win featured snippets. Real tables for specs.
 - Internal linking is generated from references. No orphan pages. Pass Core Web Vitals: no layout shift, optimised images, minimal JS.
-- Submitted-content and sponsored links: `rel="sponsored"` or `rel="ugc"` as appropriate.
+- Submitted-content and sponsored links: `rel="sponsored"` or `rel="ugc"` as appropriate. Directory listings (`web/src/lib/listingRel.mjs`, tested): sponsored → `sponsored`; submitted → `ugc` until an editor ticks **Vouched for** (Jake, 2026-11-09); our own listings and brands → followed.
 
 ## 9. Seed scope (first milestone)
 

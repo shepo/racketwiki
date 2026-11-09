@@ -4,13 +4,14 @@ import {getStore} from '../lib/content'
 import {publicDomain} from '../lib/facts'
 import {DIRECTORY_TYPES} from '../lib/sections'
 import {urlFor} from '../lib/routes'
+import {listingRel} from '../lib/listingRel.mjs'
 const {d} = Astro.props as {d: Doc}
 const store = await getStore()
 const t = DIRECTORY_TYPES.find((x) => x.value === d.listingType)
 const sports = store.derefAll(d.sports)
 const domain = publicDomain(d.website)
 const linked = store.deref(d.linkedDocument)
-const rel = d.sponsored ? 'sponsored noopener' : d.submitted ? 'ugc noopener' : 'noopener'
+const rel = listingRel(d)
 const search = [d.name, t?.label, d.region, d.description, ...sports.map((s) => s.name)].join(' ').toLowerCase()
 ---
 <article class="li" id={d.slug?.current} data-type={d.listingType} data-search={search}>
