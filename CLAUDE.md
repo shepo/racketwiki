@@ -70,7 +70,7 @@ Root-level nav shows four items: Sports, Equipment, Courts, Directory. Sources i
 
 ## 6. Rallio sponsorship
 
-- A Rallio sponsor card in the sidebar of sport, equipment and courts pages. There is no sponsor strip at the top of the page (removed 2026-10-31; the `strip` placement value is kept but not rendered).
+- A Rallio sponsor card in the sidebar of sport, equipment and courts pages. On phones and narrow screens (900 px and below) a sport's Overview shows that card straight after the photo instead of at the foot of the page (`SponsorInline.astro` with `<Page inlineCard>`; Jake, 2026-11-09). There is no sponsor strip at the top of the page (removed 2026-10-31; the `strip` placement value is kept but not rendered).
 - Rallio card uses Rallio's own look (olive `#37372e`, background `#fafaf7`, ink `#2b2b24`, sage `#ddddce`; Radio Canada Big). Copy: "Mixers, ladders, competitions and box leagues, all in one app." Button: "Try Rallio". Underneath: a "Sponsor this page" link to an advertising page.
 - Sponsor placements are **data in Sanity** (`sponsorPlacement`: sponsor, scope = site / section / sport / page, creative, start, end), not hard-coded, so sections can be sold later.
 - Two kinds of Rallio link (Jake, 2026-11-04):

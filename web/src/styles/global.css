@@ -103,7 +103,7 @@ img, svg { max-width: 100%; }
 .page { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; padding-top: 32px; padding-bottom: 64px; }
 .page > main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 44px; }
 .page > aside { flex: 1 1 280px; max-width: 360px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
-@media (max-width: 900px) { .page > aside { max-width: none; } }
+@media (max-width: 900px) { .page > aside { max-width: none; flex-basis: 100%; } }
 .stack { display: flex; flex-direction: column; gap: 14px; }
 .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .card-link { display: block; padding: 18px 20px 18px 0; border-top: 1px solid var(--rule); }

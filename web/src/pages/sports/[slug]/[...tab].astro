@@ -4,6 +4,7 @@ import Page from '../../../components/Page.astro'
 import SportHeader from '../../../components/SportHeader.astro'
 import Fact from '../../../components/Fact.astro'
 import Photo from '../../../components/Photo.astro'
+import SponsorInline from '../../../components/SponsorInline.astro'
 import SpecTable from '../../../components/SpecTable.astro'
 import CourtFigure from '../../../components/CourtFigure.astro'
 import SourceList from '../../../components/SourceList.astro'
@@ -122,12 +123,13 @@ const explore = v.tabs.filter((t) => t.key !== 'overview' && exploreNotes[t.key]
 const lengthIn = (f: any) => factText(f)
 ---
 <Base title={titles[tab]} description={desc} section={tabDef.section as any} navActive="sports" crumbs={crumbs} jsonLd={jsonLd} sportId={sport._id} searchTitle={tab === 'overview' ? name : `${name}: ${tabDef.label}`}>
-  <Page sponsorCard={sponsorCard} section={tabDef.section} sportId={sport._id}>
+  <Page sponsorCard={sponsorCard} inlineCard={tab === 'overview'} section={tabDef.section} sportId={sport._id}>
     <SportHeader view={v} tab={tab} crumbs={crumbs} lead={leads[tab]} heading={tab === 'overview' ? name : `${name}: ${tabDef.label.toLowerCase()}`} verified={verified} sourceCount={sources.length} />
 
     {tab === 'overview' && (
       <>
         <Photo photo={sport.photo} priority ratio="21 / 9" />
+        <SponsorInline section={tabDef.section} sportId={sport._id} />
         <section class="stack sec-sports" aria-labelledby="facts">
           <h2 id="facts" class="h-section">At a glance</h2>
           <dl class="glance">

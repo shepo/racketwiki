@@ -1,0 +1,18 @@
+---
+/**
+ * The page's sponsor card placed in the body, shown on narrow screens only (the rail copy
+ * covers wide screens). Use with <Page inlineCard>. Same placement as the rail.
+ */
+import SponsorCard from './SponsorCard.astro'
+import {getStore} from '../lib/content'
+import {pickPlacement} from '../lib/sponsors'
+const {section, sportId} = Astro.props as {section?: string; sportId?: string}
+const store = await getStore()
+const path = Astro.url.pathname
+const card = pickPlacement(store, 'card', {path, section, sportId})
+---
+{card && <div class="sponsor-inline" data-pagefind-ignore><SponsorCard placement={card} pagePath={path} /></div>}
+<style>
+  .sponsor-inline { display: none; }
+  @media (max-width: 900px) { .sponsor-inline { display: block; } }
+</style>
